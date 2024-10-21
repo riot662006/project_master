@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-poppins: 'Poppins', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,4 +25,8 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.poppins {
+  font-family: var(--font-poppins);
 }
