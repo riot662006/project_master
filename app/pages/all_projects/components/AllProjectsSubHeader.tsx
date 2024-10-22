@@ -14,7 +14,7 @@ const AllProjectSubHeader = () => {
 const SortBySelector = () => {
     return (
         <div className="flex space-x-2 text-[14px] font-semibold items-center">
-            <span className="text-slate-300">Sort By</span>
+            <span className="text-slate-200">Sort By</span>
             <div className="flex gap-1 items-center cursor-pointer">
                 <span className="text-slate-800">Recent Projects</span>
                 <KeyboardArrowDown />
