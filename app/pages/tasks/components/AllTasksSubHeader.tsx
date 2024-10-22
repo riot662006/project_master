@@ -5,7 +5,7 @@ const AllProjectSubHeader = () => {
         <div className="flex justify-between py-8">
             <div>
                 {/* Progess Dropdown and Icon */}
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-4 items-center">
                     {/* Icon */}
                     <div className="flex items-center justify-center w-8 aspect-square bg-orange-100 rounded-md">
                         <Splitscreen sx={{ fontSize: "18px" }} className="text-orange-500" />
