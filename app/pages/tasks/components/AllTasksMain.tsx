@@ -1,5 +1,6 @@
 import AllTasksHeader from "./AllTasksHeader";
 import AllTasksSubHeader from "./AllTasksSubHeader";
+import TasksPanel from "./TasksPanel";
 
 const AllTasksMain = () => {
     return (
@@ -14,6 +15,7 @@ const AllTasksArea = () => {
         <div className="flex flex-col h-full w-full px-8 py-10">
             <AllTasksHeader />
             <AllTasksSubHeader />
+            <TasksPanel />
         </div>
     )
 }
