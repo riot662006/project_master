@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="flex h-screen v-screen poppins">
       <Sidebar />
-      <main className="flex flex-1 h-screen bg-slate-50">
+      <main className="flex flex-1 w-full h-screen bg-slate-50">
         <AllProjectsMain/>
       </main>
     </div>
