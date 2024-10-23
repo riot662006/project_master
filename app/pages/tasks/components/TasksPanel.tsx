@@ -38,17 +38,17 @@ const TaskItem = () => {
     return (
         <li className="flex items-center w-full gap-4">
             <CheckBox />
-            <div className="flex justify-between items-center w-full p-4 gap-4 bg-white rounded-r-xl">
+            <div className="flex items-center w-full p-4 gap-2 bg-white rounded-r-xl">
                 {/* Icon */}
                 <div className="flex items-center justify-center bg-orange-100 text-orange-500 w-8 aspect-square rounded-md">
                     <List sx={{ fontSize: "18px" }} />
                 </div>
                 {/* Task Titles */}
                 <div className="flex flex-col gap-1 flex-grow">
-                    <p className="text-sm font-bold">Create the UI Design of the task</p>
+                    <p className="flex items-center text-sm font-bold max-w-[60%]">Create the UI Design of the task</p>
                     <p className="text-xs text-slate-400">Project</p>
                 </div>
-                <div className="flex items-center gap-20">
+                <div className="flex items-center">
                     {/* Progress */}
                     <div className="flex justify-center items-center w-32 gap-1 text-slate-400 max-sm:hidden">
                         <Cached fontSize="small" />
@@ -60,7 +60,7 @@ const TaskItem = () => {
                         <span className="font-medium text-sm">Low</span>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 max-lg:flex-col">
                     {/* Edit */}
                     <div className="flex items-center justify-center bg-orange-100 text-orange-500 w-8 aspect-square rounded-md">
                         <EditOutlined sx={{ fontSize: "18px" }} />
