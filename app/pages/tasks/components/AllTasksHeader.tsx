@@ -1,10 +1,14 @@
-import { Add, Search } from "@mui/icons-material";
+import { Add, Menu, Search } from "@mui/icons-material";
 
 const AllTasksHeader = () => {
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
             <SearchBar />
-            <NewProjectButton />
+            <div className="flex items-center gap-2">
+                <NewProjectButton />
+                <Menu className="text-slate-400 cursor-pointer hidden max-sm:block"/>
+            </div>
+            
         </div>
     )
 };
@@ -15,7 +19,7 @@ const SearchBar = () => {
             <div className="border-b-2 border-orange-500 h-10 w-10 justify-center flex items-center outline-none">
                 <Search className="text-slate-400"/>
             </div>
-            <div className="border-b-2 border-slate-200">
+            <div className="border-b-2 border-slate-200 w-[67%]">
                 <input
                     placeholder="Search a task..."
                     className="p-2 bg-transparent text-[14px] outline-none"
@@ -27,9 +31,9 @@ const SearchBar = () => {
 
 const NewProjectButton = () => {
     return (
-        <div className="h-8 rounded-md bg-orange-500 text-white pl-2 pr-4 text-[14px] flex items-center">
+        <div className="h-8 rounded-md bg-orange-500 text-white pl-2 pr-4 text-[14px] flex items-center cursor-pointer max-sm:px-2">
             <Add sx={{fontSize: "22px"}}/>
-            <span className="font-medium">New Task</span>
+            <span className="font-medium max-sm:hidden">New Task</span>
         </div>
     )
     

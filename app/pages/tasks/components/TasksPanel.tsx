@@ -2,7 +2,7 @@ import { Cached, CheckBox, DeleteOutline, EditOutlined, List } from "@mui/icons-
 
 const TasksPanel = () => {
     return (
-        <div className="flex flex-col pl-12">
+        <div className="flex flex-col pl-12 max-sm:pl-0">
             <TasksFilter />
             <TaskList />
         </div>
@@ -50,12 +50,12 @@ const TaskItem = () => {
                 </div>
                 <div className="flex items-center gap-20">
                     {/* Progress */}
-                    <div className="flex justify-center items-center w-32 gap-1 text-slate-400">
+                    <div className="flex justify-center items-center w-32 gap-1 text-slate-400 max-sm:hidden">
                         <Cached fontSize="small" />
                         <span className="font-medium text-sm">In Progress</span>
                     </div>
                     {/* Priority */}
-                    <div className="flex justify-center items-center w-20 gap-1 text-slate-400">
+                    <div className="flex justify-center items-center w-20 gap-1 text-slate-400 max-sm:hidden">
                         <div className="w-2 aspect-square rounded-full bg-green-700" />
                         <span className="font-medium text-sm">Low</span>
                     </div>
