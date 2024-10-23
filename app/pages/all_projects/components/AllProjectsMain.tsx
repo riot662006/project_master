@@ -14,7 +14,7 @@ const AllProjectsMain = () => {
 
 const AllProjectsArea = () => {
     return (
-        <div className="flex flex-col h-full w-[78%] px-8 py-10">
+        <div className="flex flex-col h-full w-[78%] px-8 py-10 max-lg:w-full max-lg:px-0">
             <AllProjectHeader />
             <AllProjectSubHeader />
             <ProjectList />
@@ -24,7 +24,7 @@ const AllProjectsArea = () => {
 
 const ProjectsOverviewArea = () => {
     return (
-        <div className="flex flex-col h-full w-[22%]">
+        <div className="flex flex-col h-full w-[22%] max-lg:hidden">
             <AllProjectsOverview />
         </div>
     )

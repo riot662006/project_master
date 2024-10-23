@@ -4,7 +4,7 @@ import { orange } from '@mui/material/colors';
 
 const Sidebar = () => {
     return (
-        <div className="flex flex-col py-8 w-20 items-center justify-between border-r">
+        <div className="flex flex-col py-8 w-20 items-center justify-between border-r max-sm:hidden">
             <Logo />
             <Menu />
             <Profile />

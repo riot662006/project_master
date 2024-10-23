@@ -3,7 +3,7 @@ import Circle from "@mui/icons-material/Circle"
 
 const ProjectCard = () => {
     return (
-        <div className="flex flex-col w-80 bg-white px-10 p-7 gap-8">
+        <div className="flex flex-col w-80 bg-white px-10 p-7 gap-8 max-sm:w-full">
             <ProjectCardHeader />
             <ProjectCardBody />
             <ProjectCardFooter />
