@@ -1,12 +1,17 @@
+import { useSidebarLogic } from "@/app/utils/SidebarLogic";
 import { Add, Menu, Search } from "@mui/icons-material";
 
 const AllProjectHeader = () => {
+    const { toggleSidebar } = useSidebarLogic();
+
     return (
         <div className="flex justify-between items-center">
             <SearchBar />
             <div className="flex items-center gap-2">
                 <NewProjectButton />
-                <Menu className="text-slate-400 cursor-pointer hidden max-sm:block"/>
+                <button onClick={toggleSidebar}>
+                    <Menu className="text-slate-400 cursor-pointer hidden max-sm:block"/>
+                </button>
             </div>
         </div>
     )
