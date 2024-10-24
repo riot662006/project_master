@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google"
 import "./globals.css";
+import { SidebarLogicProvider } from "./utils/SidebarLogic";
+import Sidebar from "./components/Sidebar";
 
-const inter = Inter({subsets: ['latin']});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,7 +27,12 @@ export default function RootLayout({
       <body
         className={`${poppins.variable}`}
       >
-        {children}
+        <div className="flex h-screen v-screen poppins">
+          <SidebarLogicProvider>
+            <Sidebar />
+            {children}
+          </SidebarLogicProvider>
+        </div>
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+"use client"
+
 import { useSidebarLogic } from "@/app/utils/SidebarLogic";
 import { Add, Menu, Search } from "@mui/icons-material";
 
