@@ -5,6 +5,9 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import { orange } from '@mui/material/colors';
 import { useSidebarLogic } from '../utils/SidebarLogic';
 import useMediaQuery from '../utils/useMediaQuery';
+import { usePathname } from 'next/navigation';
+import { useCallback } from 'react';
+import Link from 'next/link';
 
 
 const Sidebar = () => {
@@ -46,20 +49,26 @@ const Logo = () => {
 };
 
 const Menu = () => {
+    const pathname = usePathname();
+
+    const menuItemClassName = useCallback((path: string) => {
+        return `flex items-center cursor-pointer text-${pathname.startsWith(path) ? 'orange-500' : 'slate-300'}`;
+    }, [ pathname ]);
+
     return (
         <div className="grid gap-y-8 ">
-            <div className="flex items-center text-orange-500 cursor-pointer">
+            <Link href="/projects" className={menuItemClassName("/projects")}>
                 <BorderAll />
                 <span className="hidden max-sm:block">All Projects</span>
-            </div>
-            <div className="flex items-center text-slate-300 cursor-pointer">
+            </Link>
+            <Link href="/tasks" className={menuItemClassName("/tasks")}>
                 <Splitscreen />
                 <span className="hidden max-sm:block">All Tasks</span>
-            </div>
-            <div className="flex items-center text-slate-300 cursor-pointer">
+            </Link>
+            <Link href="/logout" className="flex items-center text-slate-300 cursor-pointer">
                 <Logout />
                 <span className="hidden max-sm:block">Log Out</span>
-            </div>
+            </Link>
         </div>
     )
 };
