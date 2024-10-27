@@ -17,7 +17,7 @@ const Sidebar = () => {
     if (isMaxSm) {
         return (
             <>
-                <div className={`${isOpen ? "w-80 opacity-100" : "w-20 opacity-0"} z-50 bg-white fixed flex flex-col py-8 h-screen items-center justify-between border-r shadow-xl transition-[width,opacity]`}>
+                <div className={`${isOpen ? "w-80 opacity-100" : "w-0 opacity-0"} z-50 bg-white fixed flex flex-col py-8 h-screen items-center justify-between border-r shadow-xl transition-[width,opacity]`}>
                     <Logo />
                     <Menu />
                     <Profile />
