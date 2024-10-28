@@ -1,4 +1,11 @@
 import { BorderAll, Close, LibraryBooks } from "@mui/icons-material";
+import { useLayoutEffect } from "react";
+import { FieldErrors, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
+
+interface IFormInput {
+    name: string
+}
+
 
 interface AddProjectModalProps {
     isOpen: boolean,
@@ -6,15 +13,35 @@ interface AddProjectModalProps {
 }
 
 const AddProjectModal = ({ isOpen, onClose }: AddProjectModalProps) => {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        reset
+    } = useForm<IFormInput>()
+
+    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+        console.log(data);
+        reset();
+        onClose();
+    }
+
+    useLayoutEffect(() => {
+        // will reset all inputs on open
+        if (isOpen) {
+            reset();
+        }
+    }, [isOpen, reset]);
+
     return (
         <div className={`${!isOpen && "hidden"} fixed flex items-center justify-center top-0 left-0 w-screen h-screen z-40 bg-slate-800/50`}>
             <div className="flex flex-col items-center w-[50%] max-w-2xl p-8 gap-10 bg-white rounded-md max-sm:w-80">
                 <Header onClose={onClose} />
                 <form
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={handleSubmit(onSubmit)}
                     className="flex flex-col gap-10 w-full"
                 >
-                    <ProjectInput />
+                    <ProjectInput register={register} errors={errors} />
                     <Footer onClose={onClose} />
                 </form>
             </div>
@@ -36,7 +63,14 @@ const Header = ({ onClose }: { onClose: () => void }) => {
     )
 }
 
-const ProjectInput = () => {
+interface ProjectInputProps {
+    register: UseFormRegister<IFormInput>,
+    errors: FieldErrors<IFormInput>
+}
+
+const ProjectInput = ({ register, errors }: ProjectInputProps) => {
+    const preventSubmitOnEnter = (e:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.key === 'Enter' && e.preventDefault()};
+
     return (
         <div className="flex flex-col w-full gap-2">
             <p className="text-sm font-semibold">Project Name</p>
@@ -44,16 +78,24 @@ const ProjectInput = () => {
                 <div className="flex items-center w-full gap-4">
                     <div className="flex-grow p-2 border border-slate-200 rounded-md">
                         <input
-                            name="name"
+                            {...register(("name"),
+                                {
+                                    required: "Project name is required",
+                                    maxLength: { value: 30, message: "Project name must be 30 characters or less" }
+                                })}
                             placeholder="Enter Project Name..."
                             className="w-full bg-transparent text-sm outline-none"
+                            onKeyDown={preventSubmitOnEnter}
                         />
                     </div>
-                    <button className="bg-orange-500 p-2 rounded-md hover:bg-orange-600 transition-colors">
+                    <button
+                        type="button"
+                        className="bg-orange-500 p-2 rounded-md hover:bg-orange-600 transition-colors"
+                    >
                         <LibraryBooks className="text-white" />
                     </button>
                 </div>
-                <p className="text-sm text-red-500 font-medium">Error</p>
+                <p className="text-sm text-red-500 font-medium">{errors.name?.message}</p>
             </div>
         </div>
     )
