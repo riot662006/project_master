@@ -1,17 +1,20 @@
 "use client"
 
-import { useSidebarLogic } from "@/app/utils/SidebarLogic";
+import { useAppContext } from "@/app/utils/AppContext";
 import { Add, Menu, Search } from "@mui/icons-material";
 
 const AllTasksHeader = () => {
-    const { toggleSidebar } = useSidebarLogic();
+    const { sidebarObj } = useAppContext();
+    const { setIsOpen } = sidebarObj;
+
+    const openSidebar = () => setIsOpen(true);
 
     return (
         <div className="flex justify-between items-center">
             <SearchBar />
             <div className="flex items-center gap-2">
                 <NewProjectButton />
-                <button onClick={toggleSidebar}>
+                <button onClick={openSidebar}>
                     <Menu className="text-slate-400 cursor-pointer hidden max-sm:block"/>
                 </button>
             </div>

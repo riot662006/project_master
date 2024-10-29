@@ -1,3 +1,4 @@
+import { useAppContext } from "@/app/utils/AppContext";
 import { BorderAll, Close, LibraryBooks } from "@mui/icons-material";
 import { useLayoutEffect } from "react";
 import { FieldErrors, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
@@ -6,13 +7,12 @@ interface IFormInput {
     name: string
 }
 
+const AddProjectModal = () => {
+    const { addProjectModalObj } = useAppContext();
+    const { isOpen, setIsOpen } = addProjectModalObj;
 
-interface AddProjectModalProps {
-    isOpen: boolean,
-    onClose: () => void
-}
+    const closeModal = () => setIsOpen(false);
 
-const AddProjectModal = ({ isOpen, onClose }: AddProjectModalProps) => {
     const {
         register,
         formState: { errors },
@@ -23,7 +23,7 @@ const AddProjectModal = ({ isOpen, onClose }: AddProjectModalProps) => {
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         console.log(data);
         reset();
-        onClose();
+        closeModal();
     }
 
     useLayoutEffect(() => {
@@ -36,20 +36,25 @@ const AddProjectModal = ({ isOpen, onClose }: AddProjectModalProps) => {
     return (
         <div className={`${!isOpen && "hidden"} fixed flex items-center justify-center top-0 left-0 w-screen h-screen z-40 bg-slate-800/50`}>
             <div className="flex flex-col items-center w-[50%] max-w-2xl p-8 gap-10 bg-white rounded-md max-sm:w-80">
-                <Header onClose={onClose} />
+                <Header />
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="flex flex-col gap-10 w-full"
                 >
                     <ProjectInput register={register} errors={errors} />
-                    <Footer onClose={onClose} />
+                    <Footer />
                 </form>
             </div>
         </div>
     )
 };
 
-const Header = ({ onClose }: { onClose: () => void }) => {
+const Header = () => {
+    const { addProjectModalObj } = useAppContext();
+    const { setIsOpen } = addProjectModalObj;
+
+    const closeModal = () => setIsOpen(false);
+
     return (
         <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
@@ -58,7 +63,7 @@ const Header = ({ onClose }: { onClose: () => void }) => {
                 </div>
                 <span className="font-bold text-md">Add Project</span>
             </div>
-            <Close className="text-slate-400 cursor-pointer" onClick={onClose} />
+            <Close className="text-slate-400 cursor-pointer" onClick={closeModal} />
         </div>
     )
 }
@@ -69,7 +74,7 @@ interface ProjectInputProps {
 }
 
 const ProjectInput = ({ register, errors }: ProjectInputProps) => {
-    const preventSubmitOnEnter = (e:React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.key === 'Enter' && e.preventDefault()};
+    const preventSubmitOnEnter = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.key === 'Enter' && e.preventDefault() };
 
     return (
         <div className="flex flex-col w-full gap-2">
@@ -101,11 +106,16 @@ const ProjectInput = ({ register, errors }: ProjectInputProps) => {
     )
 }
 
-const Footer = ({ onClose }: { onClose: () => void }) => {
+const Footer = () => {
+    const { addProjectModalObj } = useAppContext();
+    const { setIsOpen } = addProjectModalObj;
+
+    const closeModal = () => setIsOpen(false);
+
     return (
         <div className="flex w-full gap-4 justify-end transition-colors">
             <button
-                onClick={onClose}
+                onClick={closeModal}
                 className="h-8 border rounded-md  text-slate-400 p-4 text-xs flex items-center cursor-pointer max-sm:px-2 hover:bg-slate-50"
             >
                 <span className="font-medium">Cancel</span>

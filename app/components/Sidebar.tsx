@@ -2,17 +2,19 @@
 
 import { BorderAll, Logout, Splitscreen } from '@mui/icons-material';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import { orange } from '@mui/material/colors';
-import { useSidebarLogic } from '../utils/SidebarLogic';
 import useMediaQuery from '../utils/useMediaQuery';
 import { usePathname } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import Link from 'next/link';
+import { useAppContext } from '../utils/AppContext';
 
 
 const Sidebar = () => {
-    const { isOpen, toggleSidebar } = useSidebarLogic();
+    const { sidebarObj } = useAppContext();
+    const { isOpen, setIsOpen } = sidebarObj;
+
     const isMaxSm = useMediaQuery("not all and (min-width: 640px)");
+    const closeSidebar = () => setIsOpen(false);
 
     if (isMaxSm) {
         return (
@@ -22,7 +24,7 @@ const Sidebar = () => {
                     <Menu />
                     <Profile />
                 </div>
-                <div className={`${!isOpen && "hidden"} fixed w-screen h-screen z-40 bg-slate-800 opacity-50`} onClick={toggleSidebar} />
+                <div className={`${!isOpen && "hidden"} fixed w-screen h-screen z-40 bg-slate-800 opacity-50`} onClick={closeSidebar} />
             </>
         )
     };

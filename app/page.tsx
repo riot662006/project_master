@@ -1,6 +1,3 @@
-import Sidebar from "./components/Sidebar";
-import { SidebarLogicProvider } from "./utils/SidebarLogic";
-
 export default function Home() {
   return (
     <main className="flex flex-1 w-full h-screen bg-slate-50">
