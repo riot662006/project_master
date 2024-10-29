@@ -1,7 +1,8 @@
 import { useAppContext } from "@/app/utils/AppContext";
-import { BorderAll, Close, LibraryBooks } from "@mui/icons-material";
+import { Apps, BorderAll, Close, LibraryBooks } from "@mui/icons-material";
 import { useLayoutEffect } from "react";
 import { FieldErrors, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
+import SelectProjectIconSection from "./SelectProjectIconSection";
 
 interface IFormInput {
     name: string
@@ -9,7 +10,7 @@ interface IFormInput {
 
 const AddProjectModal = () => {
     const { addProjectModalObj } = useAppContext();
-    const { isOpen, setIsOpen } = addProjectModalObj;
+    const { isOpen, setIsOpen, mode, setMode } = addProjectModalObj;
 
     const closeModal = () => setIsOpen(false);
 
@@ -35,7 +36,7 @@ const AddProjectModal = () => {
 
     return (
         <div className={`${!isOpen && "hidden"} fixed flex items-center justify-center top-0 left-0 w-screen h-screen z-40 bg-slate-800/50`}>
-            <div className="flex flex-col items-center w-[50%] max-w-2xl p-8 gap-10 bg-white rounded-md max-sm:w-80">
+            <div className={`${mode != "default" && "hidden"} flex flex-col items-center w-[50%] max-w-2xl p-8 gap-10 bg-white rounded-md max-sm:w-80`}>
                 <Header />
                 <form
                     onSubmit={handleSubmit(onSubmit)}
@@ -44,6 +45,9 @@ const AddProjectModal = () => {
                     <ProjectInput register={register} errors={errors} />
                     <Footer />
                 </form>
+            </div>
+            <div className={`${mode != "select-icon" && "hidden"}  flex flex-col items-center w-[50%] max-w-2xl p-8 gap-10 bg-white rounded-md max-sm:w-80`}>
+                <SelectProjectIconSection />
             </div>
         </div>
     )
@@ -74,6 +78,10 @@ interface ProjectInputProps {
 }
 
 const ProjectInput = ({ register, errors }: ProjectInputProps) => {
+    const { addProjectModalObj } = useAppContext();
+    const { setMode } = addProjectModalObj;
+    const openIconSelect = () => setMode('select-icon');
+
     const preventSubmitOnEnter = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => { e.key === 'Enter' && e.preventDefault() };
 
     return (
@@ -96,6 +104,7 @@ const ProjectInput = ({ register, errors }: ProjectInputProps) => {
                     <button
                         type="button"
                         className="bg-orange-500 p-2 rounded-md hover:bg-orange-600 transition-colors"
+                        onClick={openIconSelect}
                     >
                         <LibraryBooks className="text-white" />
                     </button>

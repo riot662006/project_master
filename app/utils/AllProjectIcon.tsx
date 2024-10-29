@@ -1,0 +1,72 @@
+// AllProjectIcons.tsx
+import {
+    Work, School, Home, FamilyRestroom, HealthAndSafety, AttachMoney,
+    Flight, SportsEsports, Group, Computer, DesignServices, Code,
+    Create, Campaign, PointOfSale, Business, People, LocalLibrary,
+    Science, EmojiObjects, Book, Event, AccessTime, Dashboard,
+    Description, Folder, BarChart, FormatListBulleted, Note,
+    Palette, Photo, PlayArrow, Settings, ShoppingCart, Star,
+    Assignment, Groups, Build, Videocam, AccessAlarm, AirlineSeatFlat,
+    Apartment, DirectionsBike, BusinessCenter, DirectionsCar, CreditCard,
+    EventAvailable, FlightTakeoff, Restaurant
+} from '@mui/icons-material';
+
+export type IconData = {
+    id: number,
+    name: string,
+    IconComponent: React.ElementType // type for a React component
+};
+
+// Define all icons with components directly in each entry
+export const allProjectIcons: IconData[] = [
+    { id: 1, name: "work", IconComponent: Work },
+    { id: 2, name: "school", IconComponent: School },
+    { id: 3, name: "home", IconComponent: Home },
+    { id: 4, name: "family", IconComponent: FamilyRestroom },
+    { id: 5, name: "health", IconComponent: HealthAndSafety },
+    { id: 6, name: "finance", IconComponent: AttachMoney },
+    { id: 7, name: "travel", IconComponent: Flight },
+    { id: 8, name: "hobbies", IconComponent: SportsEsports },
+    { id: 9, name: "social", IconComponent: Group },
+    { id: 10, name: "tech", IconComponent: Computer },
+    { id: 11, name: "design", IconComponent: DesignServices },
+    { id: 12, name: "development", IconComponent: Code },
+    { id: 13, name: "writing", IconComponent: Create },
+    { id: 14, name: "marketing", IconComponent: Campaign },
+    { id: 15, name: "sales", IconComponent: PointOfSale },
+    { id: 16, name: "management", IconComponent: Business },
+    { id: 17, name: "consulting", IconComponent: People },
+    { id: 18, name: "education", IconComponent: LocalLibrary },
+    { id: 19, name: "research", IconComponent: Science },
+    { id: 20, name: "creative", IconComponent: EmojiObjects },
+    { id: 21, name: "book", IconComponent: Book },
+    { id: 22, name: "calendar", IconComponent: Event },
+    { id: 23, name: "clock", IconComponent: AccessTime },
+    { id: 24, name: "code", IconComponent: Code },
+    { id: 25, name: "dashboard", IconComponent: Dashboard },
+    { id: 26, name: "document", IconComponent: Description },
+    { id: 27, name: "folder", IconComponent: Folder },
+    { id: 28, name: "graph", IconComponent: BarChart },
+    { id: 29, name: "list", IconComponent: FormatListBulleted },
+    { id: 30, name: "note", IconComponent: Note },
+    { id: 31, name: "paint", IconComponent: Palette },
+    { id: 32, name: "photo", IconComponent: Photo },
+    { id: 33, name: "play", IconComponent: PlayArrow },
+    { id: 34, name: "settings", IconComponent: Settings },
+    { id: 35, name: "shopping_cart", IconComponent: ShoppingCart },
+    { id: 36, name: "star", IconComponent: Star },
+    { id: 37, name: "task", IconComponent: Assignment },
+    { id: 38, name: "teamwork", IconComponent: Groups },
+    { id: 39, name: "tools", IconComponent: Build },
+    { id: 40, name: "videocam", IconComponent: Videocam },
+    { id: 41, name: "access_alarm", IconComponent: AccessAlarm },
+    { id: 42, name: "airline_seat_flat", IconComponent: AirlineSeatFlat },
+    { id: 43, name: "apartment", IconComponent: Apartment },
+    { id: 44, name: "bike", IconComponent: DirectionsBike },
+    { id: 45, name: "business_center", IconComponent: BusinessCenter },
+    { id: 46, name: "car", IconComponent: DirectionsCar },
+    { id: 47, name: "credit_card", IconComponent: CreditCard },
+    { id: 48, name: "event", IconComponent: EventAvailable },
+    { id: 49, name: "flight_takeoff", IconComponent: FlightTakeoff },
+    { id: 50, name: "restaurant", IconComponent: Restaurant }
+];
