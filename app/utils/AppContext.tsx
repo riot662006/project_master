@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import useMediaQuery from "./useMediaQuery";
+import { useForm, UseFormReturn } from "react-hook-form";
 
 type sidebarObjType = {
   isOpen: boolean;
@@ -17,12 +18,19 @@ type sidebarObjType = {
 
 type addProjectModalMode = "default" | "select-icon";
 
+export interface IAddProjectFormInput {
+  name: string;
+  icon_id: number;
+}
+
 type addProjectModalObjType = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 
   mode: addProjectModalMode;
   setMode: Dispatch<SetStateAction<addProjectModalMode>>;
+
+  formData: UseFormReturn<IAddProjectFormInput>;
 };
 
 interface IAppContext {
@@ -37,6 +45,7 @@ const AppContext = createContext<IAppContext>({
     setIsOpen: () => {},
     mode: "default",
     setMode: () => {},
+    formData: {} as UseFormReturn<IAddProjectFormInput>,
   },
 });
 
@@ -51,6 +60,9 @@ export const AppContextProvider = ({
     useState<boolean>(false);
   const [projectModalMode, setProjectModalMode] =
     useState<addProjectModalMode>("default");
+  const addProjectModalFormData = useForm<IAddProjectFormInput>({
+    defaultValues: { icon_id: 1 },
+  });
 
   const isMaxSm = useMediaQuery("(max-width: 640px)");
 
@@ -71,6 +83,8 @@ export const AppContextProvider = ({
 
           mode: projectModalMode,
           setMode: setProjectModalMode,
+
+          formData: addProjectModalFormData,
         },
       }}
     >

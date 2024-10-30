@@ -1,32 +1,19 @@
-import { useAppContext } from "@/app/utils/AppContext";
-import { Apps, BorderAll, Close, LibraryBooks } from "@mui/icons-material";
+import { IAddProjectFormInput, useAppContext } from "@/app/utils/AppContext";
+import { BorderAll, Close } from "@mui/icons-material";
 import { useLayoutEffect } from "react";
-import {
-  FieldErrors,
-  SubmitHandler,
-  useForm,
-  UseFormRegister,
-} from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import SelectProjectIconSection from "./SelectProjectIconSection";
-
-interface IFormInput {
-  name: string;
-}
+import ProjectIcon from "@/app/components/ProjectIcon";
 
 const AddProjectModal = () => {
   const { addProjectModalObj } = useAppContext();
-  const { isOpen, setIsOpen, mode, setMode } = addProjectModalObj;
+  const { isOpen, setIsOpen, mode } = addProjectModalObj;
 
   const closeModal = () => setIsOpen(false);
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm<IFormInput>();
+  const { handleSubmit, reset } = addProjectModalObj.formData;
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IAddProjectFormInput> = (data) => {
     console.log(data);
     reset();
     closeModal();
@@ -51,7 +38,7 @@ const AddProjectModal = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex w-full flex-col gap-10"
         >
-          <ProjectInput register={register} errors={errors} />
+          <ProjectInput />
           <Footer />
         </form>
       </div>
@@ -83,14 +70,18 @@ const Header = () => {
   );
 };
 
-interface ProjectInputProps {
-  register: UseFormRegister<IFormInput>;
-  errors: FieldErrors<IFormInput>;
-}
-
-const ProjectInput = ({ register, errors }: ProjectInputProps) => {
+const ProjectInput = () => {
   const { addProjectModalObj } = useAppContext();
-  const { setMode } = addProjectModalObj;
+  const { setMode, formData } = addProjectModalObj;
+
+  const {
+    register,
+    formState: { errors },
+    watch,
+  } = formData;
+
+  const icon_id = watch("icon_id");
+
   const openIconSelect = () => setMode("select-icon");
 
   const preventSubmitOnEnter = (
@@ -118,12 +109,12 @@ const ProjectInput = ({ register, errors }: ProjectInputProps) => {
               onKeyDown={preventSubmitOnEnter}
             />
           </div>
-          <button
-            type="button"
-            className="rounded-md bg-orange-500 p-2 transition-colors hover:bg-orange-600"
-            onClick={openIconSelect}
-          >
-            <LibraryBooks className="text-white" />
+          <button type="button" onClick={openIconSelect}>
+            <ProjectIcon
+              id={icon_id}
+              outerClassName="rounded-md bg-orange-500 p-2 transition-colors hover:bg-orange-600"
+              innerClassName="text-white"
+            />
           </button>
         </div>
         <p className="text-sm font-medium text-red-500">

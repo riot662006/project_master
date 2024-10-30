@@ -36,14 +36,29 @@ const Header = () => {
 };
 
 const IconCollection = () => {
+  const { addProjectModalObj } = useAppContext();
+  const { setMode } = addProjectModalObj;
+
+  const { watch, setValue } = addProjectModalObj.formData;
+  const icon_id = watch("icon_id");
+
+  const selectIcon = (id: number) => {
+    setValue("icon_id", id);
+    setMode("default");
+  };
+
   return (
     <ul className="flex h-60 w-full flex-wrap gap-4 overflow-auto overflow-y-auto bg-slate-100 p-4">
       {allProjectIcons.map((iconData: IconData) => (
-        <ProjectIcon
-          name={iconData.name}
-          outerClassName="flex item-center justify-center p-2 bg-white rounded-md"
-          innerClassName="text-orange-500"
-        />
+        <button
+          key={`project-icon-${iconData.id}`}
+          onClick={() => selectIcon(iconData.id)}
+        >
+          <ProjectIcon
+            id={iconData.id}
+            outerClassName={`flex item-center justify-center p-2 ${icon_id == iconData.id ? "bg-orange-600 text-white" : "bg-white text-orange-500"} rounded-md cursor-pointer hover:text-white hover:bg-orange-500 `}
+          />
+        </button>
       ))}
     </ul>
   );
