@@ -7,7 +7,7 @@ export default function ProjectsPage() {
   return (
     <AppContextProvider>
       <Sidebar />
-      <main className="flex flex-1 w-full h-screen bg-slate-50">
+      <main className="flex h-screen w-full flex-1 bg-slate-50">
         <AllProjectsMain />
       </main>
     </AppContextProvider>
