@@ -3,12 +3,12 @@ import AllTasksMain from "../pages/tasks/components/AllTasksMain";
 import { AppContextProvider } from "../utils/AppContext";
 
 export default function Home() {
-    return (
-        <AppContextProvider>
-            <Sidebar />
-            <main className="flex flex-1 w-full h-screen bg-slate-50">
-                <AllTasksMain />
-            </main>
-        </AppContextProvider>
-    );
+  return (
+    <AppContextProvider>
+      <Sidebar />
+      <main className="flex h-screen w-full flex-1 bg-slate-50">
+        <AllTasksMain />
+      </main>
+    </AppContextProvider>
+  );
 }

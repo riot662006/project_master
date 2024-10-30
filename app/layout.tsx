@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google"
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Project Master",
@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 };
 
 const poppins = Poppins({
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export default function RootLayout({
@@ -22,12 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.variable}`}
-      >
-        <div className="flex h-screen v-screen poppins">
-          {children}
-        </div>
+      <body className={`${poppins.variable}`}>
+        <div className="v-screen poppins flex h-screen">{children}</div>
       </body>
     </html>
   );

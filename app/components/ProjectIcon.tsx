@@ -1,7 +1,7 @@
 // ProjectIcon.tsx
-import React from 'react';
-import { SxProps } from '@mui/system';
-import { allProjectIcons } from '../utils/AllProjectIcon';
+import React from "react";
+import { SxProps } from "@mui/system";
+import { allProjectIcons } from "../utils/AllProjectIcon";
 
 interface ProjectIconProps {
   id?: number;
@@ -11,13 +11,19 @@ interface ProjectIconProps {
   outerClassName?: string;
 }
 
-const ProjectIcon: React.FC<ProjectIconProps> = ({ id, name, sx, innerClassName, outerClassName }) => {
+const ProjectIcon: React.FC<ProjectIconProps> = ({
+  id,
+  name,
+  sx,
+  innerClassName,
+  outerClassName,
+}) => {
   // Find icon data by id or name
   const iconData = id
-    ? allProjectIcons.find(icon => icon.id === id)
+    ? allProjectIcons.find((icon) => icon.id === id)
     : name
-    ? allProjectIcons.find(icon => icon.name === name)
-    : null;
+      ? allProjectIcons.find((icon) => icon.name === name)
+      : null;
 
   if (!iconData) {
     return null; // Return null if no matching icon found
