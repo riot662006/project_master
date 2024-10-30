@@ -1,9 +1,10 @@
-import { IAddProjectFormInput, useAppContext } from "@/app/utils/AppContext";
+import { useAppContext } from "@/app/utils/AppContext";
 import { BorderAll, Close } from "@mui/icons-material";
 import { useLayoutEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
 import SelectProjectIconSection from "./SelectProjectIconSection";
 import ProjectIcon from "@/app/components/ProjectIcon";
+import { IAddProjectFormInput } from "@/app/utils/types";
 
 const AddProjectModal = () => {
   const { addProjectModalObj } = useAppContext();

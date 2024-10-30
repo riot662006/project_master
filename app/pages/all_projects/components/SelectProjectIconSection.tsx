@@ -1,5 +1,5 @@
 import ProjectIcon from "@/app/components/ProjectIcon";
-import { allProjectIcons, IconData } from "@/app/utils/AllProjectIcon";
+import { allProjectIcons, IconData } from "@/app/utils/projectIcons";
 import { useAppContext } from "@/app/utils/AppContext";
 import { Apps } from "@mui/icons-material";
 

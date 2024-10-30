@@ -51,12 +51,7 @@ import {
   FlightTakeoff,
   Restaurant,
 } from "@mui/icons-material";
-
-export type IconData = {
-  id: number;
-  name: string;
-  IconComponent: React.ElementType;
-};
+import { IconData } from "./types";
 
 export const allProjectIcons: IconData[] = [
   { id: 1, name: "default", IconComponent: LibraryBooks },

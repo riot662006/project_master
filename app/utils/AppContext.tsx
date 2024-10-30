@@ -1,42 +1,15 @@
 "use client";
 
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import useMediaQuery from "./useMediaQuery";
 import { useForm, UseFormReturn } from "react-hook-form";
-
-type sidebarObjType = {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-};
-
-type addProjectModalMode = "default" | "select-icon";
-
-export interface IAddProjectFormInput {
-  name: string;
-  icon_id: number;
-}
-
-type addProjectModalObjType = {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-
-  mode: addProjectModalMode;
-  setMode: Dispatch<SetStateAction<addProjectModalMode>>;
-
-  formData: UseFormReturn<IAddProjectFormInput>;
-};
-
-interface IAppContext {
-  sidebarObj: sidebarObjType;
-  addProjectModalObj: addProjectModalObjType;
-}
+import {
+  AddProjectModalMode,
+  IAddProjectFormInput,
+  IAppContext,
+  Project,
+} from "./types";
+import { exampleProjects } from "./examples";
 
 const AppContext = createContext<IAppContext>({
   sidebarObj: { isOpen: false, setIsOpen: () => {} },
@@ -47,6 +20,7 @@ const AppContext = createContext<IAppContext>({
     setMode: () => {},
     formData: {} as UseFormReturn<IAddProjectFormInput>,
   },
+  allProjects: [],
 });
 
 export const AppContextProvider = ({
@@ -59,10 +33,12 @@ export const AppContextProvider = ({
   const [isAddProjectModalOpen, setIsAddProjectModalOpen] =
     useState<boolean>(false);
   const [projectModalMode, setProjectModalMode] =
-    useState<addProjectModalMode>("default");
+    useState<AddProjectModalMode>("default");
   const addProjectModalFormData = useForm<IAddProjectFormInput>({
     defaultValues: { icon_id: 1 },
   });
+
+  const [allProjects, setAllProjects] = useState<Project[]>(exampleProjects);
 
   const isMaxSm = useMediaQuery("(max-width: 640px)");
 
@@ -86,6 +62,7 @@ export const AppContextProvider = ({
 
           formData: addProjectModalFormData,
         },
+        allProjects,
       }}
     >
       {children}
