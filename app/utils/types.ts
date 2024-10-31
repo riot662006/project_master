@@ -1,35 +1,36 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
+import { IconName } from "./projectIcons";
 
 export type Status = "pending" | "in_progress" | "completed";
 export type Proirity = "low" | "medium" | "high";
 
 export interface Task {
   // task object for the app
-  id: number;
+  id: string;
   title: string;
   status: Status;
   priority: Proirity;
   createdAt: string;
   updatedAt: string;
-  icon: string;
+  icon: IconName;
 }
 
 export interface Project {
   // project object for the app
-  id: number;
+  id: string;
   title: string;
   status: Status;
   createdAt: string;
   updatedAt: string;
-  icon: string;
+  icon: IconName;
   tasks: Task[];
 }
 
 export type IconData = {
   // icon data used in ./projectIcon.ts file
   id: number;
-  name: string;
+  name: IconName;
   IconComponent: React.ElementType;
 };
 
@@ -57,4 +58,7 @@ export interface IAppContext {
   sidebarObj: SidebarObjType;
   addProjectModalObj: AddProjectModalObjType;
   allProjects: Project[];
+  projectActions: {
+    append: (project: Project) => void;
+  };
 }

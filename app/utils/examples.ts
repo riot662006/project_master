@@ -2,7 +2,7 @@ import { Project } from "./types";
 
 export const exampleProjects: Project[] = [
   {
-    id: 1,
+    id: "1",
     title: "Main project",
     icon: "creative",
     createdAt: "2024-08-26T10:00:00Z",
@@ -10,7 +10,7 @@ export const exampleProjects: Project[] = [
     status: "in_progress",
     tasks: [
       {
-        id: 2,
+        id: "2",
         title: "Develop the UI Design for the task page",
         icon: "paint",
         priority: "low",
@@ -19,7 +19,7 @@ export const exampleProjects: Project[] = [
         updatedAt: "2024-08-26T10:00:00Z",
       },
       {
-        id: 3,
+        id: "3",
         title: "Develop the Backend API",
         icon: "folder",
         priority: "high",
@@ -30,7 +30,7 @@ export const exampleProjects: Project[] = [
     ],
   },
   {
-    id: 4,
+    id: "4",
     title: "Project Title",
     icon: "default",
     createdAt: "2024-07-21T09:00:00Z",
@@ -38,7 +38,7 @@ export const exampleProjects: Project[] = [
     status: "completed",
     tasks: [
       {
-        id: 5,
+        id: "5",
         title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,",
         icon: "list",
         priority: "high",
@@ -47,7 +47,7 @@ export const exampleProjects: Project[] = [
         updatedAt: "2024-07-21T09:05:00Z",
       },
       {
-        id: 6,
+        id: "6",
         title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit,",
         icon: "list",
         priority: "high",

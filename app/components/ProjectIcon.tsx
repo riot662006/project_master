@@ -1,11 +1,11 @@
 // ProjectIcon.tsx
 import React from "react";
 import { SxProps } from "@mui/system";
-import { allProjectIcons } from "../utils/projectIcons";
+import { allProjectIcons, IconName } from "../utils/projectIcons";
 
 interface ProjectIconProps {
   id?: number;
-  name?: string;
+  name?: IconName;
   sx?: SxProps;
   innerClassName?: string;
   outerClassName?: string;
