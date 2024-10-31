@@ -1,7 +1,8 @@
 import ProjectIcon from "@/app/components/ProjectIcon";
-import { allProjectIcons, IconData } from "@/app/utils/projectIcons";
+import { allProjectIcons } from "@/app/utils/projectIcons";
 import { useAppContext } from "@/app/utils/AppContext";
 import { Apps } from "@mui/icons-material";
+import { IconData } from "@/app/utils/types";
 
 const SelectProjectIconSection = () => {
   return (
@@ -18,11 +19,6 @@ const SelectProjectIconSection = () => {
 };
 
 const Header = () => {
-  const { addProjectModalObj } = useAppContext();
-  const { setIsOpen } = addProjectModalObj;
-
-  const closeModal = () => setIsOpen(false);
-
   return (
     <div className="flex w-full items-center">
       <div className="flex items-center gap-2">
