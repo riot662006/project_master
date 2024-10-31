@@ -5,9 +5,11 @@ import { SubmitHandler } from "react-hook-form";
 import SelectProjectIconSection from "./SelectProjectIconSection";
 import ProjectIcon from "@/app/components/ProjectIcon";
 import { IAddProjectFormInput } from "@/app/utils/types";
+import { createProject } from "@/app/utils/functions";
+import { allProjectIcons } from "@/app/utils/projectIcons";
 
 const AddProjectModal = () => {
-  const { addProjectModalObj } = useAppContext();
+  const { addProjectModalObj, projectActions } = useAppContext();
   const { isOpen, setIsOpen, mode } = addProjectModalObj;
 
   const closeModal = () => setIsOpen(false);
@@ -15,9 +17,18 @@ const AddProjectModal = () => {
   const { handleSubmit, reset } = addProjectModalObj.formData;
 
   const onSubmit: SubmitHandler<IAddProjectFormInput> = (data) => {
-    console.log(data);
+    const selectedIconData = allProjectIcons.find(
+      (icon) => icon.id == data.icon_id,
+    );
+
+    if (selectedIconData) {
+      projectActions.append(createProject(data.name, selectedIconData.name));
+    }
+
     reset();
     closeModal();
+
+    console.log(data);
   };
 
   useLayoutEffect(() => {

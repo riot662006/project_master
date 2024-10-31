@@ -21,6 +21,7 @@ const AppContext = createContext<IAppContext>({
     formData: {} as UseFormReturn<IAddProjectFormInput>,
   },
   allProjects: [],
+  projectActions: { append: (project: Project) => {} },
 });
 
 export const AppContextProvider = ({
@@ -39,6 +40,9 @@ export const AppContextProvider = ({
   });
 
   const [allProjects, setAllProjects] = useState<Project[]>(exampleProjects);
+  const addProject = (project: Project) => {
+    setAllProjects((projects) => [...projects, project]);
+  };
 
   const isMaxSm = useMediaQuery("(max-width: 640px)");
 
@@ -63,6 +67,9 @@ export const AppContextProvider = ({
           formData: addProjectModalFormData,
         },
         allProjects,
+        projectActions: {
+          append: addProject,
+        },
       }}
     >
       {children}

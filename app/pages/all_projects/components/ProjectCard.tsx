@@ -1,33 +1,42 @@
 import ProjectIcon from "@/app/components/ProjectIcon";
+import { IconName } from "@/app/utils/projectIcons";
 import { Project } from "@/app/utils/types";
 import { MoreVert, Splitscreen } from "@mui/icons-material";
 import Circle from "@mui/icons-material/Circle";
 
-const ProjectCard = ({ project } : { project: Project}) => {
-  const {
-    title,
-    icon,
-  } = project;
+const ProjectCard = ({ project }: { project: Project }) => {
+  const { title, icon } = project;
 
   return (
     <div className="flex w-80 flex-col gap-8 bg-white p-7 px-10 max-sm:w-full">
-      <ProjectCardHeader title={title} icon={icon}/>
+      <ProjectCardHeader title={title} icon={icon} />
       <ProjectCardBody />
       <ProjectCardFooter />
     </div>
   );
 };
 
-const ProjectCardHeader = ({ title, icon } : { title : string, icon: string}) => {
+const ProjectCardHeader = ({
+  title,
+  icon,
+}: {
+  title: string;
+  icon: IconName;
+}) => {
   return (
     <div className="flex items-center justify-between">
       {/* Title and Icon */}
       <div className="flex items-center gap-3">
         {/* Icon */}
-        <ProjectIcon name={icon} outerClassName="flex aspect-square w-10 items-center justify-center rounded-md bg-orange-500" innerClassName="text-white" sx={{fontSize: "20px"}}/>
+        <ProjectIcon
+          name={icon}
+          outerClassName="flex aspect-square w-10 items-center justify-center rounded-md bg-orange-500"
+          innerClassName="text-white"
+          sx={{ fontSize: "20px" }}
+        />
         {/* Title */}
         <div className="flex flex-col">
-          <span className="text-m font-bold">{ title }</span>
+          <span className="text-m font-bold">{title}</span>
           <span className="text-[12px] text-slate-400">2 days ago</span>
         </div>
       </div>
