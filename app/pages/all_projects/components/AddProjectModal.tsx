@@ -1,22 +1,33 @@
-import { IAddProjectFormInput, useAppContext } from "@/app/utils/AppContext";
+import { useAppContext } from "@/app/utils/AppContext";
 import { BorderAll, Close } from "@mui/icons-material";
 import { useLayoutEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
 import SelectProjectIconSection from "./SelectProjectIconSection";
 import ProjectIcon from "@/app/components/ProjectIcon";
+import { IAddProjectFormInput } from "@/app/utils/types";
+import { createProject } from "@/app/utils/functions";
+import { allProjectIcons, IconName } from "@/app/utils/projectIcons";
 
 const AddProjectModal = () => {
-  const { addProjectModalObj } = useAppContext();
+  const { addProjectModalObj, projectActions } = useAppContext();
   const { isOpen, setIsOpen, mode } = addProjectModalObj;
 
   const closeModal = () => setIsOpen(false);
 
-  const { handleSubmit, reset } = addProjectModalObj.formData;
+  const { handleSubmit, reset } =
+    addProjectModalObj.formData;
 
   const onSubmit: SubmitHandler<IAddProjectFormInput> = (data) => {
-    console.log(data);
+    const selectedIconName: IconName = allProjectIcons.find(
+      (icon) => icon.id == data.icon_id,
+    )?.name || "default";
+
+    projectActions.append(createProject(data.name, selectedIconName));
+
     reset();
     closeModal();
+
+    console.log(data);
   };
 
   useLayoutEffect(() => {
