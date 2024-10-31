@@ -6,7 +6,7 @@ import SelectProjectIconSection from "./SelectProjectIconSection";
 import ProjectIcon from "@/app/components/ProjectIcon";
 import { IAddProjectFormInput } from "@/app/utils/types";
 import { createProject } from "@/app/utils/functions";
-import { allProjectIcons } from "@/app/utils/projectIcons";
+import { allProjectIcons, IconName } from "@/app/utils/projectIcons";
 
 const AddProjectModal = () => {
   const { addProjectModalObj, projectActions } = useAppContext();
@@ -14,16 +14,15 @@ const AddProjectModal = () => {
 
   const closeModal = () => setIsOpen(false);
 
-  const { handleSubmit, reset } = addProjectModalObj.formData;
+  const { handleSubmit, reset } =
+    addProjectModalObj.formData;
 
   const onSubmit: SubmitHandler<IAddProjectFormInput> = (data) => {
-    const selectedIconData = allProjectIcons.find(
+    const selectedIconName: IconName = allProjectIcons.find(
       (icon) => icon.id == data.icon_id,
-    );
+    )?.name || "default";
 
-    if (selectedIconData) {
-      projectActions.append(createProject(data.name, selectedIconData.name));
-    }
+    projectActions.append(createProject(data.name, selectedIconName));
 
     reset();
     closeModal();
