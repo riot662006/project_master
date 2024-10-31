@@ -1,27 +1,29 @@
 import ProjectIcon from "@/app/components/ProjectIcon";
-import { Project } from "@/app/utils/types";
-import { MoreVert } from "@mui/icons-material";
+import { Project, Task } from "@/app/utils/types";
+import { LibraryAdd, MoreVert } from "@mui/icons-material";
 import Circle from "@mui/icons-material/Circle";
 
 const ProjectCard = ({ project }: { project: Project }) => {
-  const { title, icon } = project;
+  const { title, icon, tasks } = project;
 
   const ProjectCardHeader = () => {
     return (
-      <div className="flex items-center justify-between">
+      <div className="flex w-full items-center">
         {/* Title and Icon */}
-        <div className="flex items-center gap-3">
+        <div className="flex w-full items-center gap-4">
           {/* Icon */}
           <ProjectIcon
             name={icon}
-            outerClassName="flex aspect-square w-10 items-center justify-center rounded-md bg-orange-500"
-            innerClassName="text-white"
+            outerClassName="flex flex-none items-center justify-center w-10 aspect-square rounded-md bg-orange-500"
+            innerClassName="flex items-center justify-center text-white"
             sx={{ fontSize: "20px" }}
           />
           {/* Title */}
-          <div className="flex flex-col">
-            <span className="text-m font-bold">{title}</span>
-            <span className="text-[12px] text-slate-400">2 days ago</span>
+          <div className="flex w-full flex-col overflow-hidden">
+            <span className="text-m w-full truncate text-ellipsis whitespace-nowrap font-bold">
+              {title}
+            </span>
+            <span className="text-xs text-slate-400">2 days ago</span>
           </div>
         </div>
         {/* Options */}
@@ -37,21 +39,28 @@ const ProjectCard = ({ project }: { project: Project }) => {
 
   const ProjectCardBody = () => {
     return (
-      <ul className="ml-2 flex flex-col gap-4 text-sm text-slate-400">
-        <ProjectCardBodyItem />
-        <ProjectCardBodyItem />
-      </ul>
-    );
-  };
+      <div className="flex h-32 flex-col">
+        {tasks.length > 0 ? (
+          <>
+            <ul className="ml-2 flex h-28 flex-col gap-4 text-sm text-slate-400">
+              {tasks.slice(0, 3).map((task) => (
+                <ProjectCardBodyItem key={task.id} task={task} />
+              ))}
+            </ul>
 
-  const ProjectCardBodyItem = () => {
-    return (
-      <li className="flex items-center gap-2">
-        <Circle sx={{ fontSize: "8px" }} />
-        <span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-        </span>
-      </li>
+            <span className="flex h-4 items-center text-sm text-orange-400">
+              {tasks.length > 3
+                ? `+${tasks.length - 3} task${tasks.length - 3 > 1 ? "s" : ""}`
+                : null}
+            </span>
+          </>
+        ) : (
+          <div className="flex flex-col h-full gap-4 items-center justify-center text-slate-300">
+            <LibraryAdd sx={{fontSize: "80px"}}/>
+            <span className="text-sm">No tasks created yet...</span>
+          </div> 
+        )}
+      </div>
     );
   };
 
@@ -76,11 +85,22 @@ const ProjectCard = ({ project }: { project: Project }) => {
   };
 
   return (
-    <div className="flex w-80 flex-col gap-8 bg-white p-7 px-10 max-sm:w-full">
+    <div className="flex w-80 flex-col gap-8 bg-white p-8 max-sm:w-full h-84">
       <ProjectCardHeader />
       <ProjectCardBody />
       <ProjectCardFooter />
     </div>
+  );
+};
+
+const ProjectCardBodyItem = ({ task }: { task: Task }) => {
+  return (
+    <li className="flex w-full items-center gap-2 text-sm">
+      <Circle sx={{ fontSize: "8px" }} />
+      <span className="w-full overflow-hidden truncate text-ellipsis whitespace-nowrap">
+        {task.title}
+      </span>
+    </li>
   );
 };
 
