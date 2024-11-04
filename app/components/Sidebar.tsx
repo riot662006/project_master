@@ -2,7 +2,7 @@
 
 import { BorderAll, Logout, Splitscreen } from "@mui/icons-material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import useMediaQuery from "../utils/useMediaQuery";
+import useMediaQuery from "../utils/hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
 import { useCallback, useContext } from "react";
 import Link from "next/link";

@@ -1,3 +1,4 @@
+import ProjectCardOptions from "@/app/components/DropDowns/ProjectCardOptions";
 import ProjectIcon from "@/app/components/ProjectIcon";
 import { Project, Task } from "@/app/utils/types";
 import { LibraryAdd, MoreVert } from "@mui/icons-material";
@@ -23,7 +24,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
             sx={{ fontSize: "20px" }}
           />
           {/* Title */}
-          <div className="flex w-full flex-col overflow-hidden">
+          <div className="flex w-44 flex-col overflow-hidden max-sm:w-full">
             <span className="text-m w-full truncate text-ellipsis whitespace-nowrap font-bold">
               {title}
             </span>
@@ -33,12 +34,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           </div>
         </div>
         {/* Options */}
-        <div>
-          <MoreVert
-            fontSize="small"
-            className="cursor-pointer text-slate-400"
-          />
-        </div>
+        <ProjectCardOptions />
       </div>
     );
   };
@@ -90,7 +86,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const ProjectProgressBar = () => {
     return (
       <div className="h-2 w-full rounded-lg bg-slate-100">
-        <div className="h-2 rounded-lg bg-orange-500" style={{width: `${taskProgress}%`}}/>
+        <div
+          className="h-2 rounded-lg bg-orange-500"
+          style={{ width: `${taskProgress}%` }}
+        />
       </div>
     );
   };

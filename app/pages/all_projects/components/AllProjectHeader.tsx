@@ -1,7 +1,7 @@
 "use client";
 
 import { Add, Menu, Search } from "@mui/icons-material";
-import AddProjectModal from "./AddProjectModal";
+import AddProjectModal from "./Modals/AddProjectModal";
 import { useAppContext } from "@/app/utils/AppContext";
 
 const AllProjectHeader = () => {
