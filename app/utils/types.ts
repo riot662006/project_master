@@ -19,7 +19,7 @@ export interface Task {
 export interface Project {
   // project object for the app
   id: string;
-  clerkUserId: string,
+  clerkUserId: string;
   title: string;
   status: Status;
   createdAt: string;

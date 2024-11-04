@@ -46,7 +46,8 @@ export const AppContextProvider = ({
 
   const isMaxSm = useMediaQuery("(max-width: 640px)");
 
-  useEffect(() => { // structure for fetching data (proto)
+  useEffect(() => {
+    // structure for fetching data (proto)
     const fetchData = async () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -55,9 +56,9 @@ export const AppContextProvider = ({
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     fetchData();
-  }, [])
+  }, []);
 
   useEffect(() => {
     setIsSidebarOpen(false);
