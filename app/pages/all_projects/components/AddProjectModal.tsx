@@ -12,12 +12,7 @@ const AddProjectModal = () => {
   const { addProjectModalObj, allProjects, projectActions } = useAppContext();
   const { isOpen, setIsOpen, mode, formData } = addProjectModalObj;
 
-  const {
-    handleSubmit,
-    setError,
-    setFocus,
-    reset,
-  } = formData;
+  const { handleSubmit, setError, setFocus, reset } = formData;
 
   const closeModal = () => setIsOpen(false);
 
@@ -25,18 +20,18 @@ const AddProjectModal = () => {
     const selectedIconName: IconName =
       allProjectIcons.find((icon) => icon.id === data.icon_id)?.name ||
       "default";
-    
+
     // if the project name already exists, return error
     const existingProject = allProjects.find(
-      (project) => project.title.toLowerCase() == data.name.toLowerCase()
+      (project) => project.title.toLowerCase() == data.name.toLowerCase(),
     );
 
     if (existingProject) {
       setError("name", {
         type: "manual",
-        message: "Project already exists"
+        message: "Project already exists",
       }),
-      setFocus("name");
+        setFocus("name");
       return;
     }
 
@@ -115,10 +110,10 @@ const AddProjectModal = () => {
 
 const ProjectInput = () => {
   const { addProjectModalObj } = useAppContext();
-  const { setMode, formData } = addProjectModalObj
+  const { setMode, formData } = addProjectModalObj;
   const {
     register,
-    formState: { errors }
+    formState: { errors },
   } = formData;
 
   const icon_id = useWatch({ control: formData.control, name: "icon_id" });

@@ -55,10 +55,10 @@ const ProjectCard = ({ project }: { project: Project }) => {
             </span>
           </>
         ) : (
-          <div className="flex flex-col h-full gap-4 items-center justify-center text-slate-300">
-            <LibraryAdd sx={{fontSize: "80px"}}/>
+          <div className="flex h-full flex-col items-center justify-center gap-4 text-slate-300">
+            <LibraryAdd sx={{ fontSize: "80px" }} />
             <span className="text-sm">No tasks created yet...</span>
-          </div> 
+          </div>
         )}
       </div>
     );
@@ -85,7 +85,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
   };
 
   return (
-    <div className="flex w-80 flex-col gap-8 bg-white p-8 max-sm:w-full h-84">
+    <div className="h-84 flex w-80 flex-col gap-8 bg-white p-8 max-sm:w-full">
       <ProjectCardHeader />
       <ProjectCardBody />
       <ProjectCardFooter />
