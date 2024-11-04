@@ -39,12 +39,25 @@ export const AppContextProvider = ({
     defaultValues: { icon_id: 1 },
   });
 
-  const [allProjects, setAllProjects] = useState<Project[]>(exampleProjects);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
   const addProject = (project: Project) => {
     setAllProjects((projects) => [...projects, project]);
   };
 
   const isMaxSm = useMediaQuery("(max-width: 640px)");
+
+  useEffect(() => { // structure for fetching data (proto)
+    const fetchData = async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        // Update the state
+        setAllProjects(exampleProjects);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, [])
 
   useEffect(() => {
     setIsSidebarOpen(false);
