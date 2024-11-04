@@ -9,6 +9,7 @@ export const createProject = (title: string, icon: IconName) => {
     title,
     icon,
     id: uuidv4(),
+    clerkUserId: "123",
 
     status: "pending",
     createdAt,

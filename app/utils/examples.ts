@@ -3,6 +3,7 @@ import { Project } from "./types";
 export const exampleProjects: Project[] = [
   {
     id: "1",
+    clerkUserId: "123",
     title: "Main project",
     icon: "creative",
     createdAt: "2024-08-26T10:00:00Z",
@@ -31,6 +32,7 @@ export const exampleProjects: Project[] = [
   },
   {
     id: "4",
+    clerkUserId: "123",
     title: "Project Title",
     icon: "default",
     createdAt: "2024-07-21T09:00:00Z",
