@@ -1,6 +1,11 @@
 "use client";
 
-import { BorderAll, Logout, Splitscreen } from "@mui/icons-material";
+import {
+  BorderAll,
+  CalendarMonth,
+  Logout,
+  Splitscreen,
+} from "@mui/icons-material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import useMediaQuery from "../utils/hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
@@ -74,8 +79,12 @@ const Menu = () => {
         <Splitscreen />
         <span className="hidden max-sm:block">All Tasks</span>
       </Link>
+      <Link href="/" className={menuItemClassName("/scheduler")}>
+        <CalendarMonth />
+        <span className="hidden max-sm:block">Scheduler</span>
+      </Link>
       <Link
-        href="/logout"
+        href="/"
         className="flex cursor-pointer items-center text-slate-300"
       >
         <Logout />
