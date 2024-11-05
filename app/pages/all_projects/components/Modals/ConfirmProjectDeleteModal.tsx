@@ -1,10 +1,33 @@
+"use client"
+
 import { useAppContext } from "@/app/utils/AppContext";
+import toast from "react-hot-toast";
 
 const ConfirmDeleteProjectModal = () => {
-  const { confirmProjectDeleteModalObj } = useAppContext();
-  const { isOpen, setIsOpen } = confirmProjectDeleteModalObj;
+  const { confirmProjectDeleteModalObj, projectActions} = useAppContext();
+  const { isOpen, setIsOpen, projectId} = confirmProjectDeleteModalObj;
 
   const closeModal = () => setIsOpen(false);
+  const deleteProject = () => {
+    const tryDelete = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Math.floor(Math.random() * 2) == 0) reject();
+        else {
+          projectActions.delete(projectId);
+          resolve("");
+        }
+        closeModal();
+      }, 1000)
+    });
+
+    toast.promise(
+      tryDelete, 
+    {
+      loading: <b>Deleting...</b>,
+      success: <b>Project deleted successfully</b>,
+      error: <b>Something went wrong </b>
+    })
+  }
 
   return (
     <div
@@ -25,6 +48,7 @@ const ConfirmDeleteProjectModal = () => {
           </button>
           <button 
             className="flex w-20 items-center justify-center rounded-lg bg-red-500 py-2 text-sm font-medium text-white hover:bg-red-600"
+            onClick={deleteProject}
           >
             Delete
           </button>

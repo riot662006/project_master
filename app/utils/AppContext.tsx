@@ -28,7 +28,7 @@ const AppContext = createContext<IAppContext>({
     setProjectId: () => {},
   },
   allProjects: [],
-  projectActions: { append: (project: Project) => {} },
+  projectActions: { append: (project: Project) => {}, delete: (projectId: string) => {}},
 });
 
 export const AppContextProvider = ({
@@ -54,6 +54,9 @@ export const AppContextProvider = ({
   const addProject = (project: Project) => {
     setAllProjects((projects) => [...projects, project]);
   };
+  const deleteProject = (projectId: string) => {
+    setAllProjects((projects) => projects.filter((project) => project.id !== projectId))
+  }
 
   const isMaxSm = useMediaQuery("(max-width: 640px)");
 
@@ -101,6 +104,7 @@ export const AppContextProvider = ({
         allProjects,
         projectActions: {
           append: addProject,
+          delete: deleteProject
         },
       }}
     >
