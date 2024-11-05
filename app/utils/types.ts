@@ -71,5 +71,6 @@ export interface IAppContext {
   projectActions: {
     append: (project: Project) => void;
     delete: (projectId: string) => void;
+    isLoading: boolean
   };
 }

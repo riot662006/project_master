@@ -28,7 +28,7 @@ const AppContext = createContext<IAppContext>({
     setProjectId: () => {},
   },
   allProjects: [],
-  projectActions: { append: () => {}, delete: () => {} },
+  projectActions: { append: () => {}, delete: () => {}, isLoading: false},
 });
 
 export const AppContextProvider = ({
@@ -51,6 +51,7 @@ export const AppContextProvider = ({
   const [projectToDelete, setProjectToDelete] = useState<string>("");
 
   const [allProjects, setAllProjects] = useState<Project[]>([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState<boolean>(true);
   const addProject = (project: Project) => {
     setAllProjects((projects) => [...projects, project]);
   };
@@ -65,6 +66,7 @@ export const AppContextProvider = ({
   useEffect(() => {
     // structure for fetching data (proto)
     const fetchData = async () => {
+      setIsLoadingProjects(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         // Update the state
@@ -72,6 +74,7 @@ export const AppContextProvider = ({
       } catch (error) {
         console.log(error);
       }
+      setIsLoadingProjects(false);
     };
     fetchData();
   }, []);
@@ -107,6 +110,7 @@ export const AppContextProvider = ({
         projectActions: {
           append: addProject,
           delete: deleteProject,
+          isLoading: isLoadingProjects
         },
       }}
     >

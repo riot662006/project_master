@@ -4,9 +4,18 @@ import { useAppContext } from "@/app/utils/AppContext";
 import ProjectCard from "./ProjectCard";
 import ConfirmDeleteProjectModal from "./Modals/ConfirmProjectDeleteModal";
 import { ListAlt } from "@mui/icons-material";
+import { CircularProgress } from "@mui/material";
 
 const ProjectList = () => {
-  const { allProjects } = useAppContext();
+  const { allProjects, projectActions } = useAppContext();
+
+  if (projectActions.isLoading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <CircularProgress size="5rem" sx={{color: "skyblue"}}/>
+      </div>
+    );
+  }
 
   if (allProjects.length == 0) {
     return (
