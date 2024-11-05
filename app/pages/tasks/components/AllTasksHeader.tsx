@@ -25,7 +25,7 @@ const AllTasksHeader = () => {
 const SearchBar = () => {
   return (
     <div className="flex items-center">
-      <div className="flex h-10 w-10 items-center justify-center border-b-2 border-orange-500 outline-none">
+      <div className="flex h-10 w-10 items-center justify-center border-b-2 border-sky-500 outline-none">
         <Search className="text-slate-400" />
       </div>
       <div className="w-[67%] border-b-2 border-slate-200">
@@ -40,7 +40,7 @@ const SearchBar = () => {
 
 const NewProjectButton = () => {
   return (
-    <div className="flex h-8 cursor-pointer items-center rounded-md bg-orange-500 pl-2 pr-4 text-[14px] text-white max-sm:px-2">
+    <div className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-[14px] text-white max-sm:px-2">
       <Add sx={{ fontSize: "22px" }} />
       <span className="font-medium max-sm:hidden">New Task</span>
     </div>

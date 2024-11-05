@@ -19,7 +19,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           {/* Icon */}
           <ProjectIcon
             name={icon}
-            outerClassName="flex flex-none items-center justify-center w-10 aspect-square rounded-md bg-orange-500"
+            outerClassName="flex flex-none items-center justify-center w-10 aspect-square rounded-md bg-sky-500"
             innerClassName="flex items-center justify-center text-white"
             sx={{ fontSize: "20px" }}
           />
@@ -50,7 +50,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
               ))}
             </ul>
 
-            <span className="flex h-4 items-center text-sm text-orange-400">
+            <span className="flex h-4 items-center text-sm text-sky-400">
               {tasks.length > 3
                 ? `+${tasks.length - 3} task${tasks.length - 3 > 1 ? "s" : ""}`
                 : null}
@@ -61,7 +61,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
             <button onClick={() => {}}>
               <LibraryAdd
                 sx={{ fontSize: "40px" }}
-                className="hover:text-orange-500"
+                className="hover:text-sky-500"
               />
             </button>
             <span className="text-sm">No tasks created yet...</span>
@@ -87,7 +87,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
     return (
       <div className="h-2 w-full rounded-lg bg-slate-100">
         <div
-          className="h-2 rounded-lg bg-orange-500"
+          className="h-2 rounded-lg bg-sky-500"
           style={{ width: `${taskProgress}%` }}
         />
       </div>

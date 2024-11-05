@@ -27,7 +27,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
       id: 1,
       name: "Edit",
       icon: <EditOutlined />,
-      hoverColor: "text-orange-500",
+      hoverColor: "text-sky-500",
       onClick: () => {},
     },
     {

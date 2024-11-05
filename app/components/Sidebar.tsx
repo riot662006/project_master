@@ -45,10 +45,10 @@ const Sidebar = () => {
 const Logo = () => {
   return (
     <div className="flex items-center gap-4">
-      <TaskAltIcon fontSize="large" className="text-orange-500" />
+      <TaskAltIcon fontSize="large" className="text-sky-500" />
       <div className="hidden items-center gap-1 text-2xl font-bold max-sm:flex">
         <span>Project</span>
-        <span className="text-orange-500">Master</span>
+        <span className="text-sky-500">Master</span>
       </div>
     </div>
   );
@@ -59,7 +59,7 @@ const Menu = () => {
 
   const menuItemClassName = useCallback(
     (path: string) => {
-      return `flex items-center cursor-pointer text-${pathname.startsWith(path) ? "orange-500" : "slate-300"}`;
+      return `flex items-center cursor-pointer text-${pathname.startsWith(path) ? "sky-500" : "slate-300"}`;
     },
     [pathname],
   );
@@ -88,7 +88,7 @@ const Menu = () => {
 const Profile = () => {
   return (
     <div className="flex items-center gap-4">
-      <div className="h-8 w-8 rounded-md bg-orange-500"></div>
+      <div className="h-8 w-8 rounded-md bg-sky-500"></div>
       <div className="hidden text-xs max-sm:flex max-sm:flex-col">
         <p className="font-bold">Onyekachi Ibekwe</p>
         <p>rickriots@riot.inc</p>

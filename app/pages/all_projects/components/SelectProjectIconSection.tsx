@@ -15,8 +15,8 @@ const SelectProjectIconSection = () => {
     return (
       <div className="flex w-full items-center">
         <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center rounded-md bg-orange-100 p-2">
-            <Apps sx={{ fontSize: "18px" }} className="text-orange-500" />
+          <div className="flex items-center justify-center rounded-md bg-sky-100 p-2">
+            <Apps sx={{ fontSize: "18px" }} className="text-sky-500" />
           </div>
           <span className="text-md font-bold">All Icons</span>
         </div>
@@ -39,7 +39,7 @@ const SelectProjectIconSection = () => {
           >
             <ProjectIcon
               id={iconData.id}
-              outerClassName={`flex item-center justify-center p-2 ${icon_id == iconData.id ? "bg-orange-600 text-white" : "bg-white text-orange-500"} rounded-md cursor-pointer hover:text-white hover:bg-orange-500 `}
+              outerClassName={`flex item-center justify-center p-2 ${icon_id == iconData.id ? "bg-sky-600 text-white" : "bg-white text-sky-500"} rounded-md cursor-pointer hover:text-white hover:bg-sky-500 `}
             />
           </button>
         ))}

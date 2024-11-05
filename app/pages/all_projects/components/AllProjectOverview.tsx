@@ -22,7 +22,7 @@ const ProjectProgressCircle = () => {
     <div className="flex items-center justify-center">
       <div className="flex h-40 w-40 items-center justify-center rounded-full bg-slate-100">
         <div className="flex h-[86%] w-[86%] items-center justify-center rounded-full bg-white">
-          <span className="text-xl font-semibold text-orange-500">90%</span>
+          <span className="text-xl font-semibold text-sky-500">90%</span>
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@ const ProjectsList = () => {
 const SingleProject = () => {
   return (
     <li className="flex w-full gap-2">
-      <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-orange-500">
+      <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-500">
         <Splitscreen sx={{ fontSize: "18px" }} className="text-white" />
       </div>
       <div className="flex flex-col">

@@ -54,8 +54,8 @@ const AddProjectModal = () => {
     return (
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center rounded-md bg-orange-100 p-2">
-            <BorderAll sx={{ fontSize: "18px" }} className="text-orange-500" />
+          <div className="flex items-center justify-center rounded-md bg-sky-100 p-2">
+            <BorderAll sx={{ fontSize: "18px" }} className="text-sky-500" />
           </div>
           <span className="text-md font-bold">Add Project</span>
         </div>
@@ -75,7 +75,7 @@ const AddProjectModal = () => {
         </button>
         <button
           type="submit"
-          className="flex h-8 cursor-pointer items-center rounded-md bg-orange-500 p-4 pr-4 text-xs text-white hover:bg-orange-600 max-sm:px-2"
+          className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 max-sm:px-2"
         >
           <span className="font-medium">Add Project</span>
         </button>
@@ -147,7 +147,7 @@ const ProjectInput = () => {
           <button type="button" onClick={openIconSelect}>
             <ProjectIcon
               id={icon_id}
-              outerClassName="rounded-md bg-orange-500 p-2 transition-colors hover:bg-orange-600"
+              outerClassName="rounded-md bg-sky-500 p-2 transition-colors hover:bg-sky-600"
               innerClassName="text-white"
             />
           </button>

@@ -7,10 +7,10 @@ const AllTasksSubHeader = () => {
         {/* Progess Dropdown and Icon */}
         <div className="flex items-center gap-4">
           {/* Icon */}
-          <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-orange-100">
+          <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100">
             <Splitscreen
               sx={{ fontSize: "18px" }}
-              className="text-orange-500"
+              className="text-sky-500"
             />
           </div>
           {/* Progress Dropdown*/}
@@ -46,7 +46,7 @@ const ProgressDropDown = () => {
 const SelectedProjectProgressBar = () => {
   return (
     <div className="h-1 w-96 rounded-lg bg-slate-200 max-lg:w-[100%]">
-      <div className="h-full w-[33%] rounded-lg bg-orange-500" />
+      <div className="h-full w-[33%] rounded-lg bg-sky-500" />
     </div>
   );
 };

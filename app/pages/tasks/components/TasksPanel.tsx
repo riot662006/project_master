@@ -19,8 +19,8 @@ const TasksFilter = () => {
   return (
     <div className="flex items-center gap-8 py-8">
       <div className="flex items-center gap-2 text-xs font-semibold">
-        <span className="text-orange-400">On Going Tasks</span>
-        <span className="rounded-md bg-orange-500 px-2 py-0.5 text-white">
+        <span className="text-sky-400">On Going Tasks</span>
+        <span className="rounded-md bg-sky-500 px-2 py-0.5 text-white">
           7
         </span>
       </div>
@@ -50,7 +50,7 @@ const TaskItem = () => {
       <CheckBox />
       <div className="flex w-full items-center gap-2 rounded-r-xl bg-white p-4">
         {/* Icon */}
-        <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-orange-100 text-orange-500">
+        <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500">
           <List sx={{ fontSize: "18px" }} />
         </div>
         {/* Task Titles */}
@@ -74,7 +74,7 @@ const TaskItem = () => {
         </div>
         <div className="flex items-center gap-2 max-lg:flex-col">
           {/* Edit */}
-          <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-orange-100 text-orange-500">
+          <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500">
             <EditOutlined sx={{ fontSize: "18px" }} />
           </div>
 
