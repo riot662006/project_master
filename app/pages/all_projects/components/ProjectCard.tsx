@@ -1,7 +1,7 @@
 import ProjectCardOptions from "@/app/pages/all_projects/components/DropDowns/ProjectCardOptions";
 import ProjectIcon from "@/app/components/ProjectIcon";
 import { Project, Task } from "@/app/utils/types";
-import { LibraryAdd, MoreVert } from "@mui/icons-material";
+import { LibraryAdd } from "@mui/icons-material";
 import Circle from "@mui/icons-material/Circle";
 
 const ProjectCard = ({ project }: { project: Project }) => {

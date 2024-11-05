@@ -30,8 +30,8 @@ const AddProjectModal = () => {
       setError("name", {
         type: "manual",
         message: "Project already exists",
-      }),
-        setFocus("name");
+      });
+      setFocus("name");
       return;
     }
 
@@ -122,7 +122,7 @@ const ProjectInput = () => {
   const preventSubmitOnEnter = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    e.key === "Enter" && e.preventDefault();
+    if (e.key === "Enter") e.preventDefault();
   };
 
   return (

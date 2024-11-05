@@ -52,7 +52,7 @@ const SelectProjectIconSection = () => {
       <Header />
       <div className="flex w-full flex-col gap-2">
         <span className="text-xs">
-          Please select the icons you'd like to use from the collection below:
+          {"Please select the icons you'd like to use from the collection below:"}
         </span>
         <IconCollection />
       </div>

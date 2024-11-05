@@ -28,7 +28,7 @@ const AppContext = createContext<IAppContext>({
     setProjectId: () => {},
   },
   allProjects: [],
-  projectActions: { append: (project: Project) => {}, delete: (projectId: string) => {}},
+  projectActions: { append: () => {}, delete: () => {}},
 });
 
 export const AppContextProvider = ({
