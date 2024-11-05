@@ -2,6 +2,7 @@
 
 import { useAppContext } from "@/app/utils/AppContext";
 import ProjectCard from "./ProjectCard";
+import ConfirmDeleteProjectModal from "./Modals/ConfirmProjectDeleteModal";
 
 const ProjectList = () => {
   const { allProjects } = useAppContext();
@@ -11,6 +12,7 @@ const ProjectList = () => {
       {allProjects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
+      <ConfirmDeleteProjectModal />
     </div>
   );
 };

@@ -20,6 +20,13 @@ const AppContext = createContext<IAppContext>({
     setMode: () => {},
     formData: {} as UseFormReturn<IAddProjectFormInput>,
   },
+  confirmProjectDeleteModalObj: {
+    isOpen: false,
+    setIsOpen: () => {},
+
+    projectId: "",
+    setProjectId: () => {},
+  },
   allProjects: [],
   projectActions: { append: (project: Project) => {} },
 });
@@ -38,6 +45,10 @@ export const AppContextProvider = ({
   const addProjectModalFormData = useForm<IAddProjectFormInput>({
     defaultValues: { icon_id: 1 },
   });
+
+  const [isConfirmProjectDeleteModalOpen, setIsConfirmProjectDeleteModalOpen] =
+    useState<boolean>(false);
+  const [projectToDelete, setProjectToDelete] = useState<string>("");
 
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const addProject = (project: Project) => {
@@ -79,6 +90,13 @@ export const AppContextProvider = ({
           setMode: setProjectModalMode,
 
           formData: addProjectModalFormData,
+        },
+        confirmProjectDeleteModalObj: {
+          isOpen: isConfirmProjectDeleteModalOpen,
+          setIsOpen: setIsConfirmProjectDeleteModalOpen,
+
+          projectId: projectToDelete,
+          setProjectId: setProjectToDelete,
         },
         allProjects,
         projectActions: {

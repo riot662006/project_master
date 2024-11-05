@@ -1,4 +1,4 @@
-import ProjectCardOptions from "@/app/components/DropDowns/ProjectCardOptions";
+import ProjectCardOptions from "@/app/pages/all_projects/components/DropDowns/ProjectCardOptions";
 import ProjectIcon from "@/app/components/ProjectIcon";
 import { Project, Task } from "@/app/utils/types";
 import { LibraryAdd, MoreVert } from "@mui/icons-material";
@@ -34,7 +34,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           </div>
         </div>
         {/* Options */}
-        <ProjectCardOptions />
+        <ProjectCardOptions project={project} />
       </div>
     );
   };

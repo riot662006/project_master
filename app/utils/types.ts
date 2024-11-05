@@ -55,9 +55,18 @@ export type AddProjectModalObjType = {
   formData: UseFormReturn<IAddProjectFormInput>;
 };
 
+export type ConfirmProjectDeleteModalObjType = {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+
+  projectId: string;
+  setProjectId: Dispatch<SetStateAction<string>>;
+};
+
 export interface IAppContext {
   sidebarObj: SidebarObjType;
   addProjectModalObj: AddProjectModalObjType;
+  confirmProjectDeleteModalObj: ConfirmProjectDeleteModalObjType;
   allProjects: Project[];
   projectActions: {
     append: (project: Project) => void;
