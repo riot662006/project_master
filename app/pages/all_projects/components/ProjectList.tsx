@@ -12,7 +12,7 @@ const ProjectList = () => {
   if (projectActions.isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <CircularProgress size="5rem" sx={{color: "skyblue"}}/>
+        <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
       </div>
     );
   }

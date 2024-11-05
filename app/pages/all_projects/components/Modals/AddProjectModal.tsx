@@ -1,18 +1,27 @@
 import { useAppContext } from "@/app/utils/AppContext";
 import { BorderAll, Close } from "@mui/icons-material";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import { SubmitHandler, useWatch } from "react-hook-form";
 import SelectProjectIconSection from "../SelectProjectIconSection";
 import ProjectIcon from "@/app/components/ProjectIcon";
 import { IAddProjectFormInput } from "@/app/utils/types";
 import { createProject } from "@/app/utils/functions";
 import { allProjectIcons, IconName } from "@/app/utils/projectIcons";
+import toast from "react-hot-toast";
+import { CircularProgress } from "@mui/material";
 
 const AddProjectModal = () => {
   const { addProjectModalObj, allProjects, projectActions } = useAppContext();
   const { isOpen, setIsOpen, mode, formData } = addProjectModalObj;
 
-  const { handleSubmit, setError, setFocus, reset } = formData;
+  const {
+    handleSubmit,
+    setError,
+    setFocus,
+    reset,
+    formState: { errors },
+  } = formData;
+  const [isAdding, setIsAdding] = useState<boolean>(false);
 
   const closeModal = () => setIsOpen(false);
 
@@ -26,21 +35,38 @@ const AddProjectModal = () => {
       (project) => project.title.toLowerCase() == data.name.toLowerCase(),
     );
 
+    setIsAdding(true);
+
     if (existingProject) {
       setError("name", {
         type: "manual",
         message: "Project already exists",
       });
       setFocus("name");
+      setIsAdding(false);
       return;
     }
 
-    projectActions.append(createProject(data.name, selectedIconName));
+    const tryAdd = async () => {
+      await setTimeout(() => {
+        if (Math.floor(Math.random() * 2) == 0)
+          setError("root", {
+            type: "manual",
+            message: "Something went wrong",
+          });
+        else {
+          projectActions.append(createProject(data.name, selectedIconName));
+          toast.success("Project added successfully");
 
-    reset();
-    closeModal();
+          reset();
+          closeModal();
+        }
 
-    console.log(data);
+        setIsAdding(false);
+      }, 2000);
+    };
+
+    tryAdd();
   };
 
   useLayoutEffect(() => {
@@ -59,7 +85,13 @@ const AddProjectModal = () => {
           </div>
           <span className="text-md font-bold">Add Project</span>
         </div>
-        <Close className="cursor-pointer text-slate-400" onClick={closeModal} />
+        <button className="cursor-pointer text-slate-400 disabled:cursor-default disabled:text-slate-200"
+          onClick={closeModal} disabled={isAdding}>
+          <Close
+          
+        />
+        </button>
+        
       </div>
     );
   };
@@ -68,16 +100,25 @@ const AddProjectModal = () => {
     return (
       <div className="flex w-full justify-end gap-4 transition-colors">
         <button
+          disabled={isAdding}
           onClick={closeModal}
-          className="flex h-8 cursor-pointer items-center rounded-md border p-4 text-xs text-slate-400 hover:bg-slate-50 max-sm:px-2"
+          className="flex h-8 cursor-pointer items-center rounded-md border p-4 text-xs text-slate-400 hover:bg-slate-50 disabled:cursor-default disabled:text-slate-300 disabled:hover:bg-none max-sm:px-2"
         >
           <span className="font-medium">Cancel</span>
         </button>
         <button
+          disabled={isAdding || Boolean(errors.name)}
           type="submit"
-          className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 max-sm:px-2"
+          className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 disabled:cursor-default disabled:bg-sky-400 disabled:hover:bg-sky-400 max-sm:px-2 gap-2"
         >
-          <span className="font-medium">Add Project</span>
+          {isAdding ? (
+            <>
+              <span>Saving...</span>
+              <CircularProgress size="1rem" sx={{ color: "white" }} />
+            </>
+          ) : (
+            <span>Add Project</span>
+          )}
         </button>
       </div>
     );
@@ -95,7 +136,7 @@ const AddProjectModal = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex w-full flex-col gap-10"
         >
-          <ProjectInput />
+          <ProjectInput disabled={isAdding} />
           <Footer />
         </form>
       </div>
@@ -108,7 +149,7 @@ const AddProjectModal = () => {
   );
 };
 
-const ProjectInput = () => {
+const ProjectInput = ({ disabled }: { disabled: boolean }) => {
   const { addProjectModalObj } = useAppContext();
   const { setMode, formData } = addProjectModalObj;
   const {
@@ -142,18 +183,18 @@ const ProjectInput = () => {
               placeholder="Enter Project Name..."
               className="w-full bg-transparent text-sm outline-none"
               onKeyDown={preventSubmitOnEnter}
+              disabled={disabled}
             />
           </div>
-          <button type="button" onClick={openIconSelect}>
+          <button type="button" onClick={openIconSelect} disabled={disabled} className="rounded-md bg-sky-500 p-2 transition-colors hover:bg-sky-600 disabled:bg-sky-400 disabled:hover:bg-sky-400">
             <ProjectIcon
               id={icon_id}
-              outerClassName="rounded-md bg-sky-500 p-2 transition-colors hover:bg-sky-600"
               innerClassName="text-white"
             />
           </button>
         </div>
         <p className="text-sm font-medium text-red-500">
-          {errors.name?.message}
+          {errors.name?.message || errors.root?.message}
         </p>
       </div>
     </div>
