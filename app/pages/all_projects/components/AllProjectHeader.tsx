@@ -29,7 +29,7 @@ const AllProjectHeader = () => {
   const NewProjectButton = () => {
     return (
       <div
-        className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-xs text-white max-sm:px-2 hover:bg-sky-600"
+        className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-xs text-white hover:bg-sky-600 max-sm:px-2"
         onClick={openAddProjectModal}
       >
         <Add sx={{ fontSize: "22px" }} />

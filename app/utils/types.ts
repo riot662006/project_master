@@ -70,6 +70,6 @@ export interface IAppContext {
   allProjects: Project[];
   projectActions: {
     append: (project: Project) => void;
-    delete: (projectId: string) => void
+    delete: (projectId: string) => void;
   };
 }

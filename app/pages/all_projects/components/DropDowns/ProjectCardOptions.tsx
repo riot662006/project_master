@@ -22,7 +22,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
     confirmDelete();
   };
 
-  const [ options ] = useState([
+  const [options] = useState([
     {
       id: 1,
       name: "Edit",

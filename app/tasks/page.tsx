@@ -6,9 +6,7 @@ import { AppContextProvider } from "../utils/AppContext";
 export default function Home() {
   return (
     <AppContextProvider>
-      <Toaster 
-        position="top-center"
-      />
+      <Toaster position="top-center" />
       <Sidebar />
       <main className="flex h-screen w-full flex-1 bg-slate-50">
         <AllTasksMain />

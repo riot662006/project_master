@@ -8,10 +8,7 @@ const AllTasksSubHeader = () => {
         <div className="flex items-center gap-4">
           {/* Icon */}
           <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100">
-            <Splitscreen
-              sx={{ fontSize: "18px" }}
-              className="text-sky-500"
-            />
+            <Splitscreen sx={{ fontSize: "18px" }} className="text-sky-500" />
           </div>
           {/* Progress Dropdown*/}
           <ProgressDropDown />

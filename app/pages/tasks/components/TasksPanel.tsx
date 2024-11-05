@@ -20,9 +20,7 @@ const TasksFilter = () => {
     <div className="flex items-center gap-8 py-8">
       <div className="flex items-center gap-2 text-xs font-semibold">
         <span className="text-sky-400">On Going Tasks</span>
-        <span className="rounded-md bg-sky-500 px-2 py-0.5 text-white">
-          7
-        </span>
+        <span className="rounded-md bg-sky-500 px-2 py-0.5 text-white">7</span>
       </div>
 
       <div className="flex items-center gap-2 text-xs font-semibold">
