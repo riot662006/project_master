@@ -1,33 +1,34 @@
-"use client"
+"use client";
 
 import { useAppContext } from "@/app/utils/AppContext";
+import { CircularProgress } from "@mui/material";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 const ConfirmDeleteProjectModal = () => {
-  const { confirmProjectDeleteModalObj, projectActions} = useAppContext();
-  const { isOpen, setIsOpen, projectId} = confirmProjectDeleteModalObj;
+  const { confirmProjectDeleteModalObj, projectActions } = useAppContext();
+  const { isOpen, setIsOpen, projectId } = confirmProjectDeleteModalObj;
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const closeModal = () => setIsOpen(false);
   const deleteProject = () => {
-    const tryDelete = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (Math.floor(Math.random() * 2) == 0) reject();
+    setIsDeleting(true);
+
+    const tryDelete = async () => {
+      await setTimeout(() => {
+        if (Math.floor(Math.random() * 2) == 0)
+          toast.error("Something went wrong");
         else {
           projectActions.delete(projectId);
-          resolve("");
+          toast.success("Project deleted successfully");
         }
+        setIsDeleting(false);
         closeModal();
-      }, 1000)
-    });
+      }, 1000);
+    };
 
-    toast.promise(
-      tryDelete, 
-    {
-      loading: <b>Deleting...</b>,
-      success: <b>Project deleted successfully</b>,
-      error: <b>Something went wrong </b>
-    })
-  }
+    tryDelete();
+  };
 
   return (
     <div
@@ -41,16 +42,24 @@ const ConfirmDeleteProjectModal = () => {
         </p>
         <div className="flex items-center justify-end gap-4">
           <button
-            className="flex w-20 items-center justify-center rounded-lg border border-slate-200 py-2 text-sm hover:bg-slate-100"
+            className="flex items-center justify-center rounded-lg border border-slate-200 p-4 py-2 text-sm hover:bg-slate-100"
             onClick={closeModal}
           >
             Cancel
           </button>
-          <button 
-            className="flex w-20 items-center justify-center rounded-lg bg-red-500 py-2 text-sm font-medium text-white hover:bg-red-600"
+          <button
+            className="flex items-center justify-center gap-2 rounded-lg bg-red-500 p-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:bg-red-600"
             onClick={deleteProject}
+            disabled={isDeleting}
           >
-            Delete
+            {isDeleting ? (
+              <>
+                <span>Deleting...</span>
+                <CircularProgress size="1rem" sx={{ color: "white" }} />
+              </>
+            ) : (
+              <span>Delete</span>
+            )}
           </button>
         </div>
       </div>
