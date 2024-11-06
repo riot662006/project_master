@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import useMediaQuery from "./hooks/useMediaQuery";
+import useMediaQuery from "../hooks/useMediaQuery";
 import { useForm, UseFormReturn } from "react-hook-form";
 import {
   AddProjectModalMode,

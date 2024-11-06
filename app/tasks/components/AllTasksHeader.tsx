@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppContext } from "@/app/utils/AppContext";
+import { useAppContext } from "@/utils/AppContext";
 import { Add, Menu, Search } from "@mui/icons-material";
 
 const AllTasksHeader = () => {

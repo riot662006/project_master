@@ -1,6 +1,6 @@
-import { useAppContext } from "@/app/utils/AppContext";
-import { useDetectOutsideClick } from "@/app/utils/hooks/useDetectOutsideClick";
-import { Project } from "@/app/utils/types";
+import { useAppContext } from "@/utils/AppContext";
+import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
+import { Project } from "@/utils/types";
 import { Delete, EditOutlined, MoreVert } from "@mui/icons-material";
 import { useRef, useState } from "react";
 

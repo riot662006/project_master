@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
-import Sidebar from "../components/Sidebar";
-import AllTasksMain from "../pages/tasks/components/AllTasksMain";
-import { AppContextProvider } from "../utils/AppContext";
+import Sidebar from "../../components/Sidebar";
+import AllTasksMain from "./components/AllTasksMain";
+import { AppContextProvider } from "../../utils/AppContext";
 
 export default function Home() {
   return (

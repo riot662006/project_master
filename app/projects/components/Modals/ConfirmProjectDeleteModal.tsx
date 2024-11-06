@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppContext } from "@/app/utils/AppContext";
+import { useAppContext } from "@/utils/AppContext";
 import { CircularProgress } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";

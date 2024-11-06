@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppContext } from "@/app/utils/AppContext";
+import { useAppContext } from "@/utils/AppContext";
 import ProjectCard from "./ProjectCard";
 import ConfirmDeleteProjectModal from "./Modals/ConfirmProjectDeleteModal";
 import { ListAlt } from "@mui/icons-material";

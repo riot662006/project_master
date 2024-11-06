@@ -2,7 +2,7 @@
 
 import { Add, Menu, Search } from "@mui/icons-material";
 import AddProjectModal from "./Modals/AddProjectModal";
-import { useAppContext } from "@/app/utils/AppContext";
+import { useAppContext } from "@/utils/AppContext";
 
 const AllProjectHeader = () => {
   const { sidebarObj, addProjectModalObj } = useAppContext();

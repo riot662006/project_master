@@ -1,8 +1,8 @@
-import ProjectIcon from "@/app/components/ProjectIcon";
-import { allProjectIcons } from "@/app/utils/projectIcons";
-import { useAppContext } from "@/app/utils/AppContext";
+import ProjectIcon from "@/components/ProjectIcon";
+import { allProjectIcons } from "@/utils/projectIcons";
+import { useAppContext } from "@/utils/AppContext";
 import { Apps } from "@mui/icons-material";
-import { IconData } from "@/app/utils/types";
+import { IconData } from "@/utils/types";
 import { useWatch } from "react-hook-form";
 
 const SelectProjectIconSection = () => {

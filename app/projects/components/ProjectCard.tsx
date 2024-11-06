@@ -1,6 +1,6 @@
-import ProjectCardOptions from "@/app/pages/all_projects/components/DropDowns/ProjectCardOptions";
-import ProjectIcon from "@/app/components/ProjectIcon";
-import { Project, Task } from "@/app/utils/types";
+import ProjectCardOptions from "@/app/projects/components/DropDowns/ProjectCardOptions";
+import ProjectIcon from "@/components/ProjectIcon";
+import { Project, Task } from "@/utils/types";
 import { LibraryAdd } from "@mui/icons-material";
 import Circle from "@mui/icons-material/Circle";
 

@@ -1,6 +1,6 @@
-import Sidebar from "../components/Sidebar";
-import AllProjectsMain from "../pages/all_projects/components/AllProjectsMain";
-import { AppContextProvider } from "../utils/AppContext";
+import Sidebar from "../../components/Sidebar";
+import AllProjectsMain from "./components/AllProjectsMain";
+import { AppContextProvider } from "../../utils/AppContext";
 import { Toaster } from "react-hot-toast";
 
 export default function ProjectsPage() {

@@ -7,7 +7,7 @@ import {
   Splitscreen,
 } from "@mui/icons-material";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import useMediaQuery from "../utils/hooks/useMediaQuery";
+import useMediaQuery from "../hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 import Link from "next/link";
