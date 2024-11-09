@@ -10,9 +10,9 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   percentage,
 }) => {
   return (
-    <div className={`h-2 w-full rounded-lg bg-slate-100 ${containerClassName}`}>
+    <div className={containerClassName || "h-2 w-full rounded-lg bg-slate-100"}>
       <div
-        className={`h-full rounded-lg bg-sky-500 ${progressClassName}`}
+        className={progressClassName || "h-full rounded-lg bg-sky-500"}
         style={{ width: `${percentage}%` }}
       />
     </div>

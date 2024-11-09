@@ -6,39 +6,30 @@ import {
   List,
 } from "@mui/icons-material";
 
-const TasksPanel = () => {
-  return (
-    <div className="flex flex-col pl-12 max-sm:pl-0">
-      <TasksFilter />
-      <TaskList />
-    </div>
-  );
-};
-
-const TasksFilter = () => {
-  return (
-    <div className="flex items-center gap-8 py-8">
-      <div className="flex items-center gap-2 text-xs font-semibold">
-        <span className="text-sky-400">On Going Tasks</span>
-        <span className="rounded-md bg-sky-500 px-2 py-0.5 text-white">7</span>
-      </div>
-
-      <div className="flex items-center gap-2 text-xs font-semibold">
-        <span className="text-slate-300">Completed Tasks</span>
-        <span className="rounded-md bg-slate-200 px-2 py-0.5 text-slate-400">
-          7
-        </span>
-      </div>
-    </div>
-  );
-};
-
 const TaskList = () => {
   return (
-    <ul className="flex w-full flex-col gap-4">
-      <TaskItem />
-      <TaskItem />
-    </ul>
+    <div className="flex flex-col pl-12 max-sm:pl-0">
+      <div className="flex items-center gap-8 py-8">
+        <div className="flex items-center gap-2 text-xs font-semibold">
+          <span className="text-sky-400">On Going Tasks</span>
+          <span className="rounded-md bg-sky-500 px-2 py-0.5 text-white">
+            7
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 text-xs font-semibold">
+          <span className="text-slate-300">Completed Tasks</span>
+          <span className="rounded-md bg-slate-200 px-2 py-0.5 text-slate-400">
+            7
+          </span>
+        </div>
+      </div>
+      <ul className="flex w-full flex-col gap-4">
+        {[1, 2].map((key) => (
+          <TaskItem key={key} />
+        ))}
+      </ul>
+    </div>
   );
 };
 
@@ -86,4 +77,4 @@ const TaskItem = () => {
   );
 };
 
-export default TasksPanel;
+export default TaskList;

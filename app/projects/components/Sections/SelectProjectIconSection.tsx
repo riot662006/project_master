@@ -12,8 +12,7 @@ const SelectProjectIconSection = ({
   return (
     <div className="flex w-full flex-col gap-2">
       <span className="text-xs">
-        Please select the icon you&apos;d like to use from the collection
-        below:
+        Please select the icon you&apos;d like to use from the collection below:
       </span>
       <ul className="flex h-60 w-full flex-wrap gap-4 overflow-auto bg-slate-100 p-4">
         {allProjectIcons.map((iconData: IconData) => (
@@ -31,7 +30,7 @@ const SelectProjectIconSection = ({
         ))}
       </ul>
     </div>
-);
+  );
 };
 
 export default SelectProjectIconSection;

@@ -9,10 +9,18 @@ import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
 
-const AddProjectForm = ({isSelectingIcon, setIsSelectingIcon } : {isSelectingIcon: boolean, setIsSelectingIcon: React.Dispatch<boolean>}) => {
+const AddProjectForm = ({
+  isSelectingIcon,
+  setIsSelectingIcon,
+}: {
+  isSelectingIcon: boolean;
+  setIsSelectingIcon: React.Dispatch<boolean>;
+}) => {
   const dispatch = useAppDispatch();
   const allProjects = useAppSelector((state) => state.projects.projectsList);
-  const isDisabled = useAppSelector((state) => state.addProjectModal.isDisabled);
+  const isDisabled = useAppSelector(
+    (state) => state.addProjectModal.isDisabled,
+  );
 
   const {
     register,
@@ -51,7 +59,7 @@ const AddProjectForm = ({isSelectingIcon, setIsSelectingIcon } : {isSelectingIco
     }
 
     const newProject = createProject(data.name, selectedIconName);
-    
+
     try {
       await dispatch(addProject(newProject)).unwrap();
       reset();

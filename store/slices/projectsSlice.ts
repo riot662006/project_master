@@ -20,25 +20,29 @@ export const fetchProjects = createAsyncThunk(
 export const addProject = createAsyncThunk(
   "projects/addProject",
   async (project: Project, thunkAPI) => {
-    await new Promise<void>((resolve, reject) => setTimeout(() => {
-      if (coinFlip()) resolve(); 
-      else reject();
-    }, 1000));
+    await new Promise<void>((resolve, reject) =>
+      setTimeout(() => {
+        if (coinFlip()) resolve();
+        else reject();
+      }, 1000),
+    );
 
     return project;
-  }
+  },
 );
 
 export const deleteProject = createAsyncThunk(
   "projects/deleteProject",
   async (projectId: string, thunkAPI) => {
-    await new Promise<void>((resolve, reject) => setTimeout(() => {
-      if (coinFlip()) resolve(); 
-      else reject();
-    }, 1000));
+    await new Promise<void>((resolve, reject) =>
+      setTimeout(() => {
+        if (coinFlip()) resolve();
+        else reject();
+      }, 1000),
+    );
     return projectId;
-  }
-)
+  },
+);
 
 const projectsSlice = createSlice({
   name: "projects",
@@ -74,10 +78,9 @@ const projectsSlice = createSlice({
 
       .addCase(addProject.fulfilled, (state, action) => {
         state.projectsList.push(action.payload);
-      })
+      });
   },
 });
 
-export const { updateProject } =
-  projectsSlice.actions;
+export const { updateProject } = projectsSlice.actions;
 export default projectsSlice.reducer;

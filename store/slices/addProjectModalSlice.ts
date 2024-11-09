@@ -55,8 +55,8 @@ const addProjectModalSlice = createSlice({
 
           state.isDisabled = false;
         }
-      })
-  }
+      });
+  },
 });
 
 export const { openAddProjectModal, openEditProjectModal, closeModal } =

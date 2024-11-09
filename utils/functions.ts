@@ -50,4 +50,4 @@ export const calculateProgressPercentage = (
 
 export const coinFlip = () => {
   return Math.floor(Math.random() * 2) == 1;
-}
+};

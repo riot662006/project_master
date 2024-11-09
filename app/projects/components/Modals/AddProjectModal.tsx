@@ -29,15 +29,14 @@ const AddProjectModal = () => {
               {!isSelectingIcon ? "Add Project" : "All Icons"}
             </span>
           </div>
-          { !isSelectingIcon ? 
+          {!isSelectingIcon ? (
             <button
-            className="cursor-pointer text-slate-400 disabled:cursor-default disabled:text-slate-200"
-            onClick={() => dispatch(closeModal())}
-          >
-            <Close />
-          </button> : null
-          }
-          
+              className="cursor-pointer text-slate-400 disabled:cursor-default disabled:text-slate-200"
+              onClick={() => dispatch(closeModal())}
+            >
+              <Close />
+            </button>
+          ) : null}
         </div>
         {/* Form */}
         <AddProjectForm

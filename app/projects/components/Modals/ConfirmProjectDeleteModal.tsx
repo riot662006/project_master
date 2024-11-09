@@ -6,9 +6,11 @@ import { deleteProject } from "@/store/slices/projectsSlice";
 import { CircularProgress } from "@mui/material";
 
 const ConfirmDeleteProjectModal = () => {
-  const { isOpen , projectId, isDisabled}= useAppSelector((state) => state.confirmDeleteModal);
+  const { isOpen, projectId, isDisabled } = useAppSelector(
+    (state) => state.confirmDeleteModal,
+  );
   const dispatch = useAppDispatch();
-  
+
   return (
     <div
       className={`${isOpen ? "" : "hidden"} fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-slate-800/50`}
