@@ -1,8 +1,13 @@
 import ProjectCardOptions from "@/app/projects/components/DropDowns/ProjectCardOptions";
+import ProgressBar from "@/components/ProgressBar";
 import ProjectIcon from "@/components/ProjectIcon";
-import { Project, Task } from "@/utils/types";
+import { Project } from "@/utils/types";
 import { LibraryAdd } from "@mui/icons-material";
-import Circle from "@mui/icons-material/Circle";
+import TaskList from "../Lists/TaskList";
+import {
+  calculateProgressPercentage,
+  timeSinceCreatedDisplay,
+} from "@/utils/functions";
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const { title, icon, tasks, createdAt } = project;
@@ -43,19 +48,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
     return (
       <div className="flex h-32 flex-col">
         {tasks.length > 0 ? (
-          <>
-            <ul className="ml-2 flex h-28 flex-col gap-4 text-sm text-slate-400">
-              {tasks.slice(0, 3).map((task) => (
-                <ProjectCardBodyItem key={task.id} task={task} />
-              ))}
-            </ul>
-
-            <span className="flex h-4 items-center text-sm text-sky-400">
-              {tasks.length > 3
-                ? `+${tasks.length - 3} task${tasks.length - 3 > 1 ? "s" : ""}`
-                : null}
-            </span>
-          </>
+          <TaskList tasks={tasks} />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-4 text-slate-300">
             <button onClick={() => {}}>
@@ -74,22 +67,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const ProjectCardFooter = () => {
     return (
       <div className="flex flex-col gap-4">
-        <ProjectProgressBar />
+        <ProgressBar percentage={taskProgress} />
         <div className="flex items-center justify-between text-xs">
           <span className="text-slate-400">On Progress</span>
           <span className="font-semibold">{taskProgress}%</span>
         </div>
-      </div>
-    );
-  };
-
-  const ProjectProgressBar = () => {
-    return (
-      <div className="h-2 w-full rounded-lg bg-slate-100">
-        <div
-          className="h-2 rounded-lg bg-sky-500"
-          style={{ width: `${taskProgress}%` }}
-        />
       </div>
     );
   };
@@ -101,44 +83,6 @@ const ProjectCard = ({ project }: { project: Project }) => {
       <ProjectCardFooter />
     </div>
   );
-};
-
-const ProjectCardBodyItem = ({ task }: { task: Task }) => {
-  return (
-    <li className="flex w-full items-center gap-2 text-sm">
-      <Circle sx={{ fontSize: "8px" }} />
-      <span className="w-full overflow-hidden truncate text-ellipsis whitespace-nowrap">
-        {task.title}
-      </span>
-    </li>
-  );
-};
-
-const timeSinceCreatedDisplay = (createdAt: string): string => {
-  const creation = new Date(createdAt);
-  const now = new Date();
-  const differenceInTime = now.getTime() - creation.getTime();
-
-  const minutesSinceCreated = differenceInTime / (1000 * 60);
-  if (minutesSinceCreated < 60) {
-    return `${Math.floor(minutesSinceCreated)} mins`;
-  }
-
-  const hoursSinceCreated = minutesSinceCreated / 60;
-
-  if (hoursSinceCreated < 24) {
-    return `${Math.floor(hoursSinceCreated)} hours`;
-  }
-
-  const daysSinceCreated = hoursSinceCreated / 24;
-  return `${Math.floor(daysSinceCreated)} days`;
-};
-
-const calculateProgressPercentage = (
-  totalTasks: number,
-  completedTasks: number,
-): number => {
-  return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 };
 
 export default ProjectCard;

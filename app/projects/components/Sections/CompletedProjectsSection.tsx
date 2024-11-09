@@ -2,7 +2,6 @@
 
 import ProjectProgressCircle from "@/components/CircularProgressBar";
 import Splitscreen from "@mui/icons-material/Splitscreen";
-import colors from "tailwindcss/colors";
 
 const CompletedProjectsSection = () => {
   return (

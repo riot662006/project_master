@@ -1,13 +1,13 @@
 "use client";
 
 import { Add, KeyboardArrowDown, Menu, Search } from "@mui/icons-material";
-import AddProjectModal from "./Modals/AddProjectModal";
 
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import { openAddProjectModal } from "@/store/slices/addProjectModalSlice";
+import AddProjectModal from "../Modals/AddProjectModal";
 
-const AllProjectHeader = () => {
+const ProjectHeader = () => {
   const dispatch = useAppDispatch();
 
   const SearchBar = () => {
@@ -68,4 +68,4 @@ const AllProjectHeader = () => {
   );
 };
 
-export default AllProjectHeader;
+export default ProjectHeader;

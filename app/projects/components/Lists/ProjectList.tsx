@@ -1,15 +1,22 @@
 "use client";
 
-import { useAppContext } from "@/utils/AppContext";
-import ProjectCard from "./ProjectCard";
-import ConfirmDeleteProjectModal from "./Modals/ConfirmProjectDeleteModal";
+import ProjectCard from "../Cards/ProjectCard";
+import ConfirmDeleteProjectModal from "../Modals/ConfirmProjectDeleteModal";
 import { ListAlt } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { useEffect } from "react";
+import { fetchProjects } from "@/store/slices/projectsSlice";
 
 const ProjectList = () => {
-  const { allProjects, projectActions } = useAppContext();
+  const { projectsList, isLoading } = useAppSelector((state) => state.projects);
+  const dispatch = useAppDispatch();
 
-  if (projectActions.isLoading) {
+  useEffect(() => {
+    dispatch(fetchProjects());
+  }, [dispatch]);
+
+  if (isLoading) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
@@ -17,7 +24,7 @@ const ProjectList = () => {
     );
   }
 
-  if (allProjects.length == 0) {
+  if (projectsList.length == 0) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center gap-4 text-slate-300">
         <div>
@@ -38,7 +45,7 @@ const ProjectList = () => {
 
   return (
     <div className="flex max-h-full w-full flex-wrap gap-4 overflow-y-auto max-sm:grid max-sm:grid-cols-1">
-      {allProjects.map((project) => (
+      {projectsList.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
       <ConfirmDeleteProjectModal />

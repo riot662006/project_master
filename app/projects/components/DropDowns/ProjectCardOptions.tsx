@@ -1,20 +1,20 @@
-import { useAppContext } from "@/utils/AppContext";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
 import { Project } from "@/utils/types";
 import { Delete, EditOutlined, MoreVert } from "@mui/icons-material";
 import { useRef, useState } from "react";
+import { useAppDispatch } from "@/hooks/storeHooks";
+import { setConfirmDeleteModalOpen, setProjectToDelete } from "@/store/slices/confirmDeleteProjectModalSlice";
 
 const ProjectCardOptions = ({ project }: { project: Project }) => {
-  const { confirmProjectDeleteModalObj } = useAppContext();
-  const { setIsOpen, setProjectId } = confirmProjectDeleteModalObj;
-
-  const confirmDelete = () => {
-    setIsOpen(true);
-    setProjectId(project.id);
-  };
-
+  const dispatch = useAppDispatch();
+  
   const menuRef = useRef<HTMLDivElement>(null);
   const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
+
+  const confirmDelete = () => {
+    dispatch(setProjectToDelete( project.id ));
+    dispatch(setConfirmDeleteModalOpen(true));
+  }
 
   const toggleMenu = () => setIsMenuActive(!isMenuActive);
   const deleteOptionClicked = () => {

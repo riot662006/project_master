@@ -1,35 +1,14 @@
 "use client";
 
-import { useAppContext } from "@/utils/AppContext";
+import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { setConfirmDeleteModalOpen } from "@/store/slices/confirmDeleteProjectModalSlice";
+import { deleteProject } from "@/store/slices/projectsSlice";
 import { CircularProgress } from "@mui/material";
-import { useState } from "react";
-import toast from "react-hot-toast";
 
 const ConfirmDeleteProjectModal = () => {
-  const { confirmProjectDeleteModalObj, projectActions } = useAppContext();
-  const { isOpen, setIsOpen, projectId } = confirmProjectDeleteModalObj;
-  const [isDeleting, setIsDeleting] = useState<boolean>(false);
-
-  const closeModal = () => setIsOpen(false);
-  const deleteProject = () => {
-    setIsDeleting(true);
-
-    const tryDelete = async () => {
-      await setTimeout(() => {
-        if (Math.floor(Math.random() * 2) == 0)
-          toast.error("Something went wrong");
-        else {
-          projectActions.delete(projectId);
-          toast.success("Project deleted successfully");
-        }
-        setIsDeleting(false);
-        closeModal();
-      }, 1000);
-    };
-
-    tryDelete();
-  };
-
+  const { isOpen , projectId, isDisabled}= useAppSelector((state) => state.confirmDeleteModal);
+  const dispatch = useAppDispatch();
+  
   return (
     <div
       className={`${isOpen ? "" : "hidden"} fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-slate-800/50`}
@@ -43,16 +22,16 @@ const ConfirmDeleteProjectModal = () => {
         <div className="flex items-center justify-end gap-4">
           <button
             className="flex items-center justify-center rounded-lg border border-slate-200 p-4 py-2 text-sm hover:bg-slate-100"
-            onClick={closeModal}
+            onClick={() => dispatch(setConfirmDeleteModalOpen(false))}
           >
             Cancel
           </button>
           <button
             className="flex items-center justify-center gap-2 rounded-lg bg-red-500 p-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:bg-red-600"
-            onClick={deleteProject}
-            disabled={isDeleting}
+            onClick={() => dispatch(deleteProject(projectId))}
+            disabled={isDisabled}
           >
-            {isDeleting ? (
+            {isDisabled ? (
               <>
                 <span>Deleting...</span>
                 <CircularProgress size="1rem" sx={{ color: "white" }} />
