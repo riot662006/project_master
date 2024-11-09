@@ -1,6 +1,8 @@
 import CompletedProjectsSection from "./CompletedProjectsSection";
 import ProjectHeader from "../Header/ProjectHeader";
 import ProjectList from "../Lists/ProjectList";
+import AddProjectModal from "../Modals/AddProjectModal";
+import ConfirmDeleteProjectModal from "../Modals/ConfirmProjectDeleteModal";
 
 const ProjectsSection = () => {
   return (
@@ -12,6 +14,8 @@ const ProjectsSection = () => {
       <div className="flex h-full w-[22%] flex-col max-lg:hidden">
         <CompletedProjectsSection />
       </div>
+      <AddProjectModal />
+      <ConfirmDeleteProjectModal />
     </div>
   );
 };

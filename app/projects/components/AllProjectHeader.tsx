@@ -1,7 +1,6 @@
 "use client";
 
 import { Add, KeyboardArrowDown, Menu, Search } from "@mui/icons-material";
-import AddProjectModal from "./Modals/AddProjectModal";
 
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
@@ -47,7 +46,6 @@ const AllProjectHeader = () => {
           <button onClick={() => dispatch(toggleSidebar(true))}>
             <Menu className="hidden cursor-pointer text-slate-400 max-sm:block" />
           </button>
-          <AddProjectModal />
         </div>
       </div>
       <div className="flex items-center justify-between py-8">

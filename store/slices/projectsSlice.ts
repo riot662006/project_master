@@ -1,12 +1,27 @@
 import { exampleProjects } from "@/utils/examples";
 import { coinFlip } from "@/utils/functions";
 import { Project } from "@/utils/types";
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  PayloadAction,
+  createAsyncThunk,
+  isPending,
+  isRejected,
+} from "@reduxjs/toolkit";
 
 interface ProjectsState {
   projectsList: Project[];
   isLoading: boolean;
 }
+
+const handleFulfilled = <T>(
+  state: ProjectsState,
+  action: PayloadAction<T>,
+  updateFn: (state: ProjectsState, action: PayloadAction<T>) => void,
+) => {
+  updateFn(state, action);
+  state.isLoading = false;
+};
 
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
@@ -59,25 +74,37 @@ const projectsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProjects.pending, (state) => {
+      // Fetch Projects
+      .addCase(fetchProjects.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          state.projectsList = action.payload;
+        }),
+      )
+
+      // Delete Project
+      .addCase(deleteProject.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          state.projectsList = state.projectsList.filter(
+            (project) => project.id !== action.payload,
+          );
+        }),
+      )
+
+      // Add Project
+      .addCase(addProject.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          state.projectsList.push(action.payload);
+        }),
+      )
+
+      // Handle all pending actions
+      .addMatcher(isPending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchProjects.fulfilled, (state, action) => {
-        state.projectsList = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchProjects.rejected, (state) => {
-        state.isLoading = false;
-      })
 
-      .addCase(deleteProject.fulfilled, (state, action) => {
-        state.projectsList = state.projectsList.filter(
-          (project) => project.id !== action.payload,
-        );
-      })
-
-      .addCase(addProject.fulfilled, (state, action) => {
-        state.projectsList.push(action.payload);
+      // Handle all rejected actions
+      .addMatcher(isRejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

@@ -1,7 +1,6 @@
 "use client";
 
 import ProjectCard from "../Cards/ProjectCard";
-import ConfirmDeleteProjectModal from "../Modals/ConfirmProjectDeleteModal";
 import { ListAlt } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
@@ -48,7 +47,6 @@ const ProjectList = () => {
       {projectsList.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
-      <ConfirmDeleteProjectModal />
     </div>
   );
 };

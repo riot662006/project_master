@@ -1,3 +1,5 @@
+"use client";
+
 import { Apps, BorderAll, Close } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
