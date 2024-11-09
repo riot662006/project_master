@@ -7,7 +7,7 @@ import AddProjectForm from "../Forms/AddProjectForm";
 import { useState } from "react";
 
 const AddProjectModal = () => {
-  const { isOpen } = useAppSelector((state) => state.addProjectModal);
+  const { isOpen, mode} = useAppSelector((state) => state.addProjectModal);
   const dispatch = useAppDispatch();
 
   const [isSelectingIcon, setIsSelectingIcon] = useState(false);
@@ -28,7 +28,7 @@ const AddProjectModal = () => {
               )}
             </div>
             <span className="text-md font-bold">
-              {!isSelectingIcon ? "Add Project" : "All Icons"}
+              {!isSelectingIcon ? `${mode == "edit" ? "Edit" : "Add"} Project` : "All Icons"}
             </span>
           </div>
           {!isSelectingIcon ? (

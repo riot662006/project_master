@@ -21,6 +21,25 @@ export const createProject = (title: string, icon: IconName) => {
   return project;
 };
 
+export const updatedProject = (
+  old_project: Project,
+  title: string,
+  icon: IconName,
+) => {
+  const updatedAt = new Date().toISOString();
+
+  const project: Project = {
+    ...old_project,
+
+    title,
+    icon,
+
+    updatedAt,
+  };
+
+  return project;
+};
+
 export const timeSinceCreatedDisplay = (createdAt: string): string => {
   const creation = new Date(createdAt);
   const now = new Date();

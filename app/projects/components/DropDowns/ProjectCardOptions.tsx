@@ -7,6 +7,7 @@ import {
   setConfirmDeleteModalOpen,
   setProjectToDelete,
 } from "@/store/slices/confirmDeleteProjectModalSlice";
+import { openEditProjectModal } from "@/store/slices/addProjectModalSlice";
 
 const ProjectCardOptions = ({ project }: { project: Project }) => {
   const dispatch = useAppDispatch();
@@ -20,6 +21,12 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
   };
 
   const toggleMenu = () => setIsMenuActive(!isMenuActive);
+
+  const editOptionClicked = () => {
+    setIsMenuActive(false);
+    dispatch(openEditProjectModal(project.id));
+  }
+
   const deleteOptionClicked = () => {
     setIsMenuActive(false);
     confirmDelete();
@@ -31,7 +38,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
       name: "Edit",
       icon: <EditOutlined />,
       hoverColor: "text-sky-500",
-      onClick: () => {},
+      onClick: editOptionClicked,
     },
     {
       id: 2,
@@ -60,7 +67,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
           {options.map((option) => (
             <li
               key={option.id}
-              className={`flex cursor-pointer items-center gap-2 p-4 text-slate-400 hover:${option.hoverColor} hover:bg-slate-100`}
+              className={`flex cursor-pointer items-center gap-2 p-4 text-slate-400  hover:bg-slate-100 hover:${option.hoverColor}`}
               onClick={option.onClick}
             >
               {option.icon}

@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addProject } from "./projectsSlice";
+import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
 interface AddProjectModalState {
@@ -36,20 +35,22 @@ const addProjectModalSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addProject.pending, (state) => {
+      .addMatcher(isPending, (state) => {
         if (state.isOpen) {
           state.isDisabled = true;
         }
       })
-      .addCase(addProject.fulfilled, (state) => {
+      .addMatcher(isFulfilled, (state) => {
         if (state.isOpen) {
           toast.success("Project added successfully");
 
           state.isOpen = false;
+          state.mode = "add";
+          state.projectId = null;
           state.isDisabled = false;
         }
       })
-      .addCase(addProject.rejected, (state) => {
+      .addMatcher(isRejected, (state) => {
         if (state.isOpen) {
           toast.error("Something went wrong");
 

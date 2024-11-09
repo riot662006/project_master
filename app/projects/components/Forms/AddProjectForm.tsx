@@ -1,23 +1,41 @@
 import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
 import SelectProjectIconSection from "../Sections/SelectProjectIconSection";
-import { createProject } from "@/utils/functions";
-import { addProject } from "@/store/slices/projectsSlice";
+import { createProject, updatedProject } from "@/utils/functions";
+import { addProject, updateProject } from "@/store/slices/projectsSlice";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddProjectFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
+import { useEffect } from "react";
 
 const AddProjectForm = ({
   isSelectingIcon,
   setIsSelectingIcon,
+  projectId,
 }: {
   isSelectingIcon: boolean;
   setIsSelectingIcon: React.Dispatch<boolean>;
+  projectId?: string;
 }) => {
   const dispatch = useAppDispatch();
+
   const allProjects = useAppSelector((state) => state.projects.projectsList);
+  const projectToEdit = useAppSelector((state) =>
+    state.addProjectModal.projectId
+      ? state.projects.projectsList.find(
+          (project) => project.id == state.addProjectModal.projectId,
+        )
+      : null,
+  );
+  const mode = useAppSelector((state) => state.addProjectModal.mode);
+
+  const defaultValues = {
+    icon: projectToEdit?.icon || "default",
+    name: projectToEdit?.title || "",
+  };
+
   const isDisabled = useAppSelector(
     (state) => state.addProjectModal.isDisabled,
   );
@@ -32,24 +50,27 @@ const AddProjectForm = ({
     control,
     formState: { errors },
   } = useForm<IAddProjectFormInput>({
-    defaultValues: {
-      icon_id: 1,
-    },
+    defaultValues,
   });
-  const icon_id = useWatch({ control, name: "icon_id" });
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [projectToEdit, reset]);
+
+  const icon = useWatch({ control, name: "icon" });
 
   const closeModalHandler = () => dispatch(closeModal());
 
   const onSubmit: SubmitHandler<IAddProjectFormInput> = async (data) => {
     const selectedIconName: IconName =
-      allProjectIcons.find((icon) => icon.id === data.icon_id)?.name ||
+      allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
       "default";
 
     const existingProject = allProjects.find(
       (project) => project.title.toLowerCase() === data.name.toLowerCase(),
     );
 
-    if (existingProject) {
+    if (existingProject && mode == "add") {
       setError("name", {
         type: "manual",
         message: "Project already exists",
@@ -58,10 +79,15 @@ const AddProjectForm = ({
       return;
     }
 
-    const newProject = createProject(data.name, selectedIconName);
+    const projectInfo = (projectToEdit) ? updatedProject(projectToEdit, data.name, selectedIconName) : createProject(data.name, selectedIconName);
 
     try {
-      await dispatch(addProject(newProject)).unwrap();
+      if (mode == "add") {
+        await dispatch(addProject(projectInfo)).unwrap();
+      } else {
+        await dispatch(updateProject(projectInfo)).unwrap();
+      }
+
       reset();
     } catch {
       setError("root", { type: "manual", message: "Something went wrong" });
@@ -70,9 +96,9 @@ const AddProjectForm = ({
 
   return isSelectingIcon ? (
     <SelectProjectIconSection
-      curIconId={icon_id}
-      onIconSelect={(id) => {
-        setValue("icon_id", id);
+      curIcon={icon}
+      onIconSelect={(icon) => {
+        setValue("icon", icon);
         setIsSelectingIcon(false);
       }}
     />
@@ -106,7 +132,7 @@ const AddProjectForm = ({
               disabled={isDisabled}
               className="rounded-md bg-sky-500 p-2 transition-colors hover:bg-sky-600 disabled:bg-sky-400"
             >
-              <ProjectIcon id={icon_id} innerClassName="text-white" />
+              <ProjectIcon name={icon} innerClassName="text-white" />
             </button>
           </div>
           <p className="text-sm font-medium text-red-500">
@@ -133,7 +159,7 @@ const AddProjectForm = ({
               <CircularProgress size="1rem" sx={{ color: "white" }} />
             </>
           ) : (
-            <span>Add Project</span>
+            <span>{mode === "edit" ? "Edit" : "Add"} Project</span>
           )}
         </button>
       </div>

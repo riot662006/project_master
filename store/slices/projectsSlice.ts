@@ -46,6 +46,19 @@ export const addProject = createAsyncThunk(
   },
 );
 
+export const updateProject = createAsyncThunk(
+  "projects/updateProject",
+  async (project: Project, thunkAPI) => {
+    await new Promise<void>((resolve, reject) =>
+      setTimeout(() => {
+        if (coinFlip()) resolve();
+        else reject();
+      }, 1000),
+    );
+    return project;
+  },
+);
+
 export const deleteProject = createAsyncThunk(
   "projects/deleteProject",
   async (projectId: string, thunkAPI) => {
@@ -62,16 +75,7 @@ export const deleteProject = createAsyncThunk(
 const projectsSlice = createSlice({
   name: "projects",
   initialState: { projectsList: [], isLoading: true } as ProjectsState,
-  reducers: {
-    updateProject: (state, action: PayloadAction<Project>) => {
-      const index = state.projectsList.findIndex(
-        (project) => project.id === action.payload.id,
-      );
-      if (index !== -1) {
-        state.projectsList[index] = action.payload;
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // Fetch Projects
@@ -97,6 +101,18 @@ const projectsSlice = createSlice({
         }),
       )
 
+      // Update Projects
+      .addCase(updateProject.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          const index = state.projectsList.findIndex(
+            (project) => project.id === action.payload.id,
+          );
+          if (index !== -1) {
+            state.projectsList[index] = action.payload;
+          }
+        }),
+      )
+
       // Handle all pending actions
       .addMatcher(isPending, (state) => {
         state.isLoading = true;
@@ -109,5 +125,4 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { updateProject } = projectsSlice.actions;
 export default projectsSlice.reducer;

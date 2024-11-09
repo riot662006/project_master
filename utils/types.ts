@@ -44,7 +44,7 @@ export type AddProjectModalMode = "default" | "select-icon";
 
 export interface IAddProjectFormInput {
   name: string;
-  icon_id: number;
+  icon: IconName;
 }
 
 export type AddProjectModalObjType = {
