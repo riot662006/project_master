@@ -48,7 +48,9 @@ const addProjectModalSlice = createSlice({
       })
       .addMatcher(isFulfilled, (state) => {
         if (state.isOpen) {
-          toast.success(`Project ${state.mode == "add" ? "added" : "edited"} successfully`);
+          toast.success(
+            `Project ${state.mode == "add" ? "added" : "edited"} successfully`,
+          );
 
           state.isOpen = false;
           state.mode = "add";

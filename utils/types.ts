@@ -62,15 +62,3 @@ export type ConfirmProjectDeleteModalObjType = {
   projectId: string;
   setProjectId: Dispatch<SetStateAction<string>>;
 };
-
-export interface IAppContext {
-  sidebarObj: SidebarObjType;
-  addProjectModalObj: AddProjectModalObjType;
-  confirmProjectDeleteModalObj: ConfirmProjectDeleteModalObjType;
-  allProjects: Project[];
-  projectActions: {
-    append: (project: Project) => void;
-    delete: (projectId: string) => void;
-    isLoading: boolean;
-  };
-}
