@@ -1,4 +1,10 @@
-import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  isFulfilled,
+  isPending,
+  isRejected,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
 interface AddProjectModalState {

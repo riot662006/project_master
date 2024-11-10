@@ -25,7 +25,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
   const editOptionClicked = () => {
     setIsMenuActive(false);
     dispatch(openEditProjectModal(project.id));
-  }
+  };
 
   const deleteOptionClicked = () => {
     setIsMenuActive(false);
@@ -67,7 +67,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
           {options.map((option) => (
             <li
               key={option.id}
-              className={`flex cursor-pointer items-center gap-2 p-4 text-slate-400  hover:bg-slate-100 hover:${option.hoverColor}`}
+              className={`flex cursor-pointer items-center gap-2 p-4 text-slate-400 hover:bg-slate-100 hover:${option.hoverColor}`}
               onClick={option.onClick}
             >
               {option.icon}
