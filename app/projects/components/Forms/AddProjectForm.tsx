@@ -13,7 +13,6 @@ import { useEffect } from "react";
 const AddProjectForm = ({
   isSelectingIcon,
   setIsSelectingIcon,
-  projectId,
 }: {
   isSelectingIcon: boolean;
   setIsSelectingIcon: React.Dispatch<boolean>;
@@ -31,11 +30,6 @@ const AddProjectForm = ({
   );
   const mode = useAppSelector((state) => state.addProjectModal.mode);
 
-  const defaultValues = {
-    icon: projectToEdit?.icon || "default",
-    name: projectToEdit?.title || "",
-  };
-
   const isDisabled = useAppSelector(
     (state) => state.addProjectModal.isDisabled,
   );
@@ -50,11 +44,17 @@ const AddProjectForm = ({
     control,
     formState: { errors },
   } = useForm<IAddProjectFormInput>({
-    defaultValues,
+    defaultValues: {
+      icon: projectToEdit?.icon || "default",
+      name: projectToEdit?.title || "",
+    },
   });
 
   useEffect(() => {
-    reset(defaultValues);
+    reset({
+      icon: projectToEdit?.icon || "default",
+      name: projectToEdit?.title || "",
+    });
   }, [projectToEdit, reset]);
 
   const icon = useWatch({ control, name: "icon" });
@@ -79,7 +79,9 @@ const AddProjectForm = ({
       return;
     }
 
-    const projectInfo = (projectToEdit) ? updatedProject(projectToEdit, data.name, selectedIconName) : createProject(data.name, selectedIconName);
+    const projectInfo = projectToEdit
+      ? updatedProject(projectToEdit, data.name, selectedIconName)
+      : createProject(data.name, selectedIconName);
 
     try {
       if (mode == "add") {
