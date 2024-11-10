@@ -34,7 +34,7 @@ export const fetchProjects = createAsyncThunk(
 
 export const addProject = createAsyncThunk(
   "projects/addProject",
-  async (project: Project, thunkAPI) => {
+  async (project: Project) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
         if (coinFlip()) resolve();
@@ -48,7 +48,7 @@ export const addProject = createAsyncThunk(
 
 export const updateProject = createAsyncThunk(
   "projects/updateProject",
-  async (project: Project, thunkAPI) => {
+  async (project: Project) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
         if (coinFlip()) resolve();
@@ -61,7 +61,7 @@ export const updateProject = createAsyncThunk(
 
 export const deleteProject = createAsyncThunk(
   "projects/deleteProject",
-  async (projectId: string, thunkAPI) => {
+  async (projectId: string) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
         if (coinFlip()) resolve();
