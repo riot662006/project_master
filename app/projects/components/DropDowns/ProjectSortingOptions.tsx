@@ -73,13 +73,13 @@ const ProjectSortingOptions = () => {
               <h4 className="px-4 font-bold">{optionGroup.name}</h4>
               <ul className="flex flex-col">
                 <li
-                  className="cursor-pointer rounded px-8 py-2 hover:bg-gray-100"
+                  className={`cursor-pointer rounded px-8 py-2 hover:bg-gray-100 ${curSortState.mode == optionGroup.sortMode && curSortState.reverse == false ? "font-semibold text-sky-500" : ""}`}
                   onClick={() => sortBy(optionGroup.sortMode, false)}
                 >
                   {optionGroup.option}
                 </li>
                 <li
-                  className="cursor-pointer rounded px-8 py-2 hover:bg-gray-100"
+                  className={`cursor-pointer rounded px-8 py-2 hover:bg-gray-100 ${curSortState.mode == optionGroup.sortMode && curSortState.reverse == true ? "font-semibold text-sky-500" : ""}`}
                   onClick={() => sortBy(optionGroup.sortMode, true)}
                 >
                   {optionGroup.reverseOption}
