@@ -2,7 +2,7 @@ import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
 import SelectProjectIconSection from "../Sections/SelectProjectIconSection";
 import { createProject, updatedProject } from "@/utils/functions";
-import { addProject, updateProject } from "@/store/slices/projectsSlice";
+import { addProject, selectAllProjectNames, selectProjectToEdit, updateProject } from "@/store/slices/projectsSlice";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddProjectFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
@@ -20,16 +20,8 @@ const AddProjectForm = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const allProjectNames = useAppSelector((state) =>
-    state.projects.projectsList.map((project) => project.title),
-  );
-  const projectToEdit = useAppSelector((state) =>
-    state.addProjectModal.projectId
-      ? state.projects.projectsList.find(
-          (project) => project.id == state.addProjectModal.projectId,
-        )
-      : null,
-  );
+  const allProjectNames = useAppSelector(selectAllProjectNames);
+  const projectToEdit = useAppSelector(selectProjectToEdit);
   const mode = useAppSelector((state) => state.addProjectModal.mode);
 
   const isDisabled = useAppSelector(

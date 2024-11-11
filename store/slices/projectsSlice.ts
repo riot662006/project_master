@@ -1,9 +1,9 @@
 import { exampleProjects } from "@/utils/examples";
-import {
-  coinFlip,
-  getSortFunction,
-} from "@/utils/functions";
-import { Project, ProjectSortMode} from "@/utils/types";
+import { coinFlip, getSortFunction } from "@/utils/functions";
+import { Project, ProjectSortMode } from "@/utils/types";
+import { createSelector } from "reselect";
+import { RootState } from "..";
+
 import {
   createSlice,
   PayloadAction,
@@ -79,6 +79,18 @@ export const deleteProject = createAsyncThunk(
     );
     return projectId;
   },
+);
+
+export const selectAllProjectNames = createSelector(
+  (state: RootState) => state.projects.projectsList,
+  (projectsList) => projectsList.map((project) => project.title),
+);
+
+export const selectProjectToEdit = createSelector(
+  (state: RootState) => state.projects.projectsList,
+  (state: RootState) => state.addProjectModal.projectId,
+  (projectsList, projectId) =>
+    projectId ? projectsList.find((project) => project.id === projectId) : null,
 );
 
 const projectsSlice = createSlice({
