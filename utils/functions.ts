@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { Project } from "./types";
+import { Project, ProjectSortMode, statusOrder } from "./types";
 import { IconName } from "./projectIcons";
 
 export const createProject = (title: string, icon: IconName) => {
@@ -70,3 +70,39 @@ export const calculateProgressPercentage = (
 export const coinFlip = () => {
   return Math.floor(Math.random() * 2) == 1;
 };
+
+export const getSortFunction = (mode: ProjectSortMode) => {
+  switch (mode) {
+    case "date":
+      return (a: Project, b: Project) => {
+        const a_date = new Date(a.createdAt);
+        const b_date = new Date(b.createdAt);
+
+        return a_date.getTime() - b_date.getTime();
+      };
+
+    case "status":
+      return (a: Project, b: Project) => {
+        if (a.status != b.status) {
+          return statusOrder[a.status] - statusOrder[b.status];
+        }
+
+        // if the status' are the same, use percentage completion
+        const a_percent = calculateProgressPercentage(
+          a.tasks.length,
+          a.tasks.filter((task) => task.status === "completed").length,
+        );
+        const b_percent = calculateProgressPercentage(
+          b.tasks.length,
+          b.tasks.filter((task) => task.status === "completed").length,
+        );
+
+        return a_percent - b_percent;
+      };
+
+    case "name":
+    default:
+      return (a: Project, b: Project) =>
+        a.title.localeCompare(b.title);
+  }
+}

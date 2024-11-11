@@ -3,6 +3,12 @@ import { UseFormReturn } from "react-hook-form";
 import { IconName } from "./projectIcons";
 
 export type Status = "pending" | "in_progress" | "completed";
+export const statusOrder: { [key in Status]: number } = {
+  pending: 1,
+  in_progress: 2,
+  completed: 3
+};
+
 export type Proirity = "low" | "medium" | "high";
 
 export interface Task {
@@ -41,6 +47,7 @@ export type SidebarObjType = {
 };
 
 export type AddProjectModalMode = "default" | "select-icon";
+export type ProjectSortMode = "date" | "name" | "status";
 
 export interface IAddProjectFormInput {
   name: string;

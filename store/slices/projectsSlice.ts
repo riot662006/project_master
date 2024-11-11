@@ -1,6 +1,9 @@
 import { exampleProjects } from "@/utils/examples";
-import { coinFlip } from "@/utils/functions";
-import { Project } from "@/utils/types";
+import {
+  coinFlip,
+  getSortFunction,
+} from "@/utils/functions";
+import { Project, ProjectSortMode} from "@/utils/types";
 import {
   createSlice,
   PayloadAction,
@@ -9,9 +12,15 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 
+interface ProjectSortState {
+  mode: ProjectSortMode;
+  reverse: boolean;
+}
+
 interface ProjectsState {
   projectsList: Project[];
   isLoading: boolean;
+  sortState: ProjectSortState;
 }
 
 const handleFulfilled = <T>(
@@ -20,6 +29,7 @@ const handleFulfilled = <T>(
   updateFn: (state: ProjectsState, action: PayloadAction<T>) => void,
 ) => {
   updateFn(state, action);
+  projectsSlice.caseReducers.sortProjects(state, { payload: null, type: "" });
   state.isLoading = false;
 };
 
@@ -27,7 +37,6 @@ export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
   async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Got it!!!");
     return exampleProjects;
   },
 );
@@ -74,8 +83,30 @@ export const deleteProject = createAsyncThunk(
 
 const projectsSlice = createSlice({
   name: "projects",
-  initialState: { projectsList: [], isLoading: true } as ProjectsState,
-  reducers: {},
+  initialState: {
+    projectsList: [],
+    isLoading: true,
+    sortState: { mode: "date", reverse: true },
+  } as ProjectsState,
+  reducers: {
+    sortProjects: (state, action: PayloadAction<ProjectSortState | null>) => {
+      const sortState = action.payload ?? state.sortState;
+
+      const sortedProjects = [...state.projectsList].sort(
+        getSortFunction(sortState.mode),
+      );
+
+      if (sortState.reverse) {
+        sortedProjects.reverse();
+      }
+
+      state.projectsList = sortedProjects;
+
+      if (action.payload) {
+        state.sortState = sortState;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Fetch Projects
@@ -125,4 +156,5 @@ const projectsSlice = createSlice({
   },
 });
 
+export const { sortProjects } = projectsSlice.actions;
 export default projectsSlice.reducer;

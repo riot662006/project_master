@@ -3,7 +3,6 @@
 import {
   Add,
   BorderAll,
-  KeyboardArrowDown,
   Menu,
   Search,
 } from "@mui/icons-material";
@@ -12,6 +11,7 @@ import { useAppDispatch } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import { openAddProjectModal } from "@/store/slices/addProjectModalSlice";
 import AddProjectModal from "../Modals/AddProjectModal";
+import ProjectSortingOptions from "../DropDowns/ProjectSortingOptions";
 
 const ProjectHeader = () => {
   const dispatch = useAppDispatch();
@@ -65,14 +65,9 @@ const ProjectHeader = () => {
             <span className="text-xl font-bold">My Projects</span>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-[14px] font-semibold max-sm:flex-col max-sm:items-start">
-          <span className="flex items-center text-slate-200">Sort By</span>
-          <div className="flex cursor-pointer items-center gap-1">
-            <span className="flex items-center text-slate-800">
-              Recent Projects
-            </span>
-            <KeyboardArrowDown />
-          </div>
+        <div className="flex items-center justify-end gap-2 text-[14px] max-sm:flex-col max-sm:items-end">
+          <span className="flex items-center text-slate-300 font-semibold">Sort By</span>
+          <ProjectSortingOptions />
         </div>
       </div>
     </div>
