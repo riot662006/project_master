@@ -20,7 +20,9 @@ const AddProjectForm = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const allProjects = useAppSelector((state) => state.projects.projectsList);
+  const allProjectNames = useAppSelector((state) =>
+    state.projects.projectsList.map((project) => project.title),
+  );
   const projectToEdit = useAppSelector((state) =>
     state.addProjectModal.projectId
       ? state.projects.projectsList.find(
@@ -38,7 +40,6 @@ const AddProjectForm = ({
     register,
     handleSubmit,
     setError,
-    setFocus,
     setValue,
     reset,
     control,
@@ -66,22 +67,9 @@ const AddProjectForm = ({
       allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
       "default";
 
-    const existingProject = allProjects.find(
-      (project) => project.title.toLowerCase() === data.name.toLowerCase(),
-    );
-
-    if (existingProject && mode == "add") {
-      setError("name", {
-        type: "manual",
-        message: "Project already exists",
-      });
-      setFocus("name");
-      return;
-    }
-
     const projectInfo = projectToEdit
-      ? updatedProject(projectToEdit, data.name, selectedIconName)
-      : createProject(data.name, selectedIconName);
+      ? updatedProject(projectToEdit, data.name.trim(), selectedIconName)
+      : createProject(data.name.trim(), selectedIconName);
 
     try {
       if (mode == "add") {
@@ -120,6 +108,16 @@ const AddProjectForm = ({
                   maxLength: {
                     value: 30,
                     message: "Project name must be 30 characters or less",
+                  },
+                  validate: {
+                    notOnlySpaces: (value) =>
+                      value.trim() !== "" ||
+                      "Project name cannot be only spaces",
+                    uniqueName: (value) =>
+                      !allProjectNames
+                        .filter((name) => name !== projectToEdit?.title)
+                        .includes(value.trim()) ||
+                      "Project name already exists",
                   },
                 })}
                 placeholder="Enter Project Name..."
