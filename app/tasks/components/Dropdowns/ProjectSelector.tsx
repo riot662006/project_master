@@ -1,7 +1,10 @@
 import ProjectIcon from "@/components/ProjectIcon";
-import { useAppSelector } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { getTaskPageSelectedProject } from "@/store/slices/tasksPageSlice";
+import {
+  getTaskPageSelectedProject,
+  setSelectedProject,
+} from "@/store/slices/tasksPageSlice";
 import { getSortFunction } from "@/utils/functions";
 import { allProjectIcons } from "@/utils/projectIcons";
 import { DensitySmall, KeyboardArrowDown } from "@mui/icons-material";
@@ -9,8 +12,11 @@ import { useRef } from "react";
 
 const ProjectSelector = () => {
   const selectedProject = useAppSelector(getTaskPageSelectedProject);
+  const dispatch = useAppDispatch();
 
-  const projects = useAppSelector((state) => [...state.projects.projectsList].sort(getSortFunction("name")));
+  const projects = useAppSelector((state) =>
+    [...state.projects.projectsList].sort(getSortFunction("name")),
+  );
   const totalTasks =
     selectedProject?.tasks.length ||
     projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
@@ -18,6 +24,11 @@ const ProjectSelector = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
   const toggleMenu = () => setIsMenuActive(!isMenuActive);
+
+  const selectProject = (projectId: string) => {
+    setIsMenuActive(false);
+    dispatch(setSelectedProject(projectId));
+  };
 
   return (
     <div className="relative" ref={menuRef}>
@@ -38,7 +49,10 @@ const ProjectSelector = () => {
         aria-labelledby="sortMenu"
       >
         <ul className="flex w-48 flex-col gap-2 py-4">
-          <div className={`flex items-center gap-4 p-2 py-4  ${(!selectedProject) ? "border border-sky-500 rounded-lg bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}>
+          <div
+            className={`flex items-center gap-4 p-2 py-4 ${!selectedProject ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
+            onClick={() => selectProject("")}
+          >
             <DensitySmall fontSize="small" className="text-sky-500" />
             <h4>All Projects</h4>
           </div>
@@ -49,7 +63,10 @@ const ProjectSelector = () => {
                 ?.IconComponent ?? allProjectIcons[0].IconComponent;
 
             return (
-              <div className={`flex items-center gap-4 p-2 ${(selectedProject?.id == project.id) ? "border border-sky-500 rounded-lg bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}>
+              <div
+                className={`flex items-center gap-4 p-2 ${selectedProject?.id == project.id ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
+                onClick={() => selectProject(project.id)}
+              >
                 <Icon fontSize="small" className="text-sky-500" />
                 <h5>{project.title}</h5>
               </div>
