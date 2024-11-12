@@ -8,6 +8,9 @@ import {
   calculateProgressPercentage,
   timeSinceCreatedDisplay,
 } from "@/utils/functions";
+import { useAppDispatch } from "@/hooks/storeHooks";
+import { setSelectedProject } from "@/store/slices/tasksPageSlice";
+import { useRouter } from "next/navigation";
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const { title, icon, tasks, createdAt } = project;
@@ -15,6 +18,14 @@ const ProjectCard = ({ project }: { project: Project }) => {
     tasks.length,
     tasks.filter((task) => task.status === "completed").length,
   );
+
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const redirectToTasksPage = (selectedProject: string) => {
+    dispatch(setSelectedProject(selectedProject));
+    router.push("/tasks");
+  };
 
   const ProjectCardHeader = () => {
     return (
@@ -30,9 +41,14 @@ const ProjectCard = ({ project }: { project: Project }) => {
           />
           {/* Title */}
           <div className="flex w-44 flex-col overflow-hidden max-sm:w-full">
-            <span className="text-m w-full cursor-pointer truncate text-ellipsis whitespace-nowrap font-bold hover:text-sky-400">
+            <button
+              className="text-m flex w-full cursor-pointer truncate text-ellipsis whitespace-nowrap font-bold hover:text-sky-400"
+              onClick={() => {
+                redirectToTasksPage(project.id);
+              }}
+            >
               {title}
-            </span>
+            </button>
             <span className="text-xs text-slate-400">
               {timeSinceCreatedDisplay(createdAt)} ago
             </span>
