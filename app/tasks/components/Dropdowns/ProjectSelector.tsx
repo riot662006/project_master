@@ -16,9 +16,9 @@ const ProjectSelector = () => {
   );
   const dispatch = useAppDispatch();
 
-  const totalTasks =
-    selectedProject?.tasks.length ||
-    projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
+  const totalTasks = selectedProject
+    ? selectedProject.tasks.length
+    : projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
 
   const menuRef = useRef<HTMLDivElement>(null);
   const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
