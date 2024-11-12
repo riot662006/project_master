@@ -14,9 +14,11 @@ const CompletedProjectsSection = () => {
   const projects = useAppSelector((state) => state.projects.projectsList);
 
   if (projectsLoading) {
-    return (<div className="flex h-full w-full min-w-56 flex-col items-center justify-center rounded-2xl bg-white">
-      <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
-    </div>)
+    return (
+      <div className="flex h-full w-full min-w-56 flex-col items-center justify-center rounded-2xl bg-white">
+        <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
+      </div>
+    );
   }
 
   const completedProjects = projects.filter(

@@ -5,14 +5,12 @@ type ViewState = "on-going" | "completed";
 
 interface TaskPageState {
   selectedProjectId: string;
-  curView: ViewState
+  curView: ViewState;
 }
-
-
 
 const initialState: TaskPageState = {
   selectedProjectId: "1",
-  curView: "on-going"
+  curView: "on-going",
 };
 
 export const getTaskPageSelectedProject = createSelector(
@@ -34,9 +32,9 @@ const taskPageSlice = createSlice({
     setView: (state, action: PayloadAction<ViewState>) => {
       if (state.curView == action.payload) return;
       state.curView = action.payload;
-    }
+    },
   },
 });
 
-export const { setSelectedProject, setView} = taskPageSlice.actions;
+export const { setSelectedProject, setView } = taskPageSlice.actions;
 export default taskPageSlice.reducer;

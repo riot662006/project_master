@@ -148,8 +148,12 @@ const TaskItem = ({ taskObj }: { taskObj: taskObjType }) => {
           </div>
           {/* Priority */}
           <div className="flex w-20 items-center justify-center gap-1 text-slate-400 max-sm:hidden">
-            <div className={`aspect-square w-2 rounded-full ${getProrityMsgObj[taskObj.task.priority].color}`} />
-            <span className="text-sm font-medium">{getProrityMsgObj[taskObj.task.priority].name}</span>
+            <div
+              className={`aspect-square w-2 rounded-full ${getProrityMsgObj[taskObj.task.priority].color}`}
+            />
+            <span className="text-sm font-medium">
+              {getProrityMsgObj[taskObj.task.priority].name}
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-2 max-lg:flex-col">
