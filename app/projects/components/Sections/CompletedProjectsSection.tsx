@@ -5,11 +5,19 @@ import ClipboardX from "@/components/Icons/ClipboardX";
 import { useAppSelector } from "@/hooks/storeHooks";
 import { Project } from "@/utils/types";
 import Splitscreen from "@mui/icons-material/Splitscreen";
+import { CircularProgress } from "@mui/material";
 import { Fragment } from "react";
 import colors from "tailwindcss/colors";
 
 const CompletedProjectsSection = () => {
+  const projectsLoading = useAppSelector((state) => state.projects.isLoading);
   const projects = useAppSelector((state) => state.projects.projectsList);
+
+  if (projectsLoading) {
+    return (<div className="flex h-full w-full min-w-56 flex-col items-center justify-center rounded-2xl bg-white">
+      <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
+    </div>)
+  }
 
   const completedProjects = projects.filter(
     (project) =>
