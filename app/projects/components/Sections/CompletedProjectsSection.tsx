@@ -1,16 +1,20 @@
 "use client";
 
 import ProjectProgressCircle from "@/components/CircularProgressBar";
+import ClipboardX from "@/components/Icons/ClipboardX";
 import { useAppSelector } from "@/hooks/storeHooks";
 import { Project } from "@/utils/types";
 import Splitscreen from "@mui/icons-material/Splitscreen";
 import { Fragment } from "react";
+import colors from "tailwindcss/colors";
 
 const CompletedProjectsSection = () => {
   const projects = useAppSelector((state) => state.projects.projectsList);
 
-  const completedProjects = projects.filter((project) =>
-    project.tasks.every((task) => task.status == "completed"),
+  const completedProjects = projects.filter(
+    (project) =>
+      project.tasks.length > 0 &&
+      project.tasks.every((task) => task.status == "completed"),
   );
   const completedPercentage = Math.floor(
     (completedProjects.length / projects.length) * 100,
@@ -22,13 +26,15 @@ const CompletedProjectsSection = () => {
   );
 
   return (
-    <div className="flex h-full w-full flex-col items-center gap-20 rounded-2xl bg-white p-8">
-      <h2 className="font-bold">Projects Completed</h2>
-      <ProjectProgressCircle
-        percentage={completedPercentage}
-        radius={80}
-        strokeWidth={12}
-      />
+    <div className="flex h-full w-full min-w-56 flex-col items-center gap-20 rounded-2xl bg-white p-8">
+      <h2 className="font-bold text-2xl">Projects Completed</h2>
+      <div className="flex h-40 w-full items-center justify-center">
+        <ProjectProgressCircle
+          percentage={completedPercentage}
+          radius={80}
+          strokeWidth={12}
+        />
+      </div>
 
       {/* Labels */}
       <div className="flex flex-col items-center gap-1">
@@ -46,8 +52,17 @@ const CompletedProjectsSection = () => {
 };
 
 const ProjectsList = ({ completed }: { completed: Project[] }) => {
+  if (completed.length == 0)
+    return (
+      <div className="flex w-full flex-col items-center">
+        <ClipboardX color={colors.slate[300]} size={96} />
+        <span className="text-center text-xs font-medium text-slate-300">
+          No projects accomplished yet...
+        </span>
+      </div>
+    );
   return (
-    <ul className="flex w-full flex-col items-center gap-5 overflow-auto">
+    <ul className="flex w-full flex-col items-center gap-5 overflow-y-auto">
       {completed.map((project, index) => (
         <Fragment key={index}>
           <SingleProject project={project} />
