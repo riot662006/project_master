@@ -57,8 +57,8 @@ const ProjectSortingOptions = () => {
 
   return (
     <div className="relative" ref={menuRef}>
-      <button className="flex items-center gap-1" onClick={toggleMenu}>
-        <span className="flex items-center justify-end text-slate-800">
+      <button className={`flex items-center gap-1 ${isMenuActive ? "text-sky-500 font-semibold" : "text-slate-800 hover:text-sky-500 hover:font-semibold"} `} onClick={toggleMenu}>
+        <span className="flex items-center justify-end ">
           {getCurButtonTitle()}
         </span>
         <KeyboardArrowDown />
