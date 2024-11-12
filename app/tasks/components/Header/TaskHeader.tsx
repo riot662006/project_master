@@ -1,7 +1,7 @@
 "use client";
 
 import ProgressBar from "@/components/ProgressBar";
-import { useAppDispatch } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import {
   Add,
@@ -11,9 +11,30 @@ import {
   Splitscreen,
 } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
+import { getTaskPageSelectedProject } from "@/store/slices/tasksPageSlice";
+import { getSortFunction } from "@/utils/functions";
 
 const TaskHeader = () => {
+  const selectedProject = useAppSelector(getTaskPageSelectedProject);
+  const projects = useAppSelector((state) =>
+    [...state.projects.projectsList].sort(getSortFunction("name")),
+  );
   const dispatch = useAppDispatch();
+
+  const totalTasks = selectedProject
+    ? selectedProject.tasks.length
+    : projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
+
+  const totalTasksDone = selectedProject
+    ? selectedProject.tasks.filter((task) => task.status == "completed").length
+    : projects.reduce(
+        (acc: number, project) =>
+          acc +
+          project.tasks.filter((task) => task.status == "completed").length,
+        0,
+      );
+
+  const percentageCompleted = (totalTasksDone / (totalTasks || 1)) * 100;
 
   const SearchBar = () => {
     return (
@@ -62,9 +83,11 @@ const TaskHeader = () => {
             <div className="flex items-center gap-2 text-xs text-slate-400">
               <ProgressBar
                 containerClassName="w-96 h-1 rounded-lg bg-slate-200 max-lg:w-[100%]"
-                percentage={20}
+                percentage={percentageCompleted}
               />
-              <span className="max-sm:hidden">20% Completed</span>
+              <span className="max-sm:hidden">
+                {percentageCompleted}% Completed
+              </span>
             </div>
           </div>
         </div>
