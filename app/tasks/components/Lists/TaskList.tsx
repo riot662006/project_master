@@ -12,6 +12,7 @@ import {
   CheckBoxOutlineBlank,
   DeleteOutline,
   EditOutlined,
+  LayersClear,
   List,
 } from "@mui/icons-material";
 
@@ -71,7 +72,7 @@ const TaskList = () => {
       );
 
   return (
-    <div className="flex flex-col pl-12 max-sm:pl-0">
+    <div className="flex h-full flex-col pl-12 max-sm:pl-0">
       <div className="flex items-center gap-8 py-8">
         <button
           className="flex items-center gap-2 text-xs font-semibold"
@@ -113,11 +114,19 @@ const TaskList = () => {
           </span>
         </button>
       </div>
-      <ul className="flex w-full flex-col gap-4">
+      {taskObjs.length == 0 ? 
+        (
+          <div className="flex flex-col w-full h-full p-16 items-center justify-center text-slate-300">
+            <LayersClear sx={{fontSize: "10rem"}} />
+            <span>No tasks here...</span>
+          </div>
+        )
+        :
+        (<ul className="flex w-full flex-col gap-4">
         {taskObjs.map((taskObj) => (
           <TaskItem key={taskObj.task.id} taskObj={taskObj} />
         ))}
-      </ul>
+      </ul>)}
     </div>
   );
 };
