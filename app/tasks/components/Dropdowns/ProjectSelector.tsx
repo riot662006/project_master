@@ -12,11 +12,11 @@ import { useRef } from "react";
 
 const ProjectSelector = () => {
   const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const dispatch = useAppDispatch();
-
   const projects = useAppSelector((state) =>
     [...state.projects.projectsList].sort(getSortFunction("name")),
   );
+  const dispatch = useAppDispatch();
+
   const totalTasks =
     selectedProject?.tasks.length ||
     projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
