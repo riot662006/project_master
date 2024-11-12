@@ -30,7 +30,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           />
           {/* Title */}
           <div className="flex w-44 flex-col overflow-hidden max-sm:w-full">
-            <span className="text-m w-full truncate text-ellipsis whitespace-nowrap font-bold">
+            <span className="text-m w-full truncate text-ellipsis whitespace-nowrap font-bold cursor-pointer hover:text-sky-400">
               {title}
             </span>
             <span className="text-xs text-slate-400">
