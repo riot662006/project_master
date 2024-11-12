@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import Providers from "@/store/Providers";
 
 export const metadata: Metadata = {
   title: "Project Master",
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable}`}>
-        <div className="v-screen poppins flex h-screen">{children}</div>
+        <div className="v-screen poppins flex h-screen">
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );
