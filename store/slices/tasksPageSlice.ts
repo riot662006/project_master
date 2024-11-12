@@ -1,12 +1,18 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
+type ViewState = "on-going" | "completed";
+
 interface TaskPageState {
   selectedProjectId: string;
+  curView: ViewState
 }
+
+
 
 const initialState: TaskPageState = {
   selectedProjectId: "1",
+  curView: "on-going"
 };
 
 export const getTaskPageSelectedProject = createSelector(
@@ -25,8 +31,12 @@ const taskPageSlice = createSlice({
     setSelectedProject: (state, action: PayloadAction<string>) => {
       state.selectedProjectId = action.payload;
     },
+    setView: (state, action: PayloadAction<ViewState>) => {
+      if (state.curView == action.payload) return;
+      state.curView = action.payload;
+    }
   },
 });
 
-export const { setSelectedProject } = taskPageSlice.actions;
+export const { setSelectedProject, setView} = taskPageSlice.actions;
 export default taskPageSlice.reducer;

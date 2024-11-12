@@ -15,7 +15,7 @@ export const exampleProjects: Project[] = [
         title: "Develop the UI Design for the task page",
         icon: "paint",
         priority: "low",
-        status: "in_progress",
+        status: "completed",
         createdAt: "2024-08-26T10:00:00Z",
         updatedAt: "2024-08-26T10:00:00Z",
       },

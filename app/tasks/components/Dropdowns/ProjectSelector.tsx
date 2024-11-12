@@ -1,4 +1,3 @@
-import ProjectIcon from "@/components/ProjectIcon";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
 import {
@@ -64,6 +63,7 @@ const ProjectSelector = () => {
 
             return (
               <div
+                key={project.id}
                 className={`flex items-center gap-4 p-2 ${selectedProject?.id == project.id ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
                 onClick={() => selectProject(project.id)}
               >
