@@ -6,7 +6,7 @@ export type Status = "pending" | "in_progress" | "completed";
 export const statusOrder: { [key in Status]: number } = {
   pending: 1,
   in_progress: 2,
-  completed: 3
+  completed: 3,
 };
 
 export type Proirity = "low" | "medium" | "high";

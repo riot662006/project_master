@@ -10,6 +10,7 @@ import {
   Search,
   Splitscreen,
 } from "@mui/icons-material";
+import ProjectSelector from "../Dropdowns/ProjectSelector";
 
 const TaskHeader = () => {
   const dispatch = useAppDispatch();
@@ -56,13 +57,7 @@ const TaskHeader = () => {
             <Splitscreen sx={{ fontSize: "18px" }} className="text-sky-500" />
           </div>
           <div className="flex flex-col gap-1">
-            <div className="flex cursor-pointer items-center gap-2">
-              <span className="font-semibold">All Projects</span>
-              <span className="rounded-md bg-slate-700 px-1.5 py-0.5 text-sm font-semibold text-white max-sm:hidden">
-                6
-              </span>
-              <KeyboardArrowDown />
-            </div>
+            <ProjectSelector />
 
             <div className="flex items-center gap-2 text-xs text-slate-400">
               <ProgressBar

@@ -61,7 +61,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
         <MoreVert fontSize="small" className="text-slate-400" />
       </button>
       <nav
-        className={`z-40 absolute left-0 top-10 max-sm:left-auto max-sm:right-0 ${isMenuActive ? "block" : "hidden"} rounded-xl bg-white bg-opacity-90 shadow-md`}
+        className={`absolute left-0 top-10 z-40 max-sm:left-auto max-sm:right-0 ${isMenuActive ? "block" : "hidden"} rounded-xl bg-white bg-opacity-90 shadow-md`}
       >
         <ul className="flex w-36 flex-col py-2">
           {options.map((option) => (

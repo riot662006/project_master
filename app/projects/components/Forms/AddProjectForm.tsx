@@ -2,7 +2,12 @@ import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
 import SelectProjectIconSection from "../Sections/SelectProjectIconSection";
 import { createProject, updatedProject } from "@/utils/functions";
-import { addProject, selectAllProjectNames, selectProjectToEdit, updateProject } from "@/store/slices/projectsSlice";
+import {
+  addProject,
+  selectAllProjectNames,
+  selectProjectToEdit,
+  updateProject,
+} from "@/store/slices/projectsSlice";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddProjectFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";

@@ -3,17 +3,10 @@
 import ProjectCard from "../Cards/ProjectCard";
 import { ListAlt } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
-import { useEffect } from "react";
-import { fetchProjects } from "@/store/slices/projectsSlice";
+import { useAppSelector } from "@/hooks/storeHooks";
 
 const ProjectList = () => {
   const { projectsList, isLoading } = useAppSelector((state) => state.projects);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchProjects());
-  }, [dispatch]);
 
   if (isLoading) {
     return (

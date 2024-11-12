@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Add,
-  BorderAll,
-  Menu,
-  Search,
-} from "@mui/icons-material";
+import { Add, BorderAll, Menu, Search } from "@mui/icons-material";
 
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
@@ -66,7 +61,9 @@ const ProjectHeader = () => {
           </div>
         </div>
         <div className="flex items-center justify-end gap-2 text-[14px] max-sm:flex-col max-sm:items-end">
-          <span className="flex items-center text-slate-300 font-semibold">Sort By</span>
+          <span className="flex items-center font-semibold text-slate-300">
+            Sort By
+          </span>
           <ProjectSortingOptions />
         </div>
       </div>

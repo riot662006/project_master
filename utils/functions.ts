@@ -102,7 +102,6 @@ export const getSortFunction = (mode: ProjectSortMode) => {
 
     case "name":
     default:
-      return (a: Project, b: Project) =>
-        a.title.localeCompare(b.title);
+      return (a: Project, b: Project) => a.title.localeCompare(b.title);
   }
-}
+};

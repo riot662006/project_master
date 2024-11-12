@@ -27,7 +27,7 @@ const CompletedProjectsSection = () => {
 
   return (
     <div className="flex h-full w-full min-w-56 flex-col items-center gap-20 rounded-2xl bg-white p-8">
-      <h2 className="font-bold text-2xl">Projects Completed</h2>
+      <h2 className="text-2xl font-bold">Projects Completed</h2>
       <div className="flex h-40 w-full items-center justify-center">
         <ProjectProgressCircle
           percentage={completedPercentage}
