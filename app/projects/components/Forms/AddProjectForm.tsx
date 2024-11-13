@@ -2,18 +2,15 @@ import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
 import SelectProjectIconSection from "../Sections/SelectProjectIconSection";
 import { createProject, updatedProject } from "@/utils/functions";
-import {
-  addProject,
-  selectAllProjectNames,
-  selectProjectToEdit,
-  updateProject,
-} from "@/store/slices/projectsSlice";
+
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddProjectFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
 import { useEffect } from "react";
+import { selectAllProjectNames, selectProjectToEdit } from "@/store/Selectors";
+import { addProject, updateProject } from "@/store/slices/projectsSlice";
 
 const AddProjectForm = ({
   isSelectingIcon,
@@ -148,7 +145,7 @@ const AddProjectForm = ({
         <button
           disabled={isDisabled || Boolean(errors.name)}
           type="submit"
-          className="flex gap-2 h-8 cursor-pointer items-center rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 disabled:cursor-default disabled:bg-sky-400"
+          className="flex h-8 cursor-pointer items-center gap-2 rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 disabled:cursor-default disabled:bg-sky-400"
         >
           {isDisabled ? (
             <>

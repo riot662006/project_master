@@ -6,7 +6,7 @@ import {
   getTaskPageSelectedProject,
   setView,
 } from "@/store/slices/tasksPageSlice";
-import { Priority, Status, TaskObj} from "@/utils/types";
+import { Priority, Status, TaskObj } from "@/utils/types";
 import {
   Cached,
   CheckBox,
@@ -110,24 +110,23 @@ const TaskList = () => {
           </span>
         </button>
       </div>
-      {taskObjs.length == 0 ? 
-        (
-          <div className="flex flex-col w-full h-full p-16 items-center justify-center text-slate-300">
-            <LayersClear sx={{fontSize: "10rem"}} />
-            <span>No tasks here...</span>
-          </div>
-        )
-        :
-        (<ul className="flex w-full flex-col gap-4">
-        {taskObjs.map((taskObj) => (
-          <TaskItem key={taskObj.task.id} taskObj={taskObj} />
-        ))}
-      </ul>)}
+      {taskObjs.length == 0 ? (
+        <div className="flex h-full w-full flex-col items-center justify-center p-16 text-slate-300">
+          <LayersClear sx={{ fontSize: "10rem" }} />
+          <span>No tasks here...</span>
+        </div>
+      ) : (
+        <ul className="flex w-full flex-col gap-4">
+          {taskObjs.map((taskObj) => (
+            <TaskItem key={taskObj.task.id} taskObj={taskObj} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
-const TaskItem = ({ taskObj }: { taskObj: TaskObj}) => {
+const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
   return (
     <li className="flex w-full items-center gap-4">
       {true ? <CheckBoxOutlineBlank /> : <CheckBox />}

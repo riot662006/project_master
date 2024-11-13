@@ -12,7 +12,7 @@ const TasksSection = () => {
     <div className="flex h-full w-full px-8 py-10">
       <div className="flex h-full w-full flex-col px-8 py-10 max-lg:px-0">
         {isLoading ? (
-          <div className="flex items-center justify-center h-full w-full">
+          <div className="flex h-full w-full items-center justify-center">
             <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
           </div>
         ) : (
