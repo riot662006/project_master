@@ -1,7 +1,7 @@
 import { TaskSortMode } from "@/utils/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type ViewState = "on-going" | "completed";
+export type ViewState = "all" | "on-going" | "completed";
 
 export interface TaskSortState {
   mode: TaskSortMode;
@@ -16,7 +16,7 @@ interface TaskPageState {
 
 const initialState: TaskPageState = {
   selectedProjectId: "",
-  curView: "on-going",
+  curView: "all",
   sortState: { mode: "name", reverse: false },
 };
 

@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { selectTasks } from "@/store/Selectors";
-import { setView } from "@/store/slices/tasksPageSlice";
+import { setView, ViewState } from "@/store/slices/tasksPageSlice";
 import { Priority, Status, TaskObj } from "@/utils/types";
 import {
   Cached,
@@ -48,50 +48,52 @@ const TaskList = () => {
     (taskObj) => taskObj.task.status !== "completed",
   );
 
-  const displayedTasks = curView == "on-going" ? ongoingTasks : completedTasks;
+  const options = [{
+    id: 1,
+    name: "All Tasks",
+    view: "all" as ViewState,
+    displayedTasks: taskObjs
+  }, {
+    id: 2,
+    name: "On Going Tasks",
+    view: "on-going" as ViewState,
+    displayedTasks: ongoingTasks
+  }, {
+    id: 3,
+    name: "Completed Tasks",
+    view: "completed" as ViewState,
+    displayedTasks: completedTasks
+  }]
+
+  const displayedTasks = options.find((option) => option.view == curView)?.displayedTasks ?? taskObjs;
 
   return (
     <div className="flex h-full flex-col pl-12 max-sm:pl-0">
       <div className="flex items-center gap-8 py-8">
-        <button
+        {
+          options.map((option) => (
+            <button
+            key={option.id}
           className="flex items-center gap-2 text-xs font-semibold"
           onClick={() => {
-            dispatch(setView("on-going"));
+            dispatch(setView(option.view));
           }}
         >
           <span
             className={
-              curView == "on-going" ? "text-sky-400" : "text-slate-300"
+              option.view === curView ? "text-sky-400" : "text-slate-300"
             }
           >
-            On Going Tasks
+            {option.name}
           </span>
           <span
-            className={`rounded-md ${curView == "on-going" ? "bg-sky-500 text-white" : "bg-slate-200 text-slate-400"} px-2 py-0.5`}
+            className={`rounded-md ${option.view === curView ? "bg-sky-500 text-white" : "bg-slate-200 text-slate-400"} px-2 py-0.5`}
           >
-            {ongoingTasks.length}
+            {option.displayedTasks.length}
           </span>
         </button>
-
-        <button
-          className="flex items-center gap-2 text-xs font-semibold"
-          onClick={() => {
-            dispatch(setView("completed"));
-          }}
-        >
-          <span
-            className={
-              curView == "completed" ? "text-sky-400" : "text-slate-300"
-            }
-          >
-            Completed Tasks
-          </span>
-          <span
-            className={`rounded-md ${curView == "completed" ? "bg-sky-500 text-white" : "bg-slate-200 text-slate-400"} px-2 py-0.5`}
-          >
-            {completedTasks.length}
-          </span>
-        </button>
+          ))
+        }
       </div>
       {displayedTasks.length == 0 ? (
         <div className="flex h-full w-full flex-col items-center justify-center p-16 text-slate-300">
