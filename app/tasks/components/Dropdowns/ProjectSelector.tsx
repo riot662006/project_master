@@ -1,19 +1,17 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
+import { selectProjects } from "@/store/slices/projectsSlice";
 import {
   getTaskPageSelectedProject,
   setSelectedProject,
 } from "@/store/slices/tasksPageSlice";
-import { getSortFunction } from "@/utils/functions";
 import { allProjectIcons } from "@/utils/projectIcons";
 import { DensitySmall, KeyboardArrowDown } from "@mui/icons-material";
 import { useRef } from "react";
 
 const ProjectSelector = () => {
   const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const projects = useAppSelector((state) =>
-    [...state.projects.projectsList].sort(getSortFunction("name")),
-  );
+  const projects = useAppSelector(selectProjects("name"));
   const dispatch = useAppDispatch();
 
   const totalTasks = selectedProject

@@ -9,7 +9,12 @@ export const statusOrder: { [key in Status]: number } = {
   completed: 3,
 };
 
-export type Proirity = "low" | "medium" | "high";
+export type Priority = "low" | "medium" | "high";
+export const priorityOrder: { [key in Priority]: number } = {
+  low: 1,
+  medium: 2,
+  high: 3,
+};
 
 export interface BaseEntity {
   id: string;
@@ -22,13 +27,18 @@ export interface BaseEntity {
 
 export interface Task extends BaseEntity {
   // task object for the app
-  priority: Proirity;
+  priority: Priority;
 }
 
 export interface Project extends BaseEntity {
   // project object for the app
   clerkUserId: string;
   tasks: Task[];
+}
+
+export interface TaskObj {
+  task: Task;
+  projectName: string;
 }
 
 export type IconData = {

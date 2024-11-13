@@ -1,5 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import { Project, ProjectSortMode, statusOrder } from "./types";
+import {
+  BaseEntity,
+  priorityOrder,
+  Project,
+  ProjectSortMode,
+  statusOrder,
+  TaskObj,
+  TasksSortMode,
+} from "./types";
 import { IconName } from "./projectIcons";
 
 export const createProject = (title: string, icon: IconName) => {
@@ -71,20 +79,31 @@ export const coinFlip = () => {
   return Math.floor(Math.random() * 2) == 1;
 };
 
-export const getSortFunction = (mode: ProjectSortMode) => {
+export const sortByDate = (a: BaseEntity, b: BaseEntity) => {
+  const a_date = new Date(a.createdAt);
+  const b_date = new Date(b.createdAt);
+
+  return a_date.getTime() - b_date.getTime();
+};
+
+export const sortByName = (a: BaseEntity, b: BaseEntity) => {
+  return a.title.localeCompare(b.title);
+};
+
+export const getProjectSortFunction = (
+  mode: ProjectSortMode,
+  reverse = false,
+) => {
+  const sign = reverse ? -1 : 1; // reverses the function if necessary
+
   switch (mode) {
     case "date":
-      return (a: Project, b: Project) => {
-        const a_date = new Date(a.createdAt);
-        const b_date = new Date(b.createdAt);
-
-        return a_date.getTime() - b_date.getTime();
-      };
+      return (a: Project, b: Project) => sign * sortByDate(a, b);
 
     case "status":
       return (a: Project, b: Project) => {
         if (a.status != b.status) {
-          return statusOrder[a.status] - statusOrder[b.status];
+          return sign * (statusOrder[a.status] - statusOrder[b.status]);
         }
 
         // if the status' are the same, use percentage completion
@@ -97,11 +116,52 @@ export const getSortFunction = (mode: ProjectSortMode) => {
           b.tasks.filter((task) => task.status === "completed").length,
         );
 
-        return a_percent - b_percent;
+        return sign * (a_percent - b_percent);
       };
 
     case "name":
     default:
-      return (a: Project, b: Project) => a.title.localeCompare(b.title);
+      return (a: Project, b: Project) => sign * sortByName(a, b);
+  }
+};
+
+export const getTasksSortFunction = (mode: TasksSortMode) => {
+  switch (mode) {
+    case "date":
+      return (a: TaskObj, b: TaskObj) => sortByDate(a.task, b.task);
+
+    case "status":
+      return (a: TaskObj, b: TaskObj) => {
+        if (a.task.status != b.task.status) {
+          return statusOrder[a.task.status] - statusOrder[b.task.status];
+        }
+
+        // if the status' are the same
+        return sortByName(a.task, b.task);
+      };
+
+    case "priority":
+      return (a: TaskObj, b: TaskObj) => {
+        if (a.task.priority != b.task.priority) {
+          return (
+            priorityOrder[a.task.priority] - priorityOrder[b.task.priority]
+          );
+        }
+
+        // if the status' are the same
+        return sortByName(a.task, b.task);
+      };
+
+    case "project_name":
+      return (a: TaskObj, b: TaskObj) => {
+        if (a.projectName != b.projectName)
+          return a.projectName.localeCompare(b.projectName);
+
+        return sortByName(a.task, b.task);
+      };
+
+    case "name":
+    default:
+      return sortByName;
   }
 };

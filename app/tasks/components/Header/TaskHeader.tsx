@@ -12,13 +12,11 @@ import {
 } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
 import { getTaskPageSelectedProject } from "@/store/slices/tasksPageSlice";
-import { getSortFunction } from "@/utils/functions";
+import { selectProjects } from "@/store/slices/projectsSlice";
 
 const TaskHeader = () => {
   const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const projects = useAppSelector((state) =>
-    [...state.projects.projectsList].sort(getSortFunction("name")),
-  );
+  const projects = useAppSelector(selectProjects("name"));
   const dispatch = useAppDispatch();
 
   const totalTasks = selectedProject

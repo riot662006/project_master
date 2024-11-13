@@ -5,7 +5,7 @@ import {
   getTaskPageSelectedProject,
   setView,
 } from "@/store/slices/tasksPageSlice";
-import { Proirity, Status, Task } from "@/utils/types";
+import { Priority, Status, TaskObj} from "@/utils/types";
 import {
   Cached,
   CheckBox,
@@ -16,18 +16,13 @@ import {
   List,
 } from "@mui/icons-material";
 
-interface taskObjType {
-  task: Task;
-  projectName: string;
-}
-
 const getProgressSpanMsg: { [key in Status]: string } = {
   pending: "Pending",
   in_progress: "In Progress",
   completed: "Completed",
 };
 
-const getProrityMsgObj: { [key in Proirity]: { name: string; color: string } } =
+const getProrityMsgObj: { [key in Priority]: { name: string; color: string } } =
   {
     low: { name: "Low", color: "bg-green-600" },
     medium: { name: "Medium", color: "bg-yellow-600" },
@@ -54,7 +49,7 @@ const TaskList = () => {
         0,
       );
 
-  const taskObjs: taskObjType[] = selectedProject
+  const taskObjs: TaskObj[] = selectedProject
     ? selectedProject.tasks
         .filter(
           (task) => (curView == "on-going") !== (task.status == "completed"),
@@ -131,7 +126,7 @@ const TaskList = () => {
   );
 };
 
-const TaskItem = ({ taskObj }: { taskObj: taskObjType }) => {
+const TaskItem = ({ taskObj }: { taskObj: TaskObj}) => {
   return (
     <li className="flex w-full items-center gap-4">
       {true ? <CheckBoxOutlineBlank /> : <CheckBox />}

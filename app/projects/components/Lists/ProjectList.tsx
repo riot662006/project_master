@@ -4,9 +4,11 @@ import ProjectCard from "../Cards/ProjectCard";
 import { ListAlt } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { useAppSelector } from "@/hooks/storeHooks";
+import { selectProjects } from "@/store/slices/projectsSlice";
 
 const ProjectList = () => {
-  const { projectsList, isLoading } = useAppSelector((state) => state.projects);
+  const isLoading = useAppSelector((state) => state.projects.isLoading);
+  const projects = useAppSelector(selectProjects());
 
   if (isLoading) {
     return (
@@ -16,7 +18,7 @@ const ProjectList = () => {
     );
   }
 
-  if (projectsList.length == 0) {
+  if (projects.length == 0) {
     return (
       <div className="flex h-full w-full flex-col items-center justify-center gap-4 text-slate-300">
         <div>
@@ -37,7 +39,7 @@ const ProjectList = () => {
 
   return (
     <div className="flex max-h-full w-full flex-wrap gap-4 overflow-y-auto max-sm:grid max-sm:grid-cols-1">
-      {projectsList.map((project) => (
+      {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
     </div>

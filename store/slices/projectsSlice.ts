@@ -1,6 +1,6 @@
 import { exampleProjects } from "@/utils/examples";
-import { coinFlip, getSortFunction } from "@/utils/functions";
-import { Project, ProjectSortMode } from "@/utils/types";
+import { coinFlip, getProjectSortFunction } from "@/utils/functions";
+import { Project, ProjectSortMode, TaskObj } from "@/utils/types";
 import { createSelector } from "reselect";
 import { RootState } from "..";
 
@@ -29,7 +29,6 @@ const handleFulfilled = <T>(
   updateFn: (state: ProjectsState, action: PayloadAction<T>) => void,
 ) => {
   updateFn(state, action);
-  projectsSlice.caseReducers.sortProjects(state, { payload: null, type: "" });
   state.isLoading = false;
 };
 
@@ -93,6 +92,37 @@ export const selectProjectToEdit = createSelector(
     projectId ? projectsList.find((project) => project.id === projectId) : null,
 );
 
+export const selectAllTasks = createSelector(
+  (state: RootState) => state.projects.projectsList,
+  (projectsList) => {
+    const allTasks: TaskObj[] = [];
+
+    projectsList.forEach((project) => {
+      project.tasks.forEach((task) => {
+        allTasks.push({
+          task,
+          projectName: project.title,
+        });
+      });
+    });
+
+    return allTasks;
+  },
+);
+
+export const selectProjects = (sortBy?: ProjectSortMode, reverse = false) =>
+  createSelector(
+    (state: RootState) => state.projects.projectsList,
+    (state: RootState) => state.projects.sortState,
+    (projectsList, curSortState) => {
+      const sortState = sortBy ? {mode: sortBy, reverse} : curSortState;
+
+      return [...projectsList].sort(
+        getProjectSortFunction(sortState.mode, sortState.reverse),
+      );
+    },
+  );
+
 const projectsSlice = createSlice({
   name: "projects",
   initialState: {
@@ -101,22 +131,8 @@ const projectsSlice = createSlice({
     sortState: { mode: "date", reverse: true },
   } as ProjectsState,
   reducers: {
-    sortProjects: (state, action: PayloadAction<ProjectSortState | null>) => {
-      const sortState = action.payload ?? state.sortState;
-
-      const sortedProjects = [...state.projectsList].sort(
-        getSortFunction(sortState.mode),
-      );
-
-      if (sortState.reverse) {
-        sortedProjects.reverse();
-      }
-
-      state.projectsList = sortedProjects;
-
-      if (action.payload) {
-        state.sortState = sortState;
-      }
+    setSortState: (state, action: PayloadAction<ProjectSortState>) => {
+      state.sortState = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -168,5 +184,5 @@ const projectsSlice = createSlice({
   },
 });
 
-export const { sortProjects } = projectsSlice.actions;
+export const { setSortState } = projectsSlice.actions;
 export default projectsSlice.reducer;

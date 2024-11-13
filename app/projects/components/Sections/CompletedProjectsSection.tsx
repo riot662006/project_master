@@ -3,6 +3,7 @@
 import ProjectProgressCircle from "@/components/CircularProgressBar";
 import ClipboardX from "@/components/Icons/ClipboardX";
 import { useAppSelector } from "@/hooks/storeHooks";
+import { selectProjects } from "@/store/slices/projectsSlice";
 import { Project } from "@/utils/types";
 import Splitscreen from "@mui/icons-material/Splitscreen";
 import { CircularProgress } from "@mui/material";
@@ -11,7 +12,7 @@ import colors from "tailwindcss/colors";
 
 const CompletedProjectsSection = () => {
   const projectsLoading = useAppSelector((state) => state.projects.isLoading);
-  const projects = useAppSelector((state) => state.projects.projectsList);
+  const projects = useAppSelector(selectProjects("name"));
 
   if (projectsLoading) {
     return (

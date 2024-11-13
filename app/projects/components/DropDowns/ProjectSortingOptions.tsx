@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { sortProjects } from "@/store/slices/projectsSlice";
+import { setSortState } from "@/store/slices/projectsSlice";
 import { ProjectSortMode } from "@/utils/types";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { useCallback, useRef, useState } from "react";
@@ -52,7 +52,7 @@ const ProjectSortingOptions = () => {
 
   const sortBy = (mode: ProjectSortMode, reverse: boolean) => {
     setIsMenuActive(false);
-    dispatch(sortProjects({ mode, reverse }));
+    dispatch(setSortState({ mode, reverse }));
   };
 
   return (
