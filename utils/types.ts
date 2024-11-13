@@ -55,7 +55,7 @@ export type SidebarObjType = {
 
 export type AddProjectModalMode = "default" | "select-icon";
 export type ProjectSortMode = "date" | "name" | "status";
-export type TasksSortMode =
+export type TaskSortMode =
   | "project_name"
   | "date"
   | "name"

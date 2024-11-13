@@ -6,7 +6,7 @@ import {
   ProjectSortMode,
   statusOrder,
   TaskObj,
-  TasksSortMode,
+  TaskSortMode,
 } from "./types";
 import { IconName } from "./projectIcons";
 
@@ -125,43 +125,48 @@ export const getProjectSortFunction = (
   }
 };
 
-export const getTasksSortFunction = (mode: TasksSortMode) => {
+export const getTaskSortFunction = (mode: TaskSortMode, reverse = false) => {
+  const sign = reverse ? -1 : 1;
+
   switch (mode) {
     case "date":
-      return (a: TaskObj, b: TaskObj) => sortByDate(a.task, b.task);
+      return (a: TaskObj, b: TaskObj) => sign * sortByDate(a.task, b.task);
 
     case "status":
       return (a: TaskObj, b: TaskObj) => {
         if (a.task.status != b.task.status) {
-          return statusOrder[a.task.status] - statusOrder[b.task.status];
+          return (
+            sign * (statusOrder[a.task.status] - statusOrder[b.task.status])
+          );
         }
 
         // if the status' are the same
-        return sortByName(a.task, b.task);
+        return sign * sortByName(a.task, b.task);
       };
 
     case "priority":
       return (a: TaskObj, b: TaskObj) => {
         if (a.task.priority != b.task.priority) {
           return (
-            priorityOrder[a.task.priority] - priorityOrder[b.task.priority]
+            sign *
+            (priorityOrder[a.task.priority] - priorityOrder[b.task.priority])
           );
         }
 
         // if the status' are the same
-        return sortByName(a.task, b.task);
+        return sign * sortByName(a.task, b.task);
       };
 
     case "project_name":
       return (a: TaskObj, b: TaskObj) => {
         if (a.projectName != b.projectName)
-          return a.projectName.localeCompare(b.projectName);
+          return sign * a.projectName.localeCompare(b.projectName);
 
-        return sortByName(a.task, b.task);
+        return sign * sortByName(a.task, b.task);
       };
 
     case "name":
     default:
-      return sortByName;
+      return (a: TaskObj, b: TaskObj) => sign * sortByName(a.task, b.task);
   }
 };

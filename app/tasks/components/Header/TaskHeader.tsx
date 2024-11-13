@@ -12,16 +12,22 @@ import {
 } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
 import { selectTasks } from "@/store/Selectors";
+import TaskSortingOptions from "../Dropdowns/TaskSortingOptions";
 
 const TaskHeader = () => {
-  const selectedProjectId = useAppSelector((state) => state.tasksPage.selectedProjectId);
+  const selectedProjectId = useAppSelector(
+    (state) => state.tasksPage.selectedProjectId,
+  );
 
   const dispatch = useAppDispatch();
 
   const taskObjs = useAppSelector(selectTasks(selectedProjectId));
-  const completedTasks = taskObjs.filter((taskObj) => taskObj.task.status === "completed");
+  const completedTasks = taskObjs.filter(
+    (taskObj) => taskObj.task.status === "completed",
+  );
 
-  const percentageCompleted = (completedTasks.length / (taskObjs.length || 1)) * 100;
+  const percentageCompleted =
+    (completedTasks.length / (taskObjs.length || 1)) * 100;
 
   const SearchBar = () => {
     return (
@@ -78,14 +84,11 @@ const TaskHeader = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2 text-[14px] font-semibold max-sm:flex-col max-sm:items-start">
-          <span className="flex items-center text-slate-300">Sort By</span>
-          <div className="flex cursor-pointer items-center gap-1">
-            <span className="flex items-center text-slate-800">
-              Recent Projects
-            </span>
-            <KeyboardArrowDown />
-          </div>
+        <div className="flex items-center justify-end gap-2 text-[14px] max-sm:flex-col max-sm:items-end">
+          <span className="flex items-center font-semibold text-slate-300">
+            Sort By
+          </span>
+          <TaskSortingOptions />
         </div>
       </div>
     </div>

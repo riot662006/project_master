@@ -1,7 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { ProjectSortMode, TaskObj } from "@/utils/types";
-import { getProjectSortFunction } from "@/utils/functions";
+import { ProjectSortMode, TaskObj, TaskSortMode } from "@/utils/types";
+import { getProjectSortFunction, getTaskSortFunction } from "@/utils/functions";
+import { TaskSortState } from "../slices/tasksPageSlice";
 
 export const selectAllProjectNames = createSelector(
   (state: RootState) => state.projects.projectsList,
@@ -15,32 +16,43 @@ export const selectProjectToEdit = createSelector(
     projectId ? projectsList.find((project) => project.id === projectId) : null,
 );
 
-export const selectTasks = (projectId?: string) =>
+export const selectTasks = (
+  projectId?: string,
+  sortBy?: TaskSortMode,
+  reverse = false,
+) =>
   createSelector(
     (state: RootState) => state.projects.projectsList,
-    (projectsList) => {
+    (state: RootState) => state.tasksPage.sortState,
+    (projectsList, curSortState) => {
+      const sortState = sortBy ? { mode: sortBy, reverse } : curSortState;
+
       if (projectId) {
         const project = projectsList.find(
           (project) => project.id === projectId,
         );
         return project
-          ? project.tasks.map(
-              (task): TaskObj => ({
-                task,
-                projectName: project.title,
-              }),
-            )
+          ? project.tasks
+              .map(
+                (task): TaskObj => ({
+                  task,
+                  projectName: project.title,
+                }),
+              )
+              .sort(getTaskSortFunction(sortState.mode, sortState.reverse))
           : [];
       }
 
-      return projectsList.flatMap((project) =>
-        project.tasks.map(
-          (task): TaskObj => ({
-            task,
-            projectName: project.title,
-          }),
-        ),
-      );
+      return projectsList
+        .flatMap((project) =>
+          project.tasks.map(
+            (task): TaskObj => ({
+              task,
+              projectName: project.title,
+            }),
+          ),
+        )
+        .sort(getTaskSortFunction(sortState.mode, sortState.reverse));
     },
   );
 export const selectProjects = (sortBy?: ProjectSortMode, reverse = false) =>
