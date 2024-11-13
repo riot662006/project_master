@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { selectProjects } from "@/store/slices/projectsSlice";
+import { selectProjects } from "@/store/Selectors";
 import {
   getTaskPageSelectedProject,
   setSelectedProject,

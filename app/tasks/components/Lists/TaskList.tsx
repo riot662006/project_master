@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { selectProjects } from "@/store/Selectors";
 import {
   getTaskPageSelectedProject,
   setView,
@@ -33,7 +34,7 @@ const TaskList = () => {
   const dispatch = useAppDispatch();
 
   const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const projects = useAppSelector((state) => state.projects.projectsList);
+  const projects = useAppSelector(selectProjects());
   const curView = useAppSelector((state) => state.tasksPage.curView);
 
   const totalTasks = selectedProject
@@ -151,7 +152,7 @@ const TaskItem = ({ taskObj }: { taskObj: TaskObj}) => {
             </span>
           </div>
           {/* Priority */}
-          <div className="flex w-20 items-center justify-center gap-1 text-slate-400 max-sm:hidden">
+          <div className="flex w-20 items-center gap-1 text-slate-400 max-sm:hidden">
             <div
               className={`aspect-square w-2 rounded-full ${getProrityMsgObj[taskObj.task.priority].color}`}
             />

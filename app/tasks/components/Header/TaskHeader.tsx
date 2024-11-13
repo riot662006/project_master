@@ -12,7 +12,7 @@ import {
 } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
 import { getTaskPageSelectedProject } from "@/store/slices/tasksPageSlice";
-import { selectProjects } from "@/store/slices/projectsSlice";
+import { selectProjects } from "@/store/Selectors";
 
 const TaskHeader = () => {
   const selectedProject = useAppSelector(getTaskPageSelectedProject);

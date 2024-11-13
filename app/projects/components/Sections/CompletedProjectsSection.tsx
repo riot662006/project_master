@@ -3,7 +3,7 @@
 import ProjectProgressCircle from "@/components/CircularProgressBar";
 import ClipboardX from "@/components/Icons/ClipboardX";
 import { useAppSelector } from "@/hooks/storeHooks";
-import { selectProjects } from "@/store/slices/projectsSlice";
+import { selectProjects } from "@/store/Selectors";
 import { Project } from "@/utils/types";
 import Splitscreen from "@mui/icons-material/Splitscreen";
 import { CircularProgress } from "@mui/material";

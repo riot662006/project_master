@@ -4,7 +4,7 @@ import ProjectCard from "../Cards/ProjectCard";
 import { ListAlt } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
 import { useAppSelector } from "@/hooks/storeHooks";
-import { selectProjects } from "@/store/slices/projectsSlice";
+import { selectProjects } from "@/store/Selectors";
 
 const ProjectList = () => {
   const isLoading = useAppSelector((state) => state.projects.isLoading);
