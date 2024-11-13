@@ -29,9 +29,9 @@ const getProgressSpanMsg: { [key in Status]: string } = {
 
 const getProrityMsgObj: { [key in Proirity]: { name: string; color: string } } =
   {
-    low: { name: "Low", color: "bg-green-700" },
-    medium: { name: "Medium", color: "bg-yellow-700" },
-    high: { name: "High", color: "bg-red-700" },
+    low: { name: "Low", color: "bg-green-600" },
+    medium: { name: "Medium", color: "bg-yellow-600" },
+    high: { name: "High", color: "bg-red-600" },
   };
 
 const TaskList = () => {
