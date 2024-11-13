@@ -15,24 +15,34 @@ export const selectProjectToEdit = createSelector(
     projectId ? projectsList.find((project) => project.id === projectId) : null,
 );
 
-export const selectAllTasks = createSelector(
-  (state: RootState) => state.projects.projectsList,
-  (projectsList) => {
-    const allTasks: TaskObj[] = [];
+export const selectTasks = (projectId?: string) =>
+  createSelector(
+    (state: RootState) => state.projects.projectsList,
+    (projectsList) => {
+      if (projectId) {
+        const project = projectsList.find(
+          (project) => project.id === projectId,
+        );
+        return project
+          ? project.tasks.map(
+              (task): TaskObj => ({
+                task,
+                projectName: project.title,
+              }),
+            )
+          : [];
+      }
 
-    projectsList.forEach((project) => {
-      project.tasks.forEach((task) => {
-        allTasks.push({
-          task,
-          projectName: project.title,
-        });
-      });
-    });
-
-    return allTasks;
-  },
-);
-
+      return projectsList.flatMap((project) =>
+        project.tasks.map(
+          (task): TaskObj => ({
+            task,
+            projectName: project.title,
+          }),
+        ),
+      );
+    },
+  );
 export const selectProjects = (sortBy?: ProjectSortMode, reverse = false) =>
   createSelector(
     (state: RootState) => state.projects.projectsList,

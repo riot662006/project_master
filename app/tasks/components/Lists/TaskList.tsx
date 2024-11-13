@@ -1,9 +1,8 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
-import { selectProjects } from "@/store/Selectors";
+import { selectTasks } from "@/store/Selectors";
 import {
-  getTaskPageSelectedProject,
   setView,
 } from "@/store/slices/tasksPageSlice";
 import { Priority, Status, TaskObj } from "@/utils/types";
@@ -33,39 +32,14 @@ const getProrityMsgObj: { [key in Priority]: { name: string; color: string } } =
 const TaskList = () => {
   const dispatch = useAppDispatch();
 
-  const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const projects = useAppSelector(selectProjects());
+  const selectedProjectId = useAppSelector((state) => state.tasksPage.selectedProjectId);
   const curView = useAppSelector((state) => state.tasksPage.curView);
+  const taskObjs = useAppSelector(selectTasks(selectedProjectId))
 
-  const totalTasks = selectedProject
-    ? selectedProject.tasks.length
-    : projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
+  const completedTasks = taskObjs.filter((taskObj) => taskObj.task.status === "completed");
+  const ongoingTasks = taskObjs.filter((taskObj) => taskObj.task.status !== "completed");
 
-  const totalTasksDone = selectedProject
-    ? selectedProject.tasks.filter((task) => task.status == "completed").length
-    : projects.reduce(
-        (acc: number, project) =>
-          acc +
-          project.tasks.filter((task) => task.status == "completed").length,
-        0,
-      );
-
-  const taskObjs: TaskObj[] = selectedProject
-    ? selectedProject.tasks
-        .filter(
-          (task) => (curView == "on-going") !== (task.status == "completed"),
-        )
-        .map((task) => ({
-          task,
-          projectName: selectedProject.title,
-        }))
-    : projects.flatMap((project) =>
-        project.tasks
-          .filter(
-            (task) => (curView == "on-going") !== (task.status == "completed"),
-          )
-          .map((task) => ({ task, projectName: project.title })),
-      );
+  const displayedTasks = (curView == 'on-going') ? ongoingTasks : completedTasks;
 
   return (
     <div className="flex h-full flex-col pl-12 max-sm:pl-0">
@@ -86,7 +60,7 @@ const TaskList = () => {
           <span
             className={`rounded-md ${curView == "on-going" ? "bg-sky-500 text-white" : "bg-slate-200 text-slate-400"} px-2 py-0.5`}
           >
-            {totalTasks - totalTasksDone}
+            {ongoingTasks.length}
           </span>
         </button>
 
@@ -106,18 +80,18 @@ const TaskList = () => {
           <span
             className={`rounded-md ${curView == "completed" ? "bg-sky-500 text-white" : "bg-slate-200 text-slate-400"} px-2 py-0.5`}
           >
-            {totalTasksDone}
+            {completedTasks.length}
           </span>
         </button>
       </div>
-      {taskObjs.length == 0 ? (
+      {displayedTasks.length == 0 ? (
         <div className="flex h-full w-full flex-col items-center justify-center p-16 text-slate-300">
           <LayersClear sx={{ fontSize: "10rem" }} />
           <span>No tasks here...</span>
         </div>
       ) : (
         <ul className="flex w-full flex-col gap-4">
-          {taskObjs.map((taskObj) => (
+          {displayedTasks.map((taskObj) => (
             <TaskItem key={taskObj.task.id} taskObj={taskObj} />
           ))}
         </ul>

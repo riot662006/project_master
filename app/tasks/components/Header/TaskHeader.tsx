@@ -11,28 +11,17 @@ import {
   Splitscreen,
 } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
-import { getTaskPageSelectedProject } from "@/store/slices/tasksPageSlice";
-import { selectProjects } from "@/store/Selectors";
+import { selectTasks } from "@/store/Selectors";
 
 const TaskHeader = () => {
-  const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const projects = useAppSelector(selectProjects("name"));
+  const selectedProjectId = useAppSelector((state) => state.tasksPage.selectedProjectId);
+
   const dispatch = useAppDispatch();
 
-  const totalTasks = selectedProject
-    ? selectedProject.tasks.length
-    : projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
+  const taskObjs = useAppSelector(selectTasks(selectedProjectId));
+  const completedTasks = taskObjs.filter((taskObj) => taskObj.task.status === "completed");
 
-  const totalTasksDone = selectedProject
-    ? selectedProject.tasks.filter((task) => task.status == "completed").length
-    : projects.reduce(
-        (acc: number, project) =>
-          acc +
-          project.tasks.filter((task) => task.status == "completed").length,
-        0,
-      );
-
-  const percentageCompleted = (totalTasksDone / (totalTasks || 1)) * 100;
+  const percentageCompleted = (completedTasks.length / (taskObjs.length || 1)) * 100;
 
   const SearchBar = () => {
     return (

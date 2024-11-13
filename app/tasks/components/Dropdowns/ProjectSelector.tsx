@@ -1,8 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { selectProjects } from "@/store/Selectors";
+import { selectProjects, selectTasks } from "@/store/Selectors";
 import {
-  getTaskPageSelectedProject,
   setSelectedProject,
 } from "@/store/slices/tasksPageSlice";
 import { allProjectIcons } from "@/utils/projectIcons";
@@ -10,13 +9,15 @@ import { DensitySmall, KeyboardArrowDown } from "@mui/icons-material";
 import { useRef } from "react";
 
 const ProjectSelector = () => {
-  const selectedProject = useAppSelector(getTaskPageSelectedProject);
-  const projects = useAppSelector(selectProjects("name"));
   const dispatch = useAppDispatch();
 
-  const totalTasks = selectedProject
-    ? selectedProject.tasks.length
-    : projects.reduce((acc: number, project) => acc + project.tasks.length, 0);
+  const selectedProjectId = useAppSelector(
+    (state) => state.tasksPage.selectedProjectId,
+  );
+  const projects = useAppSelector(selectProjects("name"));
+  const selectedProject = projects.find((project) => project.id == selectedProjectId);
+
+  const taskObjs = useAppSelector(selectTasks(selectedProjectId));
 
   const menuRef = useRef<HTMLDivElement>(null);
   const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
@@ -37,7 +38,7 @@ const ProjectSelector = () => {
           {selectedProject ? selectedProject.title : "All Projects"}
         </span>
         <span className="rounded-md bg-slate-700 px-1.5 py-0.5 text-sm font-semibold text-white group-hover:bg-sky-700 max-sm:hidden">
-          {totalTasks}
+          {taskObjs.length}
         </span>
         <KeyboardArrowDown />
       </button>
@@ -47,7 +48,7 @@ const ProjectSelector = () => {
       >
         <ul className="flex w-48 flex-col gap-2 py-4">
           <div
-            className={`flex items-center gap-4 p-2 py-4 ${!selectedProject ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
+            className={`flex items-center gap-4 p-2 py-4 ${!selectedProjectId ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
             onClick={() => selectProject("")}
           >
             <DensitySmall fontSize="small" className="text-sky-500" />
@@ -62,7 +63,7 @@ const ProjectSelector = () => {
             return (
               <div
                 key={project.id}
-                className={`flex items-center gap-4 p-2 ${selectedProject?.id == project.id ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
+                className={`flex items-center gap-4 p-2 ${selectedProjectId == project.id ? "rounded-lg border border-sky-500 bg-sky-100" : ""} cursor-pointer hover:text-sky-500`}
                 onClick={() => selectProject(project.id)}
               >
                 <Icon fontSize="small" className="text-sky-500" />

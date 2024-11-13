@@ -1,5 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "..";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type ViewState = "on-going" | "completed";
 
@@ -12,15 +11,6 @@ const initialState: TaskPageState = {
   selectedProjectId: "",
   curView: "on-going",
 };
-
-export const getTaskPageSelectedProject = createSelector(
-  [
-    (state: RootState) => state.projects.projectsList,
-    (state: RootState) => state.tasksPage.selectedProjectId,
-  ],
-  (projectsList, selectedProjectId) =>
-    projectsList.find((project) => project.id === selectedProjectId),
-);
 
 const taskPageSlice = createSlice({
   name: "taskPage",
