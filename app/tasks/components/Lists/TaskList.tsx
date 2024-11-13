@@ -2,24 +2,27 @@
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { selectTasks } from "@/store/Selectors";
-import {
-  setView,
-} from "@/store/slices/tasksPageSlice";
+import { setView } from "@/store/slices/tasksPageSlice";
 import { Priority, Status, TaskObj } from "@/utils/types";
 import {
   Cached,
+  Check,
   CheckBox,
   CheckBoxOutlineBlank,
   DeleteOutline,
   EditOutlined,
   LayersClear,
   List,
+  PendingActions,
 } from "@mui/icons-material";
+import React from "react";
 
-const getProgressSpanMsg: { [key in Status]: string } = {
-  pending: "Pending",
-  in_progress: "In Progress",
-  completed: "Completed",
+const getProgressMsgObj: {
+  [key in Status]: { msg: string; Icon: React.ElementType };
+} = {
+  pending: { msg: "Pending", Icon: PendingActions },
+  in_progress: { msg: "In Progress", Icon: Cached },
+  completed: { msg: "Completed", Icon: Check },
 };
 
 const getProrityMsgObj: { [key in Priority]: { name: string; color: string } } =
@@ -32,14 +35,20 @@ const getProrityMsgObj: { [key in Priority]: { name: string; color: string } } =
 const TaskList = () => {
   const dispatch = useAppDispatch();
 
-  const selectedProjectId = useAppSelector((state) => state.tasksPage.selectedProjectId);
+  const selectedProjectId = useAppSelector(
+    (state) => state.tasksPage.selectedProjectId,
+  );
   const curView = useAppSelector((state) => state.tasksPage.curView);
-  const taskObjs = useAppSelector(selectTasks(selectedProjectId))
+  const taskObjs = useAppSelector(selectTasks(selectedProjectId));
 
-  const completedTasks = taskObjs.filter((taskObj) => taskObj.task.status === "completed");
-  const ongoingTasks = taskObjs.filter((taskObj) => taskObj.task.status !== "completed");
+  const completedTasks = taskObjs.filter(
+    (taskObj) => taskObj.task.status === "completed",
+  );
+  const ongoingTasks = taskObjs.filter(
+    (taskObj) => taskObj.task.status !== "completed",
+  );
 
-  const displayedTasks = (curView == 'on-going') ? ongoingTasks : completedTasks;
+  const displayedTasks = curView == "on-going" ? ongoingTasks : completedTasks;
 
   return (
     <div className="flex h-full flex-col pl-12 max-sm:pl-0">
@@ -119,9 +128,11 @@ const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
         <div className="flex items-center">
           {/* Progress */}
           <div className="flex w-32 items-center justify-center gap-1 text-slate-400 max-sm:hidden">
-            <Cached fontSize="small" />
+            {React.createElement(getProgressMsgObj[taskObj.task.status].Icon, {
+              fontSize: "small",
+            })}
             <span className="text-sm font-medium">
-              {getProgressSpanMsg[taskObj.task.status]}
+              {getProgressMsgObj[taskObj.task.status].msg}
             </span>
           </div>
           {/* Priority */}
