@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import {
   Add,
-  KeyboardArrowDown,
   Menu,
   Search,
   Splitscreen,
