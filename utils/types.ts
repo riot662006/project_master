@@ -11,26 +11,23 @@ export const statusOrder: { [key in Status]: number } = {
 
 export type Proirity = "low" | "medium" | "high";
 
-export interface Task {
-  // task object for the app
+export interface BaseEntity {
   id: string;
   title: string;
   status: Status;
-  priority: Proirity;
   createdAt: string;
   updatedAt: string;
   icon: IconName;
 }
 
-export interface Project {
+export interface Task extends BaseEntity {
+  // task object for the app
+  priority: Proirity;
+}
+
+export interface Project extends BaseEntity {
   // project object for the app
-  id: string;
   clerkUserId: string;
-  title: string;
-  status: Status;
-  createdAt: string;
-  updatedAt: string;
-  icon: IconName;
   tasks: Task[];
 }
 
@@ -48,6 +45,12 @@ export type SidebarObjType = {
 
 export type AddProjectModalMode = "default" | "select-icon";
 export type ProjectSortMode = "date" | "name" | "status";
+export type TasksSortMode =
+  | "project_name"
+  | "date"
+  | "name"
+  | "status"
+  | "priority";
 
 export interface IAddProjectFormInput {
   name: string;
