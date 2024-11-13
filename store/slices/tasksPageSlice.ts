@@ -9,7 +9,7 @@ interface TaskPageState {
 }
 
 const initialState: TaskPageState = {
-  selectedProjectId: "1",
+  selectedProjectId: "",
   curView: "on-going",
 };
 
