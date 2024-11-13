@@ -13,22 +13,20 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
   const dispatch = useAppDispatch();
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
+  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(menuRef, false);
 
   const confirmDelete = () => {
     dispatch(setProjectToDelete(project.id));
     dispatch(setConfirmDeleteModalOpen(true));
   };
 
-  const toggleMenu = () => setIsMenuActive(!isMenuActive);
-
   const editOptionClicked = () => {
-    setIsMenuActive(false);
+    closeMenu();
     dispatch(openEditProjectModal(project.id));
   };
 
   const deleteOptionClicked = () => {
-    setIsMenuActive(false);
+    closeMenu();
     confirmDelete();
   };
 

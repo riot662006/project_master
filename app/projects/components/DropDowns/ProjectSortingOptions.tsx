@@ -10,8 +10,7 @@ const ProjectSortingOptions = () => {
   const curSortState = useAppSelector((state) => state.projects.sortState);
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
-  const toggleMenu = () => setIsMenuActive(!isMenuActive);
+  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(menuRef, false);
 
   const [options] = useState([
     {
@@ -51,7 +50,7 @@ const ProjectSortingOptions = () => {
   }, [options, curSortState]);
 
   const sortBy = (mode: ProjectSortMode, reverse: boolean) => {
-    setIsMenuActive(false);
+    closeMenu();
     dispatch(setSortState({ mode, reverse }));
   };
 

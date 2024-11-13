@@ -1,10 +1,18 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 
 export const useDetectOutsideClick = (
   element: React.RefObject<HTMLDivElement>,
   initialState: boolean,
-): [boolean, Dispatch<SetStateAction<boolean>>] => {
+): [boolean, () => void, () => void] => {
   const [isActive, setIsActive] = useState<boolean>(initialState);
+
+  const toggleMenu = () => {
+    setIsActive((state) => !state);
+  };
+
+  const closeMenu = () => {
+    setIsActive(false);
+  };
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
@@ -13,7 +21,7 @@ export const useDetectOutsideClick = (
         element.current !== null &&
         !element.current.contains(event.target as Node)
       ) {
-        setIsActive(!isActive);
+        setIsActive(false);
       }
     };
 
@@ -27,5 +35,5 @@ export const useDetectOutsideClick = (
     };
   }, [isActive, element]);
 
-  return [isActive, setIsActive];
+  return [isActive, toggleMenu, closeMenu];
 };

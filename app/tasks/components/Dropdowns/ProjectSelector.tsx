@@ -1,9 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
 import { selectProjects, selectTasks } from "@/store/Selectors";
-import {
-  setSelectedProject,
-} from "@/store/slices/tasksPageSlice";
+import { setSelectedProject } from "@/store/slices/tasksPageSlice";
 import { allProjectIcons } from "@/utils/projectIcons";
 import { DensitySmall, KeyboardArrowDown } from "@mui/icons-material";
 import { useRef } from "react";
@@ -15,21 +13,25 @@ const ProjectSelector = () => {
     (state) => state.tasksPage.selectedProjectId,
   );
   const projects = useAppSelector(selectProjects("name"));
-  const selectedProject = projects.find((project) => project.id == selectedProjectId);
+  const selectedProject = projects.find(
+    (project) => project.id == selectedProjectId,
+  );
 
   const taskObjs = useAppSelector(selectTasks(selectedProjectId));
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, setIsMenuActive] = useDetectOutsideClick(menuRef, false);
-  const toggleMenu = () => setIsMenuActive(!isMenuActive);
+  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(
+    menuRef,
+    false,
+  );
 
   const selectProject = (projectId: string) => {
-    setIsMenuActive(false);
+    closeMenu();
     dispatch(setSelectedProject(projectId));
   };
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="w-fit relative" ref={menuRef}>
       <button
         className="group flex cursor-pointer items-center gap-2 hover:text-sky-500"
         onClick={toggleMenu}
