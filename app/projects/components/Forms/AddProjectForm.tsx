@@ -148,7 +148,7 @@ const AddProjectForm = ({
         <button
           disabled={isDisabled || Boolean(errors.name)}
           type="submit"
-          className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 disabled:cursor-default disabled:bg-sky-400"
+          className="flex gap-2 h-8 cursor-pointer items-center rounded-md bg-sky-500 p-4 pr-4 text-xs text-white hover:bg-sky-600 disabled:cursor-default disabled:bg-sky-400"
         >
           {isDisabled ? (
             <>
