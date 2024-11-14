@@ -13,7 +13,10 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
   const dispatch = useAppDispatch();
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(menuRef, false);
+  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(
+    menuRef,
+    false,
+  );
 
   const confirmDelete = () => {
     dispatch(setProjectToDelete(project.id));

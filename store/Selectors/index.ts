@@ -2,7 +2,6 @@ import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { ProjectSortMode, TaskObj, TaskSortMode } from "@/utils/types";
 import { getProjectSortFunction, getTaskSortFunction } from "@/utils/functions";
-import { TaskSortState } from "../slices/tasksPageSlice";
 
 export const selectAllProjectNames = createSelector(
   (state: RootState) => state.projects.projectsList,

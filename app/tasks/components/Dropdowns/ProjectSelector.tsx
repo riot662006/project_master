@@ -31,7 +31,7 @@ const ProjectSelector = () => {
   };
 
   return (
-    <div className="w-fit relative" ref={menuRef}>
+    <div className="relative w-fit" ref={menuRef}>
       <button
         className="group flex cursor-pointer items-center gap-2 hover:text-sky-500"
         onClick={toggleMenu}

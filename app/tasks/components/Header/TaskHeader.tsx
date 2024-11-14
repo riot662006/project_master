@@ -3,13 +3,7 @@
 import ProgressBar from "@/components/ProgressBar";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
-import {
-  Add,
-  KeyboardArrowDown,
-  Menu,
-  Search,
-  Splitscreen,
-} from "@mui/icons-material";
+import { Add, Menu, Search, Splitscreen } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
 import { selectTasks } from "@/store/Selectors";
 import TaskSortingOptions from "../Dropdowns/TaskSortingOptions";
