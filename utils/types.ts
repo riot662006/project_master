@@ -70,7 +70,7 @@ export interface IAddProjectFormInput {
 export interface IAddTaskFormInput {
   name: string;
   icon: IconName;
-  priority: { value: Priority };
+  priority: Priority;
   projectId: string;
 }
 

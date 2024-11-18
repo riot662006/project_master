@@ -2,7 +2,7 @@ import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
 import SelectProjectIconSection from "../../../../components/Sections/SelectProjectIconSection";
 
-import { Controller, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
@@ -10,6 +10,7 @@ import { allProjectIcons, IconName } from "@/utils/projectIcons";
 import { useEffect } from "react";
 import { selectAllProjectNames, selectProjectToEdit } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
+import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
 
 const AddTaskForm = ({
   isSelectingIcon,
@@ -135,45 +136,28 @@ const AddTaskForm = ({
                 <ProjectIcon name={icon} innerClassName="text-white" />
               </button>
             </div>
-            <span className="text-sm font-medium text-red-500">
-              {errors.name?.message || errors.root?.message}
-            </span>
+            {errors.name && (
+              <span className="text-sm font-medium text-red-500">
+                {errors.name.message}
+              </span>
+            )}
           </div>
         </div>
-        <div className="flex w-full gap-4">
+        <div className="flex w-full gap-4 max-sm:flex-col">
           <div className="flex w-full flex-col gap-2">
             <p className="text-sm font-semibold">Task Priority</p>
-            <Controller
-              name="priority"
+            <TaskPrioritySelector
               control={control}
-              rules={{ required: true }}
-              render={({ fieldState }) => (
-                <div className="w-full">
-                  <TaskPrioritySelector />
-                  {fieldState.error && (
-                    <span className="text-sm font-medium text-red-500">
-                      {fieldState.error.message}
-                    </span>
-                  )}
-                </div>
-              )}
+              name="priority"
+              rules={{ required: "Priority is required" }}
             />
           </div>
           <div className="flex w-full flex-col gap-2">
             <p className="text-sm font-semibold">Project</p>
-            <Controller
-              name="priority"
+            <TaskProjectSelector
               control={control}
-              rules={{ required: true }}
-              render={({ fieldState }) => (
-                <div className="w-full">
-                  {fieldState.error && (
-                    <span className="text-sm font-medium text-red-500">
-                      {fieldState.error.message}
-                    </span>
-                  )}
-                </div>
-              )}
+              name="projectId"
+              rules={{ required: "Project is required" }}
             />
           </div>
         </div>
