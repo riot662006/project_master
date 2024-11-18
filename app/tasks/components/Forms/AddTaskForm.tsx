@@ -143,7 +143,7 @@ const AddTaskForm = ({
             )}
           </div>
         </div>
-        <div className="flex w-full gap-4 max-sm:flex-col">
+        <div className="flex w-full gap-4 max-md:flex-col">
           <div className="flex w-full flex-col gap-2">
             <p className="text-sm font-semibold">Task Priority</p>
             <TaskPrioritySelector
