@@ -38,8 +38,8 @@ const TaskPrioritySelector = (
     <div className="flex w-full flex-col relative text-sm">
       <div className="flex w-full flex-col" ref={menuRef}>
         <div className="flex w-full border rounded-sm p-2" onClick={() => toggleMenu()}>
-          <span className="flex flex-grow gap-2 items-center text-ellipsis truncate whitespace-nowrap">
-            <span className={`w-2 aspect-square ${curOption?.color} rounded-full`}/>
+          <span className={`flex flex-grow gap-2 items-center text-ellipsis truncate whitespace-nowrap ${!curOption && "text-slate-400"}`}>
+            {curOption && <span className={`w-2 aspect-square ${curOption?.color} rounded-full`}/>}
             {curOption?.label ?? "Select Priority..."}
           </span>
           <KeyboardArrowDown/>
