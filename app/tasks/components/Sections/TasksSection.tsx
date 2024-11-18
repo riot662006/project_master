@@ -4,6 +4,7 @@ import { useAppSelector } from "@/hooks/storeHooks";
 import TasksHeader from "../Header/TaskHeader";
 import TaskList from "../Lists/TaskList";
 import { CircularProgress } from "@mui/material";
+import AddTaskModal from "../Modals/AddTaskModal";
 
 const TasksSection = () => {
   const isLoading = useAppSelector((state) => state.projects.isLoading);
@@ -22,6 +23,7 @@ const TasksSection = () => {
           </>
         )}
       </div>
+      <AddTaskModal />
     </div>
   );
 };

@@ -5,7 +5,6 @@ import { Add, BorderAll, Menu, Search } from "@mui/icons-material";
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import { openAddProjectModal } from "@/store/slices/addProjectModalSlice";
-import AddProjectModal from "../Modals/AddProjectModal";
 import ProjectSortingOptions from "../DropDowns/ProjectSortingOptions";
 
 const ProjectHeader = () => {
@@ -48,7 +47,6 @@ const ProjectHeader = () => {
           <button onClick={() => dispatch(toggleSidebar(true))}>
             <Menu className="hidden cursor-pointer text-slate-400 max-sm:block" />
           </button>
-          <AddProjectModal />
         </div>
       </div>
       <div className="flex items-center justify-between py-8">

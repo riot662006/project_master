@@ -1,6 +1,6 @@
 import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
-import SelectProjectIconSection from "../Sections/SelectProjectIconSection";
+import SelectProjectIconSection from "../../../../components/Sections/SelectProjectIconSection";
 import { createProject, updatedProject } from "@/utils/functions";
 
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";

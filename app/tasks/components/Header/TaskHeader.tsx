@@ -7,6 +7,7 @@ import { Add, Menu, Search, Splitscreen } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
 import { selectTasks } from "@/store/Selectors";
 import TaskSortingOptions from "../Dropdowns/TaskSortingOptions";
+import { openAddTaskModal } from "@/store/slices/addTaskModalSlice";
 
 const TaskHeader = () => {
   const selectedProjectId = useAppSelector(
@@ -39,9 +40,12 @@ const TaskHeader = () => {
     );
   };
 
-  const NewProjectButton = () => {
+  const NewTaskButton = () => {
     return (
-      <div className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-[14px] text-white max-sm:px-2">
+      <div
+        className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-[14px] text-white max-sm:px-2"
+        onClick={() => dispatch(openAddTaskModal())}
+      >
         <Add sx={{ fontSize: "22px" }} />
         <span className="font-medium max-sm:hidden">New Task</span>
       </div>
@@ -53,7 +57,7 @@ const TaskHeader = () => {
       <div className="flex items-center justify-between">
         <SearchBar />
         <div className="flex items-center gap-2">
-          <NewProjectButton />
+          <NewTaskButton />
           <button onClick={() => dispatch(toggleSidebar(true))}>
             <Menu className="hidden cursor-pointer text-slate-400 max-sm:block" />
           </button>

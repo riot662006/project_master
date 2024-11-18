@@ -67,6 +67,13 @@ export interface IAddProjectFormInput {
   icon: IconName;
 }
 
+export interface IAddTaskFormInput {
+  name: string;
+  icon: IconName;
+  priority: { value: Priority };
+  projectId: string;
+}
+
 export type AddProjectModalObjType = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
