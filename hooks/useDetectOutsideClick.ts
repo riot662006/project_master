@@ -1,5 +1,21 @@
 import { useState, useEffect } from "react";
 
+let activeModals = 0;
+
+const lockScroll = () => {
+  if (activeModals === 0) {
+    document.body.style.overflow = "hidden";
+  }
+  activeModals += 1;
+};
+
+const unlockScroll = () => {
+  activeModals -= 1;
+  if (activeModals <= 0) {
+    document.body.style.overflow = "";
+  }
+};
+
 export const useDetectOutsideClick = (
   element: React.RefObject<HTMLDivElement>,
   initialState: boolean,
@@ -28,9 +44,13 @@ export const useDetectOutsideClick = (
     // If the item is active (ie open) then listen for clicks outside
     if (isActive) {
       window.addEventListener("click", onClick);
+
+      lockScroll(); // locks the scroll for the page while modal is active
     }
 
     return () => {
+      // if it was active in the last useEffect call
+      if (isActive) unlockScroll();
       window.removeEventListener("click", onClick);
     };
   }, [isActive, element]);
