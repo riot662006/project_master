@@ -37,7 +37,6 @@ const AddTaskForm = ({
   const {
     register,
     handleSubmit,
-    setError,
     setValue,
     reset,
     control,

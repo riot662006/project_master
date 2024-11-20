@@ -3,7 +3,7 @@ import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
 import { selectProjects } from "@/store/Selectors";
 import { IAddTaskFormInput } from "@/utils/types";
 import { KeyboardArrowDown } from "@mui/icons-material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useController, UseControllerProps } from "react-hook-form";
 
 const TaskProjectSelector = (
