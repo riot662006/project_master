@@ -7,9 +7,12 @@ import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { useEffect } from "react";
-import { selectAllProjectNames, selectProjectToEdit } from "@/store/Selectors";
+import { selectProjectToEdit, selectTasks } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
+import { allProjectIcons, IconName } from "@/utils/projectIcons";
+import { createTask } from "@/utils/functions";
+import { addTask } from "@/store/slices/projectsSlice";
 
 const AddTaskForm = ({
   isSelectingIcon,
@@ -21,7 +24,7 @@ const AddTaskForm = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const allProjectNames = useAppSelector(selectAllProjectNames);
+  const allTasks = useAppSelector(selectTasks());
   const projectToEdit = useAppSelector(selectProjectToEdit);
   const mode = useAppSelector((state) => state.addProjectModal.mode);
 
@@ -29,14 +32,13 @@ const AddTaskForm = ({
     (state) => state.tasksPage.selectedProjectId,
   );
 
-  const isDisabled = useAppSelector(
-    (state) => state.addProjectModal.isDisabled,
-  );
+  const isDisabled = useAppSelector((state) => state.addTaskModal.isDisabled);
 
   const {
     register,
     handleSubmit,
     setValue,
+    setError,
     reset,
     control,
     formState: { errors },
@@ -60,25 +62,27 @@ const AddTaskForm = ({
   const closeModalHandler = () => dispatch(closeModal());
 
   const onSubmit: SubmitHandler<IAddTaskFormInput> = async (data) => {
-    // const selectedIconName: IconName =
-    //   allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
-    //   "default";
+    const selectedIconName: IconName =
+      allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
+      "default";
 
-    // const projectInfo = projectToEdit
-    //   ? updatedProject(projectToEdit, data.name.trim(), selectedIconName)
-    //   : createProject(data.name.trim(), selectedIconName);
+    const taskInfo = createTask(
+      data.name.trim(),
+      selectedIconName,
+      data.priority,
+    );
 
-    // try {
-    //   if (mode == "add") {
-    //     await dispatch(addProject(projectInfo)).unwrap();
-    //   } else {
-    //     await dispatch(updateProject(projectInfo)).unwrap();
-    //   }
+    try {
+      if (mode == "add") {
+        await dispatch(
+          addTask({ task: taskInfo, projectId: data.projectId }),
+        ).unwrap();
+      }
 
-    //   reset();
-    // } catch {
-    //   setError("root", { type: "manual", message: "Something went wrong" });
-    // }
+      reset();
+    } catch {
+      setError("root", { type: "manual", message: "Something went wrong" });
+    }
 
     console.log(data);
   };
@@ -114,7 +118,8 @@ const AddTaskForm = ({
                         value.trim() !== "" ||
                         "Task name cannot be only spaces",
                       uniqueName: (value) =>
-                        !allProjectNames
+                        !allTasks
+                          .map((taskObj) => taskObj.task.title)
                           .filter((name) => name !== projectToEdit?.title)
                           .includes(value.trim()) || "Task name already exists",
                     },
@@ -159,6 +164,11 @@ const AddTaskForm = ({
             />
           </div>
         </div>
+        {errors.root && (
+          <div className="flex w-full justify-end text-sm font-medium text-red-500">
+            {errors.root.message}
+          </div>
+        )}
       </div>
       <div className="flex w-full justify-end gap-4 transition-colors">
         <button

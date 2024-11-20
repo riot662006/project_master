@@ -1,10 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 import {
   BaseEntity,
+  Priority,
   priorityOrder,
   Project,
   ProjectSortMode,
   statusOrder,
+  Task,
   TaskObj,
   TaskSortMode,
 } from "./types";
@@ -46,6 +48,28 @@ export const updatedProject = (
   };
 
   return project;
+};
+
+export const createTask = (
+  title: string,
+  icon: IconName,
+  priority: Priority,
+) => {
+  const createdAt = new Date().toISOString();
+
+  const task: Task = {
+    title,
+    icon,
+    id: uuidv4(),
+
+    status: "pending",
+    createdAt,
+    updatedAt: createdAt,
+
+    priority,
+  };
+
+  return task;
 };
 
 export const timeSinceCreatedDisplay = (createdAt: string): string => {

@@ -1,6 +1,6 @@
 import { exampleProjects } from "@/utils/examples";
 import { coinFlip } from "@/utils/functions";
-import { Project, ProjectSortMode } from "@/utils/types";
+import { Project, ProjectSortMode, Task } from "@/utils/types";
 
 import {
   createSlice,
@@ -78,6 +78,19 @@ export const deleteProject = createAsyncThunk(
   },
 );
 
+export const addTask = createAsyncThunk(
+  "projects/addTask",
+  async ({ task, projectId }: { task: Task; projectId: string }) => {
+    await new Promise<void>((resolve, reject) =>
+      setTimeout(() => {
+        if (coinFlip()) resolve();
+        else reject();
+      }, 1000),
+    );
+    return { task, projectId };
+  },
+);
+
 const projectsSlice = createSlice({
   name: "projects",
   initialState: {
@@ -124,6 +137,17 @@ const projectsSlice = createSlice({
           if (index !== -1) {
             state.projectsList[index] = action.payload;
           }
+        }),
+      )
+
+      // Add Task
+      .addCase(addTask.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          const project = state.projectsList.find(
+            (project) => project.id === action.payload.projectId,
+          );
+
+          project?.tasks.push(action.payload.task);
         }),
       )
 
