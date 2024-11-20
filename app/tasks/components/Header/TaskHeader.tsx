@@ -22,7 +22,7 @@ const TaskHeader = () => {
   );
 
   const percentageCompleted =
-    (completedTasks.length / (taskObjs.length || 1)) * 100;
+    Math.round((completedTasks.length / (taskObjs.length || 1)) * 100);
 
   const SearchBar = () => {
     return (
