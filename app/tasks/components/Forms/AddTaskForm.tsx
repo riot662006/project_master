@@ -6,7 +6,6 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
-import { allProjectIcons, IconName } from "@/utils/projectIcons";
 import { useEffect } from "react";
 import { selectAllProjectNames, selectProjectToEdit } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
@@ -61,9 +60,9 @@ const AddTaskForm = ({
   const closeModalHandler = () => dispatch(closeModal());
 
   const onSubmit: SubmitHandler<IAddTaskFormInput> = async (data) => {
-    const selectedIconName: IconName =
-      allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
-      "default";
+    // const selectedIconName: IconName =
+    //   allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
+    //   "default";
 
     // const projectInfo = projectToEdit
     //   ? updatedProject(projectToEdit, data.name.trim(), selectedIconName)
