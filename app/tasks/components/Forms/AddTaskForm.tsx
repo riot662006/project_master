@@ -7,7 +7,7 @@ import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { useEffect } from "react";
-import { selectProjectToEdit, selectTasks } from "@/store/Selectors";
+import { selectTasks } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
@@ -25,7 +25,6 @@ const AddTaskForm = ({
   const dispatch = useAppDispatch();
 
   const allTasks = useAppSelector(selectTasks());
-  const projectToEdit = useAppSelector(selectProjectToEdit);
   const mode = useAppSelector((state) => state.addProjectModal.mode);
 
   const defaultProjectId = useAppSelector(
@@ -44,18 +43,18 @@ const AddTaskForm = ({
     formState: { errors },
   } = useForm<IAddTaskFormInput>({
     defaultValues: {
-      icon: projectToEdit?.icon || "default",
-      name: projectToEdit?.title || "",
+      icon: "default",
+      name: "",
       projectId: defaultProjectId,
     },
   });
 
   useEffect(() => {
     reset({
-      icon: projectToEdit?.icon || "default",
-      name: projectToEdit?.title || "",
+      icon: "default",
+      name: "",
     });
-  }, [projectToEdit, reset]);
+  }, [reset]);
 
   const icon = useWatch({ control, name: "icon" });
 
@@ -120,7 +119,7 @@ const AddTaskForm = ({
                       uniqueName: (value) =>
                         !allTasks
                           .map((taskObj) => taskObj.task.title)
-                          .filter((name) => name !== projectToEdit?.title)
+                          // to filter when editing tasks later.
                           .includes(value.trim()) || "Task name already exists",
                     },
                   })}
