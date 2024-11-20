@@ -21,8 +21,9 @@ const TaskHeader = () => {
     (taskObj) => taskObj.task.status === "completed",
   );
 
-  const percentageCompleted =
-    Math.round((completedTasks.length / (taskObjs.length || 1)) * 100);
+  const percentageCompleted = Math.round(
+    (completedTasks.length / (taskObjs.length || 1)) * 100,
+  );
 
   const SearchBar = () => {
     return (
@@ -44,7 +45,11 @@ const TaskHeader = () => {
     return (
       <div
         className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-[14px] text-white max-sm:px-2"
-        onClick={() => dispatch(openAddTaskModal())}
+        onClick={() =>
+          selectedProjectId.length
+            ? dispatch(openAddTaskModal(selectedProjectId))
+            : dispatch(openAddTaskModal())
+        }
       >
         <Add sx={{ fontSize: "22px" }} />
         <span className="font-medium max-sm:hidden">New Task</span>

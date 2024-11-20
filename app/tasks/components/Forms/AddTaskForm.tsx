@@ -27,9 +27,8 @@ const AddTaskForm = ({
   const allTasks = useAppSelector(selectTasks());
   const mode = useAppSelector((state) => state.addProjectModal.mode);
 
-  const defaultProjectId = useAppSelector(
-    (state) => state.tasksPage.selectedProjectId,
-  );
+  const defaultProjectId =
+    useAppSelector((state) => state.addTaskModal.projectId) ?? "";
 
   const isDisabled = useAppSelector((state) => state.addTaskModal.isDisabled);
 
@@ -53,8 +52,9 @@ const AddTaskForm = ({
     reset({
       icon: "default",
       name: "",
+      projectId: defaultProjectId,
     });
-  }, [reset]);
+  }, [defaultProjectId, reset]);
 
   const icon = useWatch({ control, name: "icon" });
 
