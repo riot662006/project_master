@@ -16,10 +16,18 @@ const unlockScroll = () => {
   }
 };
 
+export interface useDetectOutsideClickReturn {
+  isActive: boolean;
+  toggleMenu: () => void;
+  closeMenu: () => void;
+  openMenu: () => void;
+}
+
 export const useDetectOutsideClick = (
   element: React.RefObject<HTMLDivElement>,
   initialState: boolean,
-): [boolean, () => void, () => void] => {
+  onClose: () => void = () => {},
+): useDetectOutsideClickReturn => {
   const [isActive, setIsActive] = useState<boolean>(initialState);
 
   const toggleMenu = () => {
@@ -28,6 +36,11 @@ export const useDetectOutsideClick = (
 
   const closeMenu = () => {
     setIsActive(false);
+    onClose();
+  };
+
+  const openMenu = () => {
+    setIsActive(true);
   };
 
   useEffect(() => {
@@ -38,6 +51,7 @@ export const useDetectOutsideClick = (
         !element.current.contains(event.target as Node)
       ) {
         setIsActive(false);
+        onClose();
       }
     };
 
@@ -53,7 +67,7 @@ export const useDetectOutsideClick = (
       if (isActive) unlockScroll();
       window.removeEventListener("click", onClick);
     };
-  }, [isActive, element]);
+  }, [isActive, element, onClose]);
 
-  return [isActive, toggleMenu, closeMenu];
+  return { isActive, toggleMenu, closeMenu, openMenu };
 };

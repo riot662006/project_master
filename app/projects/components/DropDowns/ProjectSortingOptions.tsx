@@ -10,10 +10,11 @@ const ProjectSortingOptions = () => {
   const curSortState = useAppSelector((state) => state.projects.sortState);
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(
-    menuRef,
-    false,
-  );
+  const {
+    isActive: isMenuActive,
+    toggleMenu,
+    closeMenu,
+  } = useDetectOutsideClick(menuRef, false);
 
   const [options] = useState([
     {

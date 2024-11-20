@@ -13,12 +13,16 @@ const TaskProjectSelector = (
   const projects = useAppSelector(selectProjects("name"));
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(
-    menuRef,
-    false,
-  );
 
   const [searchValue, setSearchValue] = useState<string>("");
+
+  const {
+    isActive: isMenuActive,
+    toggleMenu,
+    closeMenu,
+  } = useDetectOutsideClick(menuRef, false, () => {
+    setSearchValue("");
+  });
 
   const onSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -30,7 +34,6 @@ const TaskProjectSelector = (
   };
   const onProjectClicked = (value: string) => {
     field.onChange(value);
-    setSearchValue("");
     closeMenu();
   };
 

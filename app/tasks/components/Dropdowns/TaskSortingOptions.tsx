@@ -10,10 +10,11 @@ const TaskSortingOptions = () => {
   const curSortState = useAppSelector((state) => state.tasksPage.sortState);
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const [isMenuActive, toggleMenu, closeMenu] = useDetectOutsideClick(
-    menuRef,
-    false,
-  );
+  const {
+    isActive: isMenuActive,
+    toggleMenu,
+    closeMenu,
+  } = useDetectOutsideClick(menuRef, false);
 
   const [options] = useState([
     {
