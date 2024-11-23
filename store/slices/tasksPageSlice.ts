@@ -16,7 +16,7 @@ interface TaskPageState {
 
 const initialState: TaskPageState = {
   selectedProjectId: "",
-  curView: "all",
+  curView: "on-going",
   sortState: { mode: "name", reverse: false },
 };
 
