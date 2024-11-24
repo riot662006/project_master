@@ -5,6 +5,7 @@ import TasksHeader from "../Header/TaskHeader";
 import TaskList from "../Lists/TaskList";
 import { CircularProgress } from "@mui/material";
 import AddTaskModal from "../Modals/AddTaskModal";
+import ConfirmDeleteModal from "@/components/Modals/ConfirmProjectDeleteModal";
 
 const TasksSection = () => {
   const isLoading = useAppSelector((state) => state.projects.isLoading);
@@ -24,6 +25,7 @@ const TasksSection = () => {
         )}
       </div>
       <AddTaskModal />
+      <ConfirmDeleteModal />
     </div>
   );
 };

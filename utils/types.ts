@@ -63,6 +63,8 @@ export type TaskSortMode =
   | "status"
   | "priority";
 
+export type ConfirmDeleteModalObjectType = "project" | "task";
+
 export interface IAddProjectFormInput {
   name: string;
   icon: IconName;

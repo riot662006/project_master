@@ -2,7 +2,7 @@ import CompletedProjectsSection from "./CompletedProjectsSection";
 import ProjectHeader from "../Header/ProjectHeader";
 import ProjectList from "../Lists/ProjectList";
 import AddProjectModal from "../Modals/AddProjectModal";
-import ConfirmDeleteProjectModal from "../Modals/ConfirmProjectDeleteModal";
+import ConfirmDeleteModal from "../../../../components/Modals/ConfirmProjectDeleteModal";
 
 const ProjectsSection = () => {
   return (
@@ -15,7 +15,7 @@ const ProjectsSection = () => {
         <CompletedProjectsSection />
       </div>
       <AddProjectModal />
-      <ConfirmDeleteProjectModal />
+      <ConfirmDeleteModal />
     </div>
   );
 };

@@ -104,6 +104,19 @@ export const updateTask = createAsyncThunk(
   },
 );
 
+export const deleteTask = createAsyncThunk(
+  "projects/deleteTask",
+  async (taskId: string) => {
+    await new Promise<void>((resolve, reject) =>
+      setTimeout(() => {
+        if (coinFlip()) resolve();
+        else reject();
+      }, 1000),
+    );
+    return taskId;
+  },
+);
+
 const projectsSlice = createSlice({
   name: "projects",
   initialState: {
@@ -149,6 +162,21 @@ const projectsSlice = createSlice({
           );
           if (index !== -1) {
             state.projectsList[index] = action.payload;
+          }
+        }),
+      )
+
+      // Delete Project
+      .addCase(deleteTask.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          const project = state.projectsList.find((project) =>
+            project.tasks.some((task) => task.id == action.payload),
+          );
+
+          if (project) {
+            project.tasks = project.tasks.filter(
+              (task) => task.id !== action.payload,
+            );
           }
         }),
       )

@@ -4,6 +4,7 @@ import ProjectIcon from "@/components/ProjectIcon";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { selectTasks } from "@/store/Selectors";
 import { openEditTaskModal } from "@/store/slices/addTaskModalSlice";
+import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
 import { setView, ViewState } from "@/store/slices/tasksPageSlice";
 import { Priority, Status, TaskObj } from "@/utils/types";
 import {
@@ -75,7 +76,7 @@ const TaskList = () => {
     taskObjs;
 
   return (
-    <div className="flex max-h-full overflow-y-auto flex-col pl-12 max-sm:pl-0">
+    <div className="flex max-h-full flex-col overflow-y-auto pl-12 max-sm:pl-0">
       <div className="flex items-center gap-8 py-8">
         {options.map((option) => (
           <button
@@ -166,7 +167,18 @@ const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
           </div>
 
           {/* Trash */}
-          <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-slate-200 text-slate-600">
+          <div
+            className="flex aspect-square w-8 items-center justify-center rounded-md bg-slate-200 text-slate-600"
+            onClick={() =>
+              dispatch(
+                setConfirmDeleteModal({
+                  isOpen: true,
+                  projectOrTaskId: taskObj.task.id,
+                  idType: "task",
+                }),
+              )
+            }
+          >
             <DeleteOutline sx={{ fontSize: "18px" }} />
           </div>
         </div>

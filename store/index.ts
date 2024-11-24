@@ -3,7 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import sidebarReducer from "./slices/sidebarSlice";
 import addProjectModalReducer from "./slices/addProjectModalSlice";
 import addTaskModalReducer from "./slices/addTaskModalSlice";
-import confirmDeleteModalReducer from "./slices/confirmDeleteProjectModalSlice";
+import confirmDeleteModalReducer from "./slices/confirmDeleteModalSlice";
 import projectsReducer from "./slices/projectsSlice";
 import tasksPageReducer from "./slices/tasksPageSlice";
 

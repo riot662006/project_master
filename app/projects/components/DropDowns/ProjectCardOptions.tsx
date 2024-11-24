@@ -3,10 +3,7 @@ import { Project } from "@/utils/types";
 import { Delete, EditOutlined, MoreVert } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { useAppDispatch } from "@/hooks/storeHooks";
-import {
-  setConfirmDeleteModalOpen,
-  setProjectToDelete,
-} from "@/store/slices/confirmDeleteProjectModalSlice";
+import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
 import { openEditProjectModal } from "@/store/slices/addProjectModalSlice";
 
 const ProjectCardOptions = ({ project }: { project: Project }) => {
@@ -20,8 +17,7 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
   } = useDetectOutsideClick(menuRef, false);
 
   const confirmDelete = () => {
-    dispatch(setProjectToDelete(project.id));
-    dispatch(setConfirmDeleteModalOpen(true));
+    dispatch(setConfirmDeleteModal({ isOpen: true, projectOrTaskId: project.id, idType: "project"}));
   };
 
   const editOptionClicked = () => {
