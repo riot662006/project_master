@@ -14,7 +14,6 @@ import {
   DeleteOutline,
   EditOutlined,
   LayersClear,
-  List,
   PendingActions,
 } from "@mui/icons-material";
 import React from "react";

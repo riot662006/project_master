@@ -59,7 +59,7 @@ export const selectTasks = (
 
 export const selectTaskToEdit = createSelector(
   (state: RootState) => state.projects.projectsList, // Get list of projects
-  (state: RootState) => state.addTaskModal.taskId,   // Get the taskId from modal state
+  (state: RootState) => state.addTaskModal.taskId, // Get the taskId from modal state
   (projectsList, taskId) => {
     const allTasks = projectsList.flatMap((project) =>
       project.tasks.map(
@@ -71,7 +71,7 @@ export const selectTaskToEdit = createSelector(
       ),
     );
     return allTasks.find((taskObj) => taskObj.task.id === taskId) || null;
-  }
+  },
 );
 
 export const selectProjects = (sortBy?: ProjectSortMode, reverse = false) =>

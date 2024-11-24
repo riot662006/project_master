@@ -7,11 +7,7 @@ import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { useEffect } from "react";
-import {
-  selectTasks,
-  selectProjects,
-  selectTaskToEdit,
-} from "@/store/Selectors";
+import { selectTasks, selectTaskToEdit } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
