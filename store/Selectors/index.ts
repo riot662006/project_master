@@ -66,3 +66,10 @@ export const selectProjects = (sortBy?: ProjectSortMode, reverse = false) =>
       );
     },
   );
+export const selectProject = (projectId: string) =>
+  createSelector(
+    (state: RootState) => state.projects.projectsList,
+    (projectsList) => {
+      return projectsList.find((project) => project.id == projectId) ?? null;
+    },
+  );

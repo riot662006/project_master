@@ -1,6 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { selectProject } from "@/store/Selectors";
 import { setConfirmDeleteModalOpen } from "@/store/slices/confirmDeleteProjectModalSlice";
 import { deleteProject } from "@/store/slices/projectsSlice";
 import { CircularProgress } from "@mui/material";
@@ -9,6 +10,7 @@ const ConfirmDeleteProjectModal = () => {
   const { isOpen, projectId, isDisabled } = useAppSelector(
     (state) => state.confirmDeleteModal,
   );
+  const project = useAppSelector(selectProject(projectId));
   const dispatch = useAppDispatch();
 
   return (
@@ -19,7 +21,11 @@ const ConfirmDeleteProjectModal = () => {
         <h1 className="text-lg font-semibold">Delete Project</h1>
         <p>
           Are you sure you want to remove this project? This action cannot be
-          undone and will remove all projects associated with it.
+          undone and will remove all{" "}
+          {project?.tasks.length ? (
+            <span className="font-bold">{project.tasks.length}</span>
+          ) : null}{" "}
+          tasks associated with it.
         </p>
         <div className="flex items-center justify-end gap-4">
           <button
