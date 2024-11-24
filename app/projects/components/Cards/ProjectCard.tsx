@@ -67,7 +67,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
           <TaskList tasks={tasks} />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-4 text-slate-300">
-            <button onClick={() => {}}>
+            <button
+              onClick={() => {
+                redirectToTasksPage(project.id);
+              }}
+            >
               <LibraryAdd
                 sx={{ fontSize: "40px" }}
                 className="hover:text-sky-500"
