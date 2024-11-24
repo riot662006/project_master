@@ -123,8 +123,8 @@ const AddTaskForm = ({
                   {...register("name", {
                     required: "Task name is required",
                     maxLength: {
-                      value: 30,
-                      message: "Task name must be 30 characters or less",
+                      value: 50,
+                      message: "Task name must be 50 characters or less",
                     },
                     validate: {
                       notOnlySpaces: (value) =>
