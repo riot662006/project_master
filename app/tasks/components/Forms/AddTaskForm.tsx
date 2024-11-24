@@ -11,7 +11,7 @@ import { selectTasks, selectProjects } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
-import { createTask, updatedTask} from "@/utils/functions";
+import { createTask, updatedTask } from "@/utils/functions";
 import { addTask, updateTask } from "@/store/slices/projectsSlice";
 
 const AddTaskForm = ({
@@ -78,7 +78,12 @@ const AddTaskForm = ({
       "default";
 
     const taskInfo = taskToEdit
-      ? updatedTask(taskToEdit.task, data.name.trim(), selectedIconName, data.priority)
+      ? updatedTask(
+          taskToEdit.task,
+          data.name.trim(),
+          selectedIconName,
+          data.priority,
+        )
       : createTask(data.name.trim(), selectedIconName, data.priority);
 
     try {

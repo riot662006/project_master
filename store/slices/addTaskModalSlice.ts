@@ -30,10 +30,7 @@ const addTaskModalSlice = createSlice({
 
       state.taskId = null;
     },
-    openEditTaskModal: (
-      state,
-      action: PayloadAction<string>,
-    ) => {
+    openEditTaskModal: (state, action: PayloadAction<string>) => {
       state.isOpen = true;
       state.mode = "edit";
 
