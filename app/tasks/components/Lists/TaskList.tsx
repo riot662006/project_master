@@ -1,5 +1,6 @@
 "use client";
 
+import ProjectIcon from "@/components/ProjectIcon";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { selectTasks } from "@/store/Selectors";
 import { openEditTaskModal } from "@/store/slices/addTaskModalSlice";
@@ -124,9 +125,11 @@ const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
       {true ? <CheckBoxOutlineBlank /> : <CheckBox />}
       <div className="flex w-full items-center gap-2 rounded-r-xl bg-white p-4">
         {/* Icon */}
-        <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500">
-          <List sx={{ fontSize: "18px" }} />
-        </div>
+        <ProjectIcon
+          name={taskObj.task.icon}
+          outerClassName="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500"
+          sx={{ fontSize: "18px" }}
+        />
         {/* Task Titles */}
         <div className="flex flex-grow flex-col gap-1">
           <p className="flex max-w-[60%] items-center text-sm font-bold">
