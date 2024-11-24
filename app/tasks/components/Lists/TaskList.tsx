@@ -75,7 +75,7 @@ const TaskList = () => {
     taskObjs;
 
   return (
-    <div className="flex h-full flex-col pl-12 max-sm:pl-0">
+    <div className="flex max-h-full overflow-y-auto flex-col pl-12 max-sm:pl-0">
       <div className="flex items-center gap-8 py-8">
         {options.map((option) => (
           <button
