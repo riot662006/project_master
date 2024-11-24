@@ -7,7 +7,11 @@ import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { useEffect } from "react";
-import { selectTasks, selectProjects } from "@/store/Selectors";
+import {
+  selectTasks,
+  selectProjects,
+  selectTaskToEdit,
+} from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
@@ -26,19 +30,8 @@ const AddTaskForm = ({
 
   const allTasks = useAppSelector(selectTasks());
 
-  const { taskId: taskIdToEdit, mode } = useAppSelector(
-    (state) => state.addTaskModal,
-  );
-  const taskToEdit = allTasks.find(
-    (taskObj) => taskObj.task.id === taskIdToEdit,
-  );
-
-  const defaultProjectId =
-    mode === "edit"
-      ? (useAppSelector(selectProjects("name")).find(
-          (project) => project.title === taskToEdit?.projectName,
-        )?.id ?? "")
-      : (useAppSelector((state) => state.tasksPage.selectedProjectId) ?? "");
+  const { mode } = useAppSelector((state) => state.addTaskModal);
+  const taskToEdit = useAppSelector(selectTaskToEdit);
 
   const isDisabled = useAppSelector((state) => state.addTaskModal.isDisabled);
 
@@ -54,8 +47,8 @@ const AddTaskForm = ({
     defaultValues: {
       icon: taskToEdit?.task.icon ?? "default",
       name: taskToEdit?.task.title ?? "",
-      projectId: defaultProjectId,
-      priority: taskToEdit?.task.priority ?? undefined,
+      projectId: taskToEdit?.projectId ?? "",
+      priority: taskToEdit?.task.priority ?? "medium",
     },
   });
 
@@ -63,10 +56,10 @@ const AddTaskForm = ({
     reset({
       icon: taskToEdit?.task.icon ?? "default",
       name: taskToEdit?.task.title ?? "",
-      projectId: defaultProjectId,
-      priority: taskToEdit?.task.priority ?? undefined,
+      projectId: taskToEdit?.projectId ?? "",
+      priority: taskToEdit?.task.priority ?? "medium",
     });
-  }, [defaultProjectId, reset]);
+  }, [taskToEdit, reset]);
 
   const icon = useWatch({ control, name: "icon" });
 

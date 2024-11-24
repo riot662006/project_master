@@ -39,6 +39,7 @@ export interface Project extends BaseEntity {
 export interface TaskObj {
   task: Task;
   projectName: string;
+  projectId: string;
 }
 
 export type IconData = {
