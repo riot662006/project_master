@@ -47,7 +47,7 @@ const TaskHeader = () => {
         className="flex h-8 cursor-pointer items-center rounded-md bg-sky-500 pl-2 pr-4 text-[14px] text-white max-sm:px-2"
         onClick={() =>
           selectedProjectId.length
-            ? dispatch(openAddTaskModal(selectedProjectId))
+            ? dispatch(openAddTaskModal())
             : dispatch(openAddTaskModal())
         }
       >

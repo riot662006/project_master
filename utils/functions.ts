@@ -72,6 +72,27 @@ export const createTask = (
   return task;
 };
 
+export const updatedTask = (
+  old_task: Task,
+  title: string,
+  icon: IconName,
+  priority: Priority,
+) => {
+  const updatedAt = new Date().toISOString();
+
+  const task: Task = {
+    ...old_task,
+
+    title,
+    icon,
+
+    updatedAt: updatedAt,
+    priority,
+  };
+
+  return task;
+};
+
 export const timeSinceCreatedDisplay = (createdAt: string): string => {
   const creation = new Date(createdAt);
   const now = new Date();

@@ -7,12 +7,12 @@ import { IAddTaskFormInput } from "@/utils/types";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { useEffect } from "react";
-import { selectTasks } from "@/store/Selectors";
+import { selectTasks, selectProjects } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
 import { allProjectIcons, IconName } from "@/utils/projectIcons";
-import { createTask } from "@/utils/functions";
-import { addTask } from "@/store/slices/projectsSlice";
+import { createTask, updatedTask} from "@/utils/functions";
+import { addTask, updateTask } from "@/store/slices/projectsSlice";
 
 const AddTaskForm = ({
   isSelectingIcon,
@@ -25,10 +25,20 @@ const AddTaskForm = ({
   const dispatch = useAppDispatch();
 
   const allTasks = useAppSelector(selectTasks());
-  const mode = useAppSelector((state) => state.addProjectModal.mode);
+
+  const { taskId: taskIdToEdit, mode } = useAppSelector(
+    (state) => state.addTaskModal,
+  );
+  const taskToEdit = allTasks.find(
+    (taskObj) => taskObj.task.id === taskIdToEdit,
+  );
 
   const defaultProjectId =
-    useAppSelector((state) => state.addTaskModal.projectId) ?? "";
+    mode === "edit"
+      ? (useAppSelector(selectProjects("name")).find(
+          (project) => project.title === taskToEdit?.projectName,
+        )?.id ?? "")
+      : (useAppSelector((state) => state.tasksPage.selectedProjectId) ?? "");
 
   const isDisabled = useAppSelector((state) => state.addTaskModal.isDisabled);
 
@@ -42,17 +52,19 @@ const AddTaskForm = ({
     formState: { errors },
   } = useForm<IAddTaskFormInput>({
     defaultValues: {
-      icon: "default",
-      name: "",
+      icon: taskToEdit?.task.icon ?? "default",
+      name: taskToEdit?.task.title ?? "",
       projectId: defaultProjectId,
+      priority: taskToEdit?.task.priority ?? undefined,
     },
   });
 
   useEffect(() => {
     reset({
-      icon: "default",
-      name: "",
+      icon: taskToEdit?.task.icon ?? "default",
+      name: taskToEdit?.task.title ?? "",
       projectId: defaultProjectId,
+      priority: taskToEdit?.task.priority ?? undefined,
     });
   }, [defaultProjectId, reset]);
 
@@ -65,16 +77,18 @@ const AddTaskForm = ({
       allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
       "default";
 
-    const taskInfo = createTask(
-      data.name.trim(),
-      selectedIconName,
-      data.priority,
-    );
+    const taskInfo = taskToEdit
+      ? updatedTask(taskToEdit.task, data.name.trim(), selectedIconName, data.priority)
+      : createTask(data.name.trim(), selectedIconName, data.priority);
 
     try {
       if (mode == "add") {
         await dispatch(
           addTask({ task: taskInfo, projectId: data.projectId }),
+        ).unwrap();
+      } else {
+        await dispatch(
+          updateTask({ task: taskInfo, projectId: data.projectId }),
         ).unwrap();
       }
 
@@ -119,7 +133,7 @@ const AddTaskForm = ({
                       uniqueName: (value) =>
                         !allTasks
                           .map((taskObj) => taskObj.task.title)
-                          // to filter when editing tasks later.
+                          .filter((name) => name !== taskToEdit?.task.title)
                           .includes(value.trim()) || "Task name already exists",
                     },
                   })}

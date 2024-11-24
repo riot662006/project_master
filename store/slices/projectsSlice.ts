@@ -91,6 +91,19 @@ export const addTask = createAsyncThunk(
   },
 );
 
+export const updateTask = createAsyncThunk(
+  "projects/updateTask",
+  async ({ task, projectId }: { task: Task; projectId: string }) => {
+    await new Promise<void>((resolve, reject) =>
+      setTimeout(() => {
+        if (coinFlip()) resolve();
+        else reject();
+      }, 1000),
+    );
+    return { task, projectId };
+  },
+);
+
 const projectsSlice = createSlice({
   name: "projects",
   initialState: {
@@ -148,6 +161,27 @@ const projectsSlice = createSlice({
           );
 
           project?.tasks.push(action.payload.task);
+        }),
+      )
+
+      // Update Task
+      .addCase(updateTask.fulfilled, (state, action) =>
+        handleFulfilled(state, action, (state) => {
+          const oldProjectLocation = state.projectsList.find((project) =>
+            project.tasks.some((task) => task.id == action.payload.task.id),
+          );
+
+          if (oldProjectLocation) {
+            oldProjectLocation.tasks = oldProjectLocation.tasks.filter(
+              (task) => task.id !== action.payload.task.id,
+            );
+          }
+
+          const newProjectLocation = state.projectsList.find(
+            (project) => project.id == action.payload.projectId,
+          );
+
+          newProjectLocation?.tasks.push(action.payload.task);
         }),
       )
 

@@ -12,7 +12,6 @@ interface AddTaskModalState {
   isDisabled: boolean;
   mode: "add" | "edit";
   taskId: string | null;
-  projectId: string | null;
 }
 
 const addTaskModalSlice = createSlice({
@@ -23,31 +22,27 @@ const addTaskModalSlice = createSlice({
     mode: "add",
 
     taskId: null,
-    projectId: null,
   } as AddTaskModalState,
   reducers: {
-    openAddTaskModal: (state, action: PayloadAction<string | undefined>) => {
+    openAddTaskModal: (state) => {
       state.isOpen = true;
       state.mode = "add";
 
       state.taskId = null;
-      state.projectId = action.payload ?? null;
     },
     openEditTaskModal: (
       state,
-      action: PayloadAction<{ taskId: string; projectId?: string }>,
+      action: PayloadAction<string>,
     ) => {
       state.isOpen = true;
       state.mode = "edit";
 
-      state.taskId = action.payload.taskId;
-      state.projectId = action.payload.projectId ?? null;
+      state.taskId = action.payload;
     },
     closeModal: (state) => {
       state.isOpen = false;
       state.mode = "add";
       state.taskId = null;
-      state.projectId = null;
     },
   },
   extraReducers: (builder) => {
@@ -66,7 +61,6 @@ const addTaskModalSlice = createSlice({
           state.isOpen = false;
           state.mode = "add";
           state.taskId = null;
-          state.projectId = null;
           state.isDisabled = false;
         }
       })

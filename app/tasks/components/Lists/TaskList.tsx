@@ -2,6 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { selectTasks } from "@/store/Selectors";
+import { openEditTaskModal } from "@/store/slices/addTaskModalSlice";
 import { setView, ViewState } from "@/store/slices/tasksPageSlice";
 import { Priority, Status, TaskObj } from "@/utils/types";
 import {
@@ -116,6 +117,8 @@ const TaskList = () => {
 };
 
 const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
+  const dispatch = useAppDispatch();
+
   return (
     <li className="flex w-full items-center gap-4">
       {true ? <CheckBoxOutlineBlank /> : <CheckBox />}
@@ -153,7 +156,10 @@ const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
         </div>
         <div className="flex items-center gap-2 max-lg:flex-col">
           {/* Edit */}
-          <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500">
+          <div
+            className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500"
+            onClick={() => dispatch(openEditTaskModal(taskObj.task.id))}
+          >
             <EditOutlined sx={{ fontSize: "18px" }} />
           </div>
 
