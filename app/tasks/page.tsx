@@ -1,5 +1,5 @@
 import { Toaster } from "react-hot-toast";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/Overlays/Sidebar";
 import TasksSection from "./components/Sections/TasksSection";
 
 export default function Home() {

@@ -1,4 +1,4 @@
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/Overlays/Sidebar";
 import ProjectsSection from "./components/Sections/ProjectsSection";
 import { Toaster } from "react-hot-toast";
 
