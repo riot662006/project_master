@@ -14,7 +14,7 @@ const AddProjectModal = () => {
 
   return (
     <div
-      className={`${isOpen ? "" : "hidden"} fixed left-0 top-0 z-40 flex h-screen w-screen items-center justify-center bg-slate-800/50`}
+      className={`${isOpen ? "" : "hidden"} fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-slate-800/50`}
     >
       <div className="flex w-[50%] max-w-2xl flex-col items-center gap-10 rounded-md bg-white p-8 max-sm:w-80">
         {/* Header */}

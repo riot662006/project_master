@@ -33,16 +33,16 @@ const Sidebar = () => {
     return (
       <>
         <div
+          className={`${!isOpen && "hidden"} fixed z-50 h-screen w-screen bg-slate-800 opacity-50`}
+          onClick={closeSidebar}
+        />
+        <div
           className={`${isOpen ? "w-80 opacity-100" : "w-0 opacity-0"} fixed z-50 flex h-screen flex-col items-center justify-between border-r bg-white py-8 shadow-xl transition-[width,opacity]`}
         >
           <Logo />
           <Menu />
           <Profile />
         </div>
-        <div
-          className={`${!isOpen && "hidden"} fixed z-40 h-screen w-screen bg-slate-800 opacity-50`}
-          onClick={closeSidebar}
-        />
       </>
     );
   }

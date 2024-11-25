@@ -58,7 +58,7 @@ const TaskProjectSelector = (
           <KeyboardArrowDown />
         </div>
         <div
-          className={`absolute top-14 z-40 flex w-full flex-col ${isMenuActive ? "block" : "hidden"} gap-2 rounded-md border-gray-200 bg-white px-2 py-4 shadow-md`}
+          className={`absolute top-14 z-30 flex w-full flex-col ${isMenuActive ? "block" : "hidden"} gap-2 rounded-md border-gray-200 bg-white px-2 py-4 shadow-md`}
         >
           <div className="flex w-full">
             <input

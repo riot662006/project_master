@@ -70,7 +70,7 @@ const ProjectSortingOptions = () => {
         <KeyboardArrowDown />
       </button>
       <nav
-        className={`absolute left-0 top-10 z-40 max-md:left-auto max-md:right-0 ${isMenuActive ? "block" : "hidden"} max-h-[45vh] overflow-y-auto rounded-xl border border-gray-200 bg-white bg-opacity-90 shadow-md`}
+        className={`absolute left-0 top-10 z-30 max-md:left-auto max-md:right-0 ${isMenuActive ? "block" : "hidden"} max-h-[45vh] overflow-y-auto rounded-xl border border-gray-200 bg-white bg-opacity-90 shadow-md`}
         aria-labelledby="sortMenu"
       >
         <ul className="flex w-48 flex-col gap-2 py-8">
