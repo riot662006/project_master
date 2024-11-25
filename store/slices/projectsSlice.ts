@@ -9,6 +9,7 @@ import {
   isPending,
   isRejected,
 } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 interface ProjectSortState {
   mode: ProjectSortMode;
@@ -43,11 +44,15 @@ export const addProject = createAsyncThunk(
   async (project: Project) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
-        if (coinFlip()) resolve();
-        else reject();
+        if (coinFlip()) {
+          toast.success("Project added successfully");
+          resolve();
+        } else {
+          toast.error("Something went wrong");
+          reject();
+        }
       }, 1000),
     );
-
     return project;
   },
 );
@@ -57,8 +62,13 @@ export const updateProject = createAsyncThunk(
   async (project: Project) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
-        if (coinFlip()) resolve();
-        else reject();
+        if (coinFlip()) {
+          toast.success("Project edited successfully");
+          resolve();
+        } else {
+          toast.error("Something went wrong");
+          reject();
+        }
       }, 1000),
     );
     return project;
@@ -70,8 +80,13 @@ export const deleteProject = createAsyncThunk(
   async (projectId: string) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
-        if (coinFlip()) resolve();
-        else reject();
+        if (coinFlip()) {
+          toast.success("Project deleted successfully");
+          resolve();
+        } else {
+          toast.error("Something went wrong");
+          reject();
+        }
       }, 1000),
     );
     return projectId;
@@ -83,8 +98,13 @@ export const addTask = createAsyncThunk(
   async ({ task, projectId }: { task: Task; projectId: string }) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
-        if (coinFlip()) resolve();
-        else reject();
+        if (coinFlip()) {
+          toast.success("Task added successfully");
+          resolve();
+        } else {
+          toast.error("Something went wrong");
+          reject();
+        }
       }, 1000),
     );
     return { task, projectId };
@@ -93,11 +113,24 @@ export const addTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
   "projects/updateTask",
-  async ({ task, projectId }: { task: Task; projectId: string }) => {
+  async ({
+    task,
+    projectId,
+    successMsg,
+  }: {
+    task: Task;
+    projectId: string;
+    successMsg?: string;
+  }) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
-        if (coinFlip()) resolve();
-        else reject();
+        if (coinFlip()) {
+          toast.success(successMsg || "Task edited successfully");
+          resolve();
+        } else {
+          toast.error("Something went wrong");
+          reject();
+        }
       }, 1000),
     );
     return { task, projectId };
@@ -109,8 +142,13 @@ export const deleteTask = createAsyncThunk(
   async (taskId: string) => {
     await new Promise<void>((resolve, reject) =>
       setTimeout(() => {
-        if (coinFlip()) resolve();
-        else reject();
+        if (coinFlip()) {
+          toast.success("Task deleted successfully");
+          resolve();
+        } else {
+          toast.error("Something went wrong");
+          reject();
+        }
       }, 1000),
     );
     return taskId;

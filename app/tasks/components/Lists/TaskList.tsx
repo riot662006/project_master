@@ -54,7 +54,13 @@ const TaskList = () => {
   const updateTaskStatus = (taskObj: TaskObj, status: Status) => {
     const new_task = { ...taskObj.task, status };
 
-    dispatch(updateTask({ task: new_task, projectId: taskObj.projectId }));
+    dispatch(
+      updateTask({
+        task: new_task,
+        projectId: taskObj.projectId,
+        successMsg: `Task set to be '${getProgressMsgObj[status].msg}'`,
+      }),
+    );
   };
 
   const options = [

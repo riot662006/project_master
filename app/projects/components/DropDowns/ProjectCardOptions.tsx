@@ -17,7 +17,13 @@ const ProjectCardOptions = ({ project }: { project: Project }) => {
   } = useDetectOutsideClick(menuRef, false);
 
   const confirmDelete = () => {
-    dispatch(setConfirmDeleteModal({ isOpen: true, projectOrTaskId: project.id, idType: "project"}));
+    dispatch(
+      setConfirmDeleteModal({
+        isOpen: true,
+        projectOrTaskId: project.id,
+        idType: "project",
+      }),
+    );
   };
 
   const editOptionClicked = () => {

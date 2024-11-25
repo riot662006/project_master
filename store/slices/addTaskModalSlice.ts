@@ -51,10 +51,6 @@ const addTaskModalSlice = createSlice({
       })
       .addMatcher(isFulfilled, (state) => {
         if (state.isOpen) {
-          toast.success(
-            `Task ${state.mode == "add" ? "added" : "edited"} successfully`,
-          );
-
           state.isOpen = false;
           state.mode = "add";
           state.taskId = null;
@@ -63,8 +59,6 @@ const addTaskModalSlice = createSlice({
       })
       .addMatcher(isRejected, (state) => {
         if (state.isOpen) {
-          toast.error("Something went wrong");
-
           state.isDisabled = false;
         }
       });

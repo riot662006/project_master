@@ -48,10 +48,6 @@ const addProjectModalSlice = createSlice({
       })
       .addMatcher(isFulfilled, (state) => {
         if (state.isOpen) {
-          toast.success(
-            `Project ${state.mode == "add" ? "added" : "edited"} successfully`,
-          );
-
           state.isOpen = false;
           state.mode = "add";
           state.projectId = null;
@@ -60,8 +56,6 @@ const addProjectModalSlice = createSlice({
       })
       .addMatcher(isRejected, (state) => {
         if (state.isOpen) {
-          toast.error("Something went wrong");
-
           state.isDisabled = false;
         }
       });

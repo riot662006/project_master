@@ -38,8 +38,6 @@ const confirmDeleteModalSlice = createSlice({
     builder
       .addCase(deleteProject.fulfilled, (state) => {
         if (state.isOpen) {
-          toast.success("Project deleted successfully");
-
           state.objectId = "";
           state.isOpen = false;
           state.isDisabled = false;
@@ -47,16 +45,12 @@ const confirmDeleteModalSlice = createSlice({
       })
       .addCase(deleteProject.rejected, (state) => {
         if (state.isOpen) {
-          toast.error("Something went wrong");
-
           state.isDisabled = false;
         }
       })
 
       .addCase(deleteTask.fulfilled, (state) => {
         if (state.isOpen) {
-          toast.success("Task deleted successfully");
-
           state.objectId = "";
           state.isOpen = false;
           state.isDisabled = false;
@@ -64,8 +58,6 @@ const confirmDeleteModalSlice = createSlice({
       })
       .addCase(deleteTask.rejected, (state) => {
         if (state.isOpen) {
-          toast.error("Something went wrong");
-
           state.isDisabled = false;
         }
       })
