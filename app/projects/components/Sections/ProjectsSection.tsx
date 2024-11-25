@@ -3,6 +3,7 @@ import ProjectHeader from "../Header/ProjectHeader";
 import ProjectList from "../Lists/ProjectList";
 import AddProjectModal from "../Modals/AddProjectModal";
 import ConfirmDeleteModal from "../../../../components/Modals/ConfirmProjectDeleteModal";
+import AddTaskModal from "@/app/tasks/components/Modals/AddTaskModal";
 
 const ProjectsSection = () => {
   return (
@@ -15,6 +16,7 @@ const ProjectsSection = () => {
         <CompletedProjectsSection />
       </div>
       <AddProjectModal />
+      <AddTaskModal />
       <ConfirmDeleteModal />
     </div>
   );

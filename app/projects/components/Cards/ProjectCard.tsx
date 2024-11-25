@@ -11,6 +11,9 @@ import {
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { setSelectedProject } from "@/store/slices/tasksPageSlice";
 import { useRouter } from "next/navigation";
+import {
+  openAddTaskModal
+} from "@/store/slices/addTaskModalSlice";
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const { title, icon, tasks, createdAt } = project;
@@ -25,6 +28,11 @@ const ProjectCard = ({ project }: { project: Project }) => {
   const redirectToTasksPage = (selectedProject: string) => {
     dispatch(setSelectedProject(selectedProject));
     router.push("/tasks");
+  };
+
+  const onProjectItemPlaceholderClicked = (selectedProject: string) => {
+    dispatch(setSelectedProject(selectedProject));
+    dispatch(openAddTaskModal());
   };
 
   const ProjectCardHeader = () => {
@@ -69,7 +77,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           <div className="flex h-full flex-col items-center justify-center gap-4 text-slate-300">
             <button
               onClick={() => {
-                redirectToTasksPage(project.id);
+                onProjectItemPlaceholderClicked(project.id);
               }}
             >
               <LibraryAdd
