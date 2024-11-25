@@ -41,10 +41,10 @@ const AddTaskForm = ({
     formState: { errors },
   } = useForm<IAddTaskFormInput>({
     defaultValues: {
-      icon: taskToEdit?.task.icon ?? "default",
-      name: taskToEdit?.task.title ?? "",
-      projectId: taskToEdit?.projectId ?? "",
-      priority: taskToEdit?.task.priority ?? "medium",
+      icon: taskToEdit.task.icon,
+      name: taskToEdit.task.title,
+      projectId: taskToEdit.projectId,
+      priority: taskToEdit.task.priority,
     },
   });
 
@@ -66,14 +66,15 @@ const AddTaskForm = ({
       allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
       "default";
 
-    const taskInfo = taskToEdit
-      ? updatedTask(
-          taskToEdit.task,
-          data.name.trim(),
-          selectedIconName,
-          data.priority,
-        )
-      : createTask(data.name.trim(), selectedIconName, data.priority);
+    const taskInfo =
+      mode === "edit"
+        ? updatedTask(
+            taskToEdit.task,
+            data.name.trim(),
+            selectedIconName,
+            data.priority,
+          )
+        : createTask(data.name.trim(), selectedIconName, data.priority);
 
     try {
       if (mode == "add") {
@@ -179,7 +180,7 @@ const AddTaskForm = ({
       </div>
       <div className="flex w-full justify-end gap-4 transition-colors">
         <button
-        type="button"
+          type="button"
           disabled={isDisabled}
           onClick={closeModalHandler}
           className="flex h-8 cursor-pointer items-center rounded-md border p-4 text-xs text-slate-400 hover:bg-slate-50 disabled:cursor-default disabled:text-slate-300"

@@ -60,7 +60,8 @@ export const selectTasks = (
 export const selectTaskToEdit = createSelector(
   (state: RootState) => state.projects.projectsList, // Get list of projects
   (state: RootState) => state.addTaskModal.taskId, // Get the taskId from modal state
-  (projectsList, taskId) => {
+  (state: RootState) => state.tasksPage.selectedProjectId, // To set the default value of the projectId if no task to edit
+  (projectsList, taskId, selectedProjectId): TaskObj => {
     const allTasks = projectsList.flatMap((project) =>
       project.tasks.map(
         (task): TaskObj => ({
@@ -70,7 +71,13 @@ export const selectTaskToEdit = createSelector(
         }),
       ),
     );
-    return allTasks.find((taskObj) => taskObj.task.id === taskId) || null;
+    const taskToEdit = allTasks.find((taskObj) => taskObj.task.id === taskId) || null;
+
+    return taskToEdit || {
+      task: {id: "", priority: "medium", status: "pending", title: "", createdAt: "", updatedAt: "", icon: "default"},
+      projectId: selectedProjectId,
+      projectName: projectsList.find((project) => project.id === selectedProjectId)?.title || ""
+    };
   },
 );
 
