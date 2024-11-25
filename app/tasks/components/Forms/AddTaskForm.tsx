@@ -179,6 +179,7 @@ const AddTaskForm = ({
       </div>
       <div className="flex w-full justify-end gap-4 transition-colors">
         <button
+        type="button"
           disabled={isDisabled}
           onClick={closeModalHandler}
           className="flex h-8 cursor-pointer items-center rounded-md border p-4 text-xs text-slate-400 hover:bg-slate-50 disabled:cursor-default disabled:text-slate-300"

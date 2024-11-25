@@ -38,6 +38,7 @@ const ConfirmDeleteModal = () => {
         )}
         <div className="flex items-center justify-end gap-4">
           <button
+            type="button"
             className="flex items-center justify-center rounded-lg border border-slate-200 p-4 py-2 text-sm hover:bg-slate-100"
             onClick={() => dispatch(setConfirmDeleteModal({ isOpen: false }))}
           >
