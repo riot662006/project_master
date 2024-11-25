@@ -19,6 +19,7 @@ interface ProjectSortState {
 interface ProjectsState {
   projectsList: Project[];
   isLoading: boolean;
+  isFetching: boolean;
   sortState: ProjectSortState;
 }
 
@@ -159,6 +160,7 @@ const projectsSlice = createSlice({
   name: "projects",
   initialState: {
     projectsList: [],
+    isFetching: true,
     isLoading: true,
     sortState: { mode: "date", reverse: true },
   } as ProjectsState,
@@ -170,9 +172,13 @@ const projectsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Fetch Projects
+      .addCase(fetchProjects.pending, (state) => {
+        state.isFetching = true;
+      })
       .addCase(fetchProjects.fulfilled, (state, action) =>
         handleFulfilled(state, action, (state) => {
           state.projectsList = action.payload;
+          state.isFetching = false;
         }),
       )
 
