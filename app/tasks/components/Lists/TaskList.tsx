@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { selectTasks } from "@/store/Selectors";
 import { openEditTaskModal } from "@/store/slices/addTaskModalSlice";
 import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
+import { updateTask } from "@/store/slices/projectsSlice";
 import { setView, ViewState } from "@/store/slices/tasksPageSlice";
 import { Priority, Status, TaskObj } from "@/utils/types";
 import {
@@ -49,6 +50,12 @@ const TaskList = () => {
   const ongoingTasks = taskObjs.filter(
     (taskObj) => taskObj.task.status !== "completed",
   );
+
+  const updateTaskStatus = (taskObj: TaskObj, status: Status) => {
+    const new_task = { ...taskObj.task, status };
+
+    dispatch(updateTask({ task: new_task, projectId: taskObj.projectId }));
+  };
 
   const options = [
     {
@@ -109,7 +116,18 @@ const TaskList = () => {
       ) : (
         <ul className="flex w-full flex-col gap-4">
           {displayedTasks.map((taskObj) => (
-            <TaskItem key={taskObj.task.id} taskObj={taskObj} />
+            <TaskItem
+              key={taskObj.task.id}
+              taskObj={taskObj}
+              onPriorityChange={() =>
+                updateTaskStatus(
+                  taskObj,
+                  taskObj.task.status === "completed"
+                    ? "in_progress"
+                    : "completed",
+                )
+              }
+            />
           ))}
         </ul>
       )}
@@ -117,12 +135,24 @@ const TaskList = () => {
   );
 };
 
-const TaskItem = ({ taskObj }: { taskObj: TaskObj }) => {
+const TaskItem = ({
+  taskObj,
+  onPriorityChange,
+}: {
+  taskObj: TaskObj;
+  onPriorityChange: () => void;
+}) => {
   const dispatch = useAppDispatch();
 
   return (
     <li className="flex w-full items-center gap-4">
-      {true ? <CheckBoxOutlineBlank /> : <CheckBox />}
+      <div onClick={onPriorityChange}>
+        {taskObj.task.status === "completed" ? (
+          <CheckBox />
+        ) : (
+          <CheckBoxOutlineBlank />
+        )}
+      </div>
       <div className="flex w-full items-center gap-2 rounded-r-xl bg-white p-4">
         {/* Icon */}
         <ProjectIcon
