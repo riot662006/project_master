@@ -1,14 +1,7 @@
 "use client";
 import Logo from "@/components/Icons/Logo";
-import {
-  AddTask,
-  CheckCircle,
-  CheckCircleOutline,
-  TaskAlt,
-} from "@mui/icons-material";
 import Image from "next/image";
-
-// Enable client-side rendering
+import KeyFeaturesList from "./home/Lists/KeyFeaturesList";
 
 export default function Home() {
   return (
@@ -18,7 +11,6 @@ export default function Home() {
         <button className="flex items-center rounded-md bg-sky-500 p-2 px-4 text-sm text-white">
           Get started
         </button>
-        
       </nav>
       <section className="flex flex-col items-center gap-4 p-20">
         <h1 className="text-xl font-bold">
@@ -37,29 +29,8 @@ export default function Home() {
       </section>
       <section className="flex flex-col items-center gap-8 bg-slate-100 p-8">
         <h2 className="text-lg font-bold">Key Features</h2>
-        <div className="flex w-full flex-wrap justify-center gap-8">
-          <KeyFeature />
-          <KeyFeature />
-          <KeyFeature />
-          <KeyFeature />
-        </div>
+        <KeyFeaturesList />
       </section>
     </main>
   );
 }
-
-const KeyFeature = () => {
-  return (
-    <div className="flex w-72 flex-col items-center gap-4 rounded-lg bg-white p-4 shadow-md">
-      <div className="flex aspect-square w-16 items-center justify-center rounded-full bg-sky-100">
-        <AddTask fontSize="small" className="text-sky-500" />
-      </div>
-      <h3 className="text-center font-semibold text-sky-500">Efficient Task Management</h3>
-      <p className="text-center text-xs font-medium text-slate-500 mb-12">
-        Stay organized by sorting tasks by priority, due date, or custom
-        criteria. Our platform makes it easy to manage your daily tasks and
-        projects in one place.
-      </p>
-    </div>
-  );
-};
