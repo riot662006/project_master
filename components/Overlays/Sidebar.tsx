@@ -6,7 +6,6 @@ import {
   Logout,
   Splitscreen,
 } from "@mui/icons-material";
-import useMediaQuery from "../../hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import Link from "next/link";
@@ -14,6 +13,7 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import Logo from "../Icons/Logo";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const Sidebar = () => {
   // store variable for the state of the sidebar ( when the screen is too small)
