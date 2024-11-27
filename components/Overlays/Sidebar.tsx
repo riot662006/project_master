@@ -6,7 +6,6 @@ import {
   Logout,
   Splitscreen,
 } from "@mui/icons-material";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import useMediaQuery from "../../hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
@@ -14,6 +13,7 @@ import Link from "next/link";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
+import Logo from "../Icons/Logo";
 
 const Sidebar = () => {
   // store variable for the state of the sidebar ( when the screen is too small)
@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div
           className={`${isOpen ? "w-80 opacity-100" : "w-0 opacity-0"} fixed z-50 flex h-screen flex-col items-center justify-between border-r bg-white py-8 shadow-xl transition-[width,opacity]`}
         >
-          <Logo />
+          <Logo showName/>
           <Menu />
           <Profile />
         </div>
@@ -53,18 +53,6 @@ const Sidebar = () => {
       <Logo />
       <Menu />
       <Profile />
-    </div>
-  );
-};
-
-const Logo = () => {
-  return (
-    <div className="flex items-center gap-4">
-      <TaskAltIcon fontSize="large" className="text-sky-500" />
-      <div className="hidden items-center gap-1 text-2xl font-bold max-sm:flex">
-        <span>Project</span>
-        <span className="text-sky-500">Master</span>
-      </div>
     </div>
   );
 };
