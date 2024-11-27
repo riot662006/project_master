@@ -71,13 +71,26 @@ export const selectTaskToEdit = createSelector(
         }),
       ),
     );
-    const taskToEdit = allTasks.find((taskObj) => taskObj.task.id === taskId) || null;
+    const taskToEdit =
+      allTasks.find((taskObj) => taskObj.task.id === taskId) || null;
 
-    return taskToEdit || {
-      task: {id: "", priority: "medium", status: "pending", title: "", createdAt: "", updatedAt: "", icon: "default"},
-      projectId: selectedProjectId,
-      projectName: projectsList.find((project) => project.id === selectedProjectId)?.title || ""
-    };
+    return (
+      taskToEdit || {
+        task: {
+          id: "",
+          priority: "medium",
+          status: "pending",
+          title: "",
+          createdAt: "",
+          updatedAt: "",
+          icon: "default",
+        },
+        projectId: selectedProjectId,
+        projectName:
+          projectsList.find((project) => project.id === selectedProjectId)
+            ?.title || "",
+      }
+    );
   },
 );
 

@@ -1,4 +1,9 @@
-import { AddTask, BarChart, DesignServices, LockPerson } from "@mui/icons-material";
+import {
+  AddTask,
+  BarChart,
+  DesignServices,
+  LockPerson,
+} from "@mui/icons-material";
 
 type Feature = {
   id: string;

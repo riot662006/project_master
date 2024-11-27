@@ -1,6 +1,5 @@
 import { createSlice, isPending, PayloadAction } from "@reduxjs/toolkit";
 import { deleteProject, deleteTask } from "./projectsSlice";
-import toast from "react-hot-toast";
 import { ConfirmDeleteModalObjectType } from "@/utils/types";
 
 interface ConfirmDeleteModalState {

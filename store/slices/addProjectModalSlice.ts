@@ -5,7 +5,6 @@ import {
   isRejected,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import toast from "react-hot-toast";
 
 interface AddProjectModalState {
   isOpen: boolean;

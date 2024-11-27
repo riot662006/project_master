@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div
           className={`${isOpen ? "w-80 opacity-100" : "w-0 opacity-0"} fixed z-50 flex h-screen flex-col items-center justify-between border-r bg-white py-8 shadow-xl transition-[width,opacity]`}
         >
-          <Logo showName/>
+          <Logo showName />
           <Menu />
           <Profile />
         </div>

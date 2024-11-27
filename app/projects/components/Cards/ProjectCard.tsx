@@ -11,9 +11,7 @@ import {
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { setSelectedProject } from "@/store/slices/tasksPageSlice";
 import { useRouter } from "next/navigation";
-import {
-  openAddTaskModal
-} from "@/store/slices/addTaskModalSlice";
+import { openAddTaskModal } from "@/store/slices/addTaskModalSlice";
 
 const ProjectCard = ({ project }: { project: Project }) => {
   const { title, icon, tasks, createdAt } = project;
