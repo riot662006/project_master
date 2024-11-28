@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import Logo from "../Icons/Logo";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { UserButton } from "@clerk/nextjs";
 
 const Sidebar = () => {
   // store variable for the state of the sidebar ( when the screen is too small)
@@ -41,7 +42,7 @@ const Sidebar = () => {
         >
           <Logo showName />
           <Menu />
-          <Profile />
+          <UserButton showName/>
         </div>
       </>
     );
@@ -52,7 +53,7 @@ const Sidebar = () => {
     <div className="flex w-20 flex-col items-center justify-between border-r py-8 max-sm:hidden">
       <Logo />
       <Menu />
-      <Profile />
+      <UserButton />
     </div>
   );
 };
@@ -83,25 +84,6 @@ const Menu = () => {
         <CalendarMonth />
         <span className="hidden max-sm:block">Scheduler</span>
       </Link>
-      <Link
-        href="/"
-        className="flex cursor-pointer items-center text-slate-300"
-      >
-        <Logout />
-        <span className="hidden max-sm:block">Log Out</span>
-      </Link>
-    </div>
-  );
-};
-
-const Profile = () => {
-  return (
-    <div className="flex items-center gap-4">
-      <div className="h-8 w-8 rounded-md bg-sky-500"></div>
-      <div className="hidden text-xs max-sm:flex max-sm:flex-col">
-        <p className="font-bold">Onyekachi Ibekwe</p>
-        <p>rickriots@riot.inc</p>
-      </div>
     </div>
   );
 };
