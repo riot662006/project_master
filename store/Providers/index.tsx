@@ -5,12 +5,15 @@ import store from "..";
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { fetchProjects } from "../slices/projectsSlice";
 import { useEffect } from "react";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <Provider store={store}>
-      <ProjectFetcher>{children}</ProjectFetcher>
-    </Provider>
+    <ClerkProvider>
+      <Provider store={store}>
+        <ProjectFetcher>{children}</ProjectFetcher>
+      </Provider>
+    </ClerkProvider>
   );
 }
 
