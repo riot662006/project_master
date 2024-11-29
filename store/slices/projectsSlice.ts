@@ -35,8 +35,15 @@ const handleFulfilled = <T>(
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
   async (userId: string) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return exampleProjects;
+    const response = await fetch(`/api/projects?userId=${userId}`);
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw errorResponse.error || "Failed to fetch projects";
+    }
+
+    const projects = await response.json();
+    return projects;
   },
 );
 
