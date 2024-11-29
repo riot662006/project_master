@@ -53,7 +53,7 @@ export const addProject = createAsyncThunk(
   async (projectDetails: { title: string; icon: string }): Promise<Project> => {
     return apiRequest<Project>("/api/projects", "POST", projectDetails, {
       success: "Project added successfully",
-      error: "Failed to create project",
+      error: "Failed to add project",
     });
   },
 );
@@ -74,7 +74,7 @@ export const updateProject = createAsyncThunk(
       projectDetails,
       {
         success: "Project edited successfully",
-        error: "Failed to create project",
+        error: "Failed to edit project",
       },
     );
   },
