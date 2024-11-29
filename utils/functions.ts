@@ -99,6 +99,10 @@ export const timeSinceCreatedDisplay = (createdAt: string): string => {
   const differenceInTime = now.getTime() - creation.getTime();
 
   const minutesSinceCreated = differenceInTime / (1000 * 60);
+  if (minutesSinceCreated < 0) {
+    return "0 mins";
+  }
+
   if (minutesSinceCreated < 60) {
     return `${Math.floor(minutesSinceCreated)} mins`;
   }
@@ -114,7 +118,7 @@ export const timeSinceCreatedDisplay = (createdAt: string): string => {
 };
 
 export const calculateProgressPercentage = (
-  totalTasks: number,
+  totalTasks: number, 
   completedTasks: number,
 ): number => {
   return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
