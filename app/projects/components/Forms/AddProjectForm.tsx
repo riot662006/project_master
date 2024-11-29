@@ -61,15 +61,18 @@ const AddProjectForm = ({
       allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
       "default";
 
-    const projectInfo = projectToEdit
-      ? updatedProject(projectToEdit, data.name.trim(), selectedIconName)
-      : createProject(data.name.trim(), selectedIconName);
+    const projectInfo = { title: data.name.trim(), icon: selectedIconName };
 
     try {
       if (mode == "add") {
         await dispatch(addProject(projectInfo)).unwrap();
       } else {
-        await dispatch(updateProject(projectInfo)).unwrap();
+        if (!projectToEdit)
+          throw new Error("Is editing, must have a projectToEdit");
+        
+        await dispatch(
+          updateProject({ projectId: projectToEdit.id, ...projectInfo }),
+        ).unwrap();
       }
 
       reset();

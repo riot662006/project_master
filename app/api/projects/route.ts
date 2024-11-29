@@ -27,11 +27,45 @@ export const GET = async (req: NextRequest) => {
       where: { clerkUserId: userId },
       include: { tasks: true },
     });
-    return NextResponse.json(projects)
+    return NextResponse.json(projects);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch projects" },
+      { status: 500 },
+    );
+  }
+};
+
+export const POST = async (req: NextRequest) => {
+  const { userId } = getAuth(req);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Unauthorized: User not authenticated" },
+      { status: 401 },
+    );
+  }
+
+  const { title, icon } = await req.json();
+
+  try {
+    const project = await prisma.project.create({
+      data: {
+        title,
+        icon,
+        clerkUserId: userId,
+      },
+      include: {
+        tasks: true,
+      }
+    });
+
+    return NextResponse.json(project);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Failed to create project" },
       { status: 500 },
     );
   }

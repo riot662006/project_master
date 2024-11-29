@@ -10,6 +10,7 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
+import { apiRequest } from "../helper";
 
 interface ProjectSortState {
   mode: ProjectSortMode;
@@ -49,37 +50,33 @@ export const fetchProjects = createAsyncThunk(
 
 export const addProject = createAsyncThunk(
   "projects/addProject",
-  async (project: Project) => {
-    await new Promise<void>((resolve, reject) =>
-      setTimeout(() => {
-        if (coinFlip()) {
-          toast.success("Project added successfully");
-          resolve();
-        } else {
-          toast.error("Something went wrong");
-          reject();
-        }
-      }, 1000),
-    );
-    return project;
+  async (projectDetails: { title: string; icon: string }): Promise<Project> => {
+    return apiRequest<Project>("/api/projects", "POST", projectDetails, {
+      success: "Project added successfully",
+      error: "Failed to create project",
+    });
   },
 );
 
 export const updateProject = createAsyncThunk(
   "projects/updateProject",
-  async (project: Project) => {
-    await new Promise<void>((resolve, reject) =>
-      setTimeout(() => {
-        if (coinFlip()) {
-          toast.success("Project edited successfully");
-          resolve();
-        } else {
-          toast.error("Something went wrong");
-          reject();
-        }
-      }, 1000),
+  async ({
+    projectId,
+    ...projectDetails
+  }: {
+    projectId: string;
+    title: string;
+    icon: string;
+  }) => {
+    return apiRequest<Project>(
+      `/api/projects/${projectId}`,
+      "PUT",
+      projectDetails,
+      {
+        success: "Project edited successfully",
+        error: "Failed to create project",
+      },
     );
-    return project;
   },
 );
 
