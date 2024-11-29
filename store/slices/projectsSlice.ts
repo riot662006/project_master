@@ -34,7 +34,7 @@ const handleFulfilled = <T>(
 
 export const fetchProjects = createAsyncThunk(
   "projects/fetchProjects",
-  async () => {
+  async (userId: string) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return exampleProjects;
   },
