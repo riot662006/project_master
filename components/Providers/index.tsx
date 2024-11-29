@@ -1,9 +1,9 @@
 "use client";
 
 import { Provider } from "react-redux";
-import store from "..";
+import store from "@/store";
 import { useAppDispatch } from "@/hooks/storeHooks";
-import { fetchProjects } from "../slices/projectsSlice";
+import { fetchProjects } from "@/store/slices/projectsSlice";
 import { useEffect } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
 

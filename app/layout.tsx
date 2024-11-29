@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Providers from "@/store/Providers";
+import Providers from "@/components/Providers";
 
 export const metadata: Metadata = {
   title: "Project Master",
