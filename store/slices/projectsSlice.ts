@@ -83,18 +83,15 @@ export const updateProject = createAsyncThunk(
 export const deleteProject = createAsyncThunk(
   "projects/deleteProject",
   async (projectId: string) => {
-    await new Promise<void>((resolve, reject) =>
-      setTimeout(() => {
-        if (coinFlip()) {
-          toast.success("Project deleted successfully");
-          resolve();
-        } else {
-          toast.error("Something went wrong");
-          reject();
-        }
-      }, 1000),
+    return apiRequest<{ projectId: string }>(
+      `/api/projects/${projectId}`,
+      "DELETE",
+      {},
+      {
+        success: "Project deleted successfully",
+        error: "Failed to delete project",
+      },
     );
-    return projectId;
   },
 );
 
@@ -190,7 +187,7 @@ const projectsSlice = createSlice({
       .addCase(deleteProject.fulfilled, (state, action) =>
         handleFulfilled(state, action, (state) => {
           state.projectsList = state.projectsList.filter(
-            (project) => project.id !== action.payload,
+            (project) => project.id !== action.payload.projectId,
           );
         }),
       )
