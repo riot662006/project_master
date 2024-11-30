@@ -2,19 +2,23 @@
 
 import ProjectProgressCircle from "@/components/CircularProgressBar";
 import ClipboardX from "@/components/Icons/ClipboardX";
-import { useAppSelector } from "@/hooks/storeHooks";
-import { selectProjects } from "@/store/Selectors";
-import { Project } from "@/utils/types";
+import { useAppSelector, useSortedProjects } from "@/hooks/useStoreHooks";
+import { SerializableProject } from "@/utils/types";
 import Splitscreen from "@mui/icons-material/Splitscreen";
 import { CircularProgress } from "@mui/material";
 import { Fragment } from "react";
 import colors from "tailwindcss/colors";
 
 const CompletedProjectsSection = () => {
-  const projectsLoading = useAppSelector((state) => state.projects.isLoading);
-  const projects = useAppSelector(selectProjects("name"));
+  const { mode, reverse } = useAppSelector(
+    (state) => state.projectsUI.sortState,
+  );
+  const { projects, isLoading } = useSortedProjects(
+    mode,
+    reverse,
+  );
 
-  if (projectsLoading) {
+  if (isLoading) {
     return (
       <div className="flex h-full w-full min-w-56 flex-col items-center justify-center rounded-2xl bg-white">
         <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
@@ -62,7 +66,7 @@ const CompletedProjectsSection = () => {
   );
 };
 
-const ProjectsList = ({ completed }: { completed: Project[] }) => {
+const ProjectsList = ({ completed }: { completed: SerializableProject[] }) => {
   if (completed.length == 0)
     return (
       <div className="flex w-full flex-col items-center">
@@ -84,7 +88,7 @@ const ProjectsList = ({ completed }: { completed: Project[] }) => {
   );
 };
 
-const SingleProject = ({ project }: { project: Project }) => {
+const SingleProject = ({ project }: { project: SerializableProject }) => {
   return (
     <li className="flex w-full gap-2">
       <div className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-500">

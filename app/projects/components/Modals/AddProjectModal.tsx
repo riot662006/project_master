@@ -1,7 +1,7 @@
 "use client";
 
 import { Apps, BorderAll, Close } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import AddProjectForm from "../Forms/AddProjectForm";
 import { useState } from "react";

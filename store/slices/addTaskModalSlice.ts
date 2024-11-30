@@ -8,7 +8,6 @@ import {
 
 interface AddTaskModalState {
   isOpen: boolean;
-  isDisabled: boolean;
   mode: "add" | "edit";
   taskId: string | null;
 }
@@ -17,7 +16,6 @@ const addTaskModalSlice = createSlice({
   name: "addProjectModal",
   initialState: {
     isOpen: false,
-    isDisabled: false,
     mode: "add",
 
     taskId: null,
@@ -40,27 +38,6 @@ const addTaskModalSlice = createSlice({
       state.mode = "add";
       state.taskId = null;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addMatcher(isPending, (state) => {
-        if (state.isOpen) {
-          state.isDisabled = true;
-        }
-      })
-      .addMatcher(isFulfilled, (state) => {
-        if (state.isOpen) {
-          state.isOpen = false;
-          state.mode = "add";
-          state.taskId = null;
-          state.isDisabled = false;
-        }
-      })
-      .addMatcher(isRejected, (state) => {
-        if (state.isOpen) {
-          state.isDisabled = false;
-        }
-      });
   },
 });
 

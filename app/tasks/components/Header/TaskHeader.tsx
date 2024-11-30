@@ -1,28 +1,29 @@
 "use client";
 
 import ProgressBar from "@/components/ProgressBar";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useTasks,
+} from "@/hooks/useStoreHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import { Add, Menu, Search, Splitscreen } from "@mui/icons-material";
 import ProjectSelector from "../Dropdowns/ProjectSelector";
-import { selectTasks } from "@/store/Selectors";
 import TaskSortingOptions from "../Dropdowns/TaskSortingOptions";
 import { openAddTaskModal } from "@/store/slices/addTaskModalSlice";
 
 const TaskHeader = () => {
+  const dispatch = useAppDispatch();
+
   const selectedProjectId = useAppSelector(
     (state) => state.tasksPage.selectedProjectId,
   );
 
-  const dispatch = useAppDispatch();
-
-  const taskObjs = useAppSelector(selectTasks(selectedProjectId));
-  const completedTasks = taskObjs.filter(
-    (taskObj) => taskObj.task.status === "completed",
-  );
+  const { tasks } = useTasks();
+  const completedTasks = tasks.filter((task) => task.status === "completed");
 
   const percentageCompleted = Math.round(
-    (completedTasks.length / (taskObjs.length || 1)) * 100,
+    (completedTasks.length / (tasks.length || 1)) * 100,
   );
 
   const SearchBar = () => {

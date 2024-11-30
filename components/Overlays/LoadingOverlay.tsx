@@ -1,10 +1,10 @@
-import { useAppSelector } from "@/hooks/storeHooks";
+import { useProjects } from "@/hooks/useStoreHooks";
 import { CircularProgress } from "@mui/material";
 
 const LoadingOverlay = () => {
-  const isLoading = useAppSelector((state) => state.projects.isLoading);
+  const { isFetching } = useProjects();
 
-  if (!isLoading) return null;
+  if (!isFetching) return null;
 
   return (
     <div className="absolute left-0 top-0 z-40 flex h-full w-full items-center justify-center bg-slate-200/30">

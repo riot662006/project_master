@@ -18,8 +18,8 @@ export const PUT = async (
     await verifyProjectOwnership(projectId, userId);
     await verifyTaskOwnership(taskId, projectId);
 
-    const { title, icon, priority, projectId: newProjectId } = await req.json();
-
+    const { title, icon, status, priority, projectId: newProjectId } = await req.json();
+    
     const task = await prisma.task.update({
       where: {
         id: taskId,
@@ -28,8 +28,10 @@ export const PUT = async (
         title,
         icon,
         priority,
+        status,
         projectId: newProjectId,
       },
+      include: { project: { select: { title: true } } },
     });
 
     return NextResponse.json(task);

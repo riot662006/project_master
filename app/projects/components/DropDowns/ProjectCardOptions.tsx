@@ -1,12 +1,12 @@
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { Project } from "@/utils/types";
 import { Delete, EditOutlined, MoreVert } from "@mui/icons-material";
 import { useRef, useState } from "react";
-import { useAppDispatch } from "@/hooks/storeHooks";
+import { useAppDispatch } from "@/hooks/useStoreHooks";
 import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
 import { openEditProjectModal } from "@/store/slices/addProjectModalSlice";
+import { SerializableProject } from "@/utils/types";
 
-const ProjectCardOptions = ({ project }: { project: Project }) => {
+const ProjectCardOptions = ({ project }: { project: SerializableProject }) => {
   const dispatch = useAppDispatch();
 
   const menuRef = useRef<HTMLDivElement>(null);

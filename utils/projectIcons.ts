@@ -161,3 +161,63 @@ export type IconName =
   | "event"
   | "flight_takeoff"
   | "restaurant";
+
+const validIcons: IconName[] = [
+  "default",
+  "project",
+  "work",
+  "school",
+  "home",
+  "family",
+  "health",
+  "finance",
+  "travel",
+  "hobbies",
+  "social",
+  "tech",
+  "design",
+  "development",
+  "writing",
+  "marketing",
+  "sales",
+  "management",
+  "consulting",
+  "education",
+  "research",
+  "creative",
+  "book",
+  "calendar",
+  "clock",
+  "code",
+  "dashboard",
+  "document",
+  "folder",
+  "graph",
+  "list",
+  "note",
+  "paint",
+  "photo",
+  "play",
+  "settings",
+  "shopping_cart",
+  "star",
+  "task",
+  "teamwork",
+  "tools",
+  "videocam",
+  "access_alarm",
+  "airline_seat_flat",
+  "apartment",
+  "bike",
+  "business_center",
+  "car",
+  "credit_card",
+  "event",
+  "flight_takeoff",
+  "restaurant",
+];
+
+// Helper function to validate icon
+export const validateIcon = (icon: string): IconName => {
+  return validIcons.includes(icon as IconName) ? (icon as IconName) : "default";
+};

@@ -22,7 +22,12 @@ export const PUT = async (
         title: data.title,
         icon: data.icon,
       },
-      include: { tasks: true },
+      include: {
+        tasks: {
+          orderBy: { title: "asc" },
+          include: { project: { select: { title: true } } },
+        },
+      },
     });
 
     return NextResponse.json(updatedProject);

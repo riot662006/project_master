@@ -2,7 +2,7 @@
 
 import { Add, BorderAll, Menu, Search } from "@mui/icons-material";
 
-import { useAppDispatch } from "@/hooks/storeHooks";
+import { useAppDispatch } from "@/hooks/useStoreHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import { openAddProjectModal } from "@/store/slices/addProjectModalSlice";
 import ProjectSortingOptions from "../DropDowns/ProjectSortingOptions";

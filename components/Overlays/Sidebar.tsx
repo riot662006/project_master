@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import Link from "next/link";
 
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import Logo from "../Icons/Logo";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -40,9 +40,11 @@ const Sidebar = () => {
         <div
           className={`${isOpen ? "w-80 opacity-100" : "w-0 opacity-0"} fixed z-50 flex h-screen flex-col items-center justify-between border-r bg-white py-8 shadow-xl transition-[width,opacity]`}
         >
-          <Logo showName />
-          <Menu />
-          <UserButton showName/>
+          <div className={`${isOpen ? "flex" : "hidden"} flex-col w-full h-full justify-between items-center`}>
+            <Logo showName />
+            <Menu />
+            <UserButton showName />
+          </div>
         </div>
       </>
     );

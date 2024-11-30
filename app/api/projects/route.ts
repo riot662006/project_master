@@ -8,15 +8,18 @@ export const GET = async (req: NextRequest) => {
     const { userId } = getAuthenticatedUser(req);
 
     const url = new URL(req.url);
-    const requestedUserId = url.searchParams.get("userId");
-
-    if (!requestedUserId || requestedUserId !== userId) {
-      throw new ForbiddenError();
-    }
 
     const projects = await prisma.project.findMany({
       where: { clerkUserId: userId },
-      include: { tasks: true },
+      include: {
+        tasks: {
+          orderBy: { title: "asc" },
+          include: { project: { select: { title: true } } },
+        },
+      },
+      orderBy: {
+        title: "asc",
+      },
     });
 
     return NextResponse.json(projects);
@@ -38,7 +41,10 @@ export const POST = async (req: NextRequest) => {
         clerkUserId: userId,
       },
       include: {
-        tasks: true,
+        tasks: {
+          orderBy: { title: "asc" },
+          include: { project: { select: { title: true } } },
+        },
       },
     });
 

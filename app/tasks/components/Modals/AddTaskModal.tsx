@@ -1,7 +1,7 @@
 "use client";
 
 import { Apps, Close, ListAlt } from "@mui/icons-material";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import AddTaskForm from "../Forms/AddTaskForm";
 import { useState } from "react";

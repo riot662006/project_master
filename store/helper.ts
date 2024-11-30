@@ -1,3 +1,4 @@
+import { SerializableProject } from "@/utils/types";
 import showToast from "react-hot-toast";
 
 export async function apiRequest<T>(

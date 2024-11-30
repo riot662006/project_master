@@ -118,7 +118,7 @@ export const timeSinceCreatedDisplay = (createdAt: string): string => {
 };
 
 export const calculateProgressPercentage = (
-  totalTasks: number, 
+  totalTasks: number,
   completedTasks: number,
 ): number => {
   return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;

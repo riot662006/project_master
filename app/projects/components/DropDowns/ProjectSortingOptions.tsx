@@ -1,13 +1,13 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { setSortState } from "@/store/slices/projectsSlice";
+import { setSortState } from "@/store/slices/projectsUISlice";
 import { ProjectSortMode } from "@/utils/types";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { useCallback, useRef, useState } from "react";
 
 const ProjectSortingOptions = () => {
   const dispatch = useAppDispatch();
-  const curSortState = useAppSelector((state) => state.projects.sortState);
+  const curSortState = useAppSelector((state) => state.projectsUI.sortState);
 
   const menuRef = useRef<HTMLDivElement>(null);
   const {

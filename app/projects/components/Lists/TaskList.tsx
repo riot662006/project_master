@@ -1,7 +1,7 @@
-import { Task } from "@/utils/types";
+import { SerializableTask } from "@/utils/types";
 import { Circle } from "@mui/icons-material";
 
-const TaskList = ({ tasks }: { tasks: Task[] }) => {
+const TaskList = ({ tasks }: { tasks: SerializableTask[] }) => {
   let footer: string | null = null;
 
   // Surplus indicator footer if more tasks than can show
@@ -25,7 +25,7 @@ const TaskList = ({ tasks }: { tasks: Task[] }) => {
   );
 };
 
-const TaskItem = ({ task }: { task: Task }) => {
+const TaskItem = ({ task }: { task: SerializableTask }) => {
   return (
     <li className="flex w-full items-center gap-2 text-sm">
       <Circle sx={{ fontSize: "8px" }} />
