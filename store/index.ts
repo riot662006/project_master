@@ -1,14 +1,16 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
+import apiReducer, { apiSlice } from "./slices/apiSlice";
+import userReducer from "./slices/userSlice";
+
 import sidebarReducer from "./slices/sidebarSlice";
 import addProjectModalReducer from "./slices/addProjectModalSlice";
 import addTaskModalReducer from "./slices/addTaskModalSlice";
 import confirmDeleteModalReducer from "./slices/confirmDeleteModalSlice";
-import projectsReducer from "./slices/projectsSlice";
+
 import tasksUIReducer from "./slices/tasksUISlice";
-import apiReducer, { apiSlice } from "./slices/apiSlice";
 import projectsUIReducer from "./slices/projectsUISlice";
-import userReducer from "./slices/userSlice";
+
 
 // Combine all reducers into a single root reducer
 const appReducer = combineReducers({
@@ -16,7 +18,6 @@ const appReducer = combineReducers({
   addProjectModal: addProjectModalReducer,
   addTaskModal: addTaskModalReducer,
   confirmDeleteModal: confirmDeleteModalReducer,
-  projects: projectsReducer,
   tasksPage: tasksUIReducer,
 
   // experimental

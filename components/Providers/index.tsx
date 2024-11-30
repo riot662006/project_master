@@ -3,7 +3,6 @@
 import { Provider as StorageProvider } from "react-redux";
 import { ClerkProvider, useUser } from "@clerk/nextjs";
 import store from "@/store";
-import { fetchProjects } from "@/store/slices/projectsSlice";
 
 import { useAppDispatch } from "@/hooks/useStoreHooks";
 import { useEffect } from "react";
