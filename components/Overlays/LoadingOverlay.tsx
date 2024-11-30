@@ -1,8 +1,8 @@
-import { useAppSelector } from "@/hooks/storeHooks";
+import { useProjects } from "@/hooks/storeHooks";
 import { CircularProgress } from "@mui/material";
 
 const LoadingOverlay = () => {
-  const isLoading = useAppSelector((state) => state.projects.isLoading);
+  const { isLoading } = useProjects();
 
   if (!isLoading) return null;
 

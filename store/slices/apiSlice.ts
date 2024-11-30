@@ -48,6 +48,17 @@ export const apiSlice = createApi({
         { type: "Project", id: projectId },
       ],
     }),
+
+    // Delete a Task
+    deleteTask: builder.mutation<void, { projectId: string; taskId: string }>({
+      query: ({ projectId, taskId }) => ({
+        url: `projects/${projectId}/tasks/${taskId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { projectId }) => [
+        { type: "Project", id: projectId }, // Invalidate the cache for the project
+      ],
+    }),
   }),
 });
 
@@ -56,6 +67,7 @@ export const {
   useAddProjectMutation,
   useUpdateProjectMutation,
   useDeleteProjectMutation,
+  useDeleteTaskMutation,
 } = apiSlice;
 
 export default apiSlice.reducer;

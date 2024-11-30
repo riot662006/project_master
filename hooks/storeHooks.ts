@@ -13,13 +13,14 @@ export const useProjects = () => {
 
   const {
     isLoading,
+    isFetching,
     error,
     data: projects,
   } = useFetchProjectsQuery(userId, {
     skip: !userId,
   });
 
-  return { isLoading, error, projects };
+  return { isLoading, isFetching, error, projects };
 };
 
 export const useSortedProjects = (
