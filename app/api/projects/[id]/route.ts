@@ -1,34 +1,21 @@
-import { getAuth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import {
+  getAuthenticatedUser,
+  handleApiError,
+  verifyProjectOwnership,
+} from "@/lib/api/helper";
 
 export const PUT = async (
   req: NextRequest,
   { params }: { params: { id: string } },
 ) => {
-  const { userId } = getAuth(req);
-  const projectId = params.id;
-
-  if (!userId) {
-    return NextResponse.json(
-      { error: "Unauthorized: User not authenticated" },
-      { status: 401 },
-    );
-  }
-  const data = await req.json();
-
   try {
-    const existingProject = await prisma.project.findUnique({
-      where: { id: projectId },
-    });
+    const { userId } = getAuthenticatedUser(req);
+    const projectId = params.id;
+    await verifyProjectOwnership(projectId, userId);
 
-    if (!existingProject || existingProject.clerkUserId !== userId) {
-      return NextResponse.json(
-        { error: "Forbidden: You don't have access to this project" },
-        { status: 403 },
-      );
-    }
-
+    const data = await req.json();
     const updatedProject = await prisma.project.update({
       where: { id: projectId },
       data: {
@@ -40,11 +27,7 @@ export const PUT = async (
 
     return NextResponse.json(updatedProject);
   } catch (error) {
-    console.error("Failed to update project:", error);
-    return NextResponse.json(
-      { error: "Failed to update project" },
-      { status: 500 },
-    );
+    handleApiError(error, "Failed to update project");
   }
 };
 
@@ -52,28 +35,10 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const { userId } = getAuth(req); // Authenticate the user
-  const projectId = params.id;
-
-  if (!userId) {
-    return NextResponse.json(
-      { error: "Unauthorized: User not authenticated" },
-      { status: 401 },
-    );
-  }
-
   try {
-    // Verify ownership of the project before deletion
-    const existingProject = await prisma.project.findUnique({
-      where: { id: projectId },
-    });
-
-    if (!existingProject || existingProject.clerkUserId !== userId) {
-      return NextResponse.json(
-        { error: "Forbidden: You don't have access to this project" },
-        { status: 403 },
-      );
-    }
+    const { userId } = getAuthenticatedUser(req); // Authenticate the user
+    const projectId = params.id;
+    await verifyProjectOwnership(projectId, userId);
 
     // Delete the project
     await prisma.project.delete({
@@ -82,10 +47,6 @@ export async function DELETE(
 
     return NextResponse.json({ projectId });
   } catch (error) {
-    console.error("Failed to delete project:", error);
-    return NextResponse.json(
-      { error: "Failed to delete project" },
-      { status: 500 },
-    );
+    handleApiError(error, "Failed to delete project");
   }
 }
