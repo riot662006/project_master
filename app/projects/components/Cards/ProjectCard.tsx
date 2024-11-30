@@ -8,7 +8,7 @@ import {
   calculateProgressPercentage,
   timeSinceCreatedDisplay,
 } from "@/utils/functions";
-import { useAppDispatch } from "@/hooks/storeHooks";
+import { useAppDispatch } from "@/hooks/useStoreHooks";
 import { setSelectedProject } from "@/store/slices/tasksPageSlice";
 import { useRouter } from "next/navigation";
 import { openAddTaskModal } from "@/store/slices/addTaskModalSlice";

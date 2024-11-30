@@ -2,7 +2,7 @@
 
 import ProjectProgressCircle from "@/components/CircularProgressBar";
 import ClipboardX from "@/components/Icons/ClipboardX";
-import { useSortedProjects } from "@/hooks/storeHooks";
+import { useAppSelector, useSortedProjects } from "@/hooks/useStoreHooks";
 import { SerializableProject } from "@/utils/types";
 import Splitscreen from "@mui/icons-material/Splitscreen";
 import { CircularProgress } from "@mui/material";
@@ -10,7 +10,13 @@ import { Fragment } from "react";
 import colors from "tailwindcss/colors";
 
 const CompletedProjectsSection = () => {
-  const { isLoading, projects } = useSortedProjects();
+  const { mode, reverse } = useAppSelector(
+    (state) => state.projectsUI.sortState,
+  );
+  const { projects, isLoading } = useSortedProjects(
+    mode,
+    reverse,
+  );
 
   if (isLoading) {
     return (

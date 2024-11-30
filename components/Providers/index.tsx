@@ -5,7 +5,7 @@ import { ClerkProvider, useUser } from "@clerk/nextjs";
 import store from "@/store";
 import { fetchProjects } from "@/store/slices/projectsSlice";
 
-import { useAppDispatch } from "@/hooks/storeHooks";
+import { useAppDispatch } from "@/hooks/useStoreHooks";
 import { useEffect } from "react";
 import { clearUserId, setUserId } from "@/store/slices/userSlice";
 

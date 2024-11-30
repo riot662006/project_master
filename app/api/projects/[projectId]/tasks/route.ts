@@ -38,6 +38,7 @@ export const POST = async (
         priority,
         projectId,
       },
+      include: { project: { select: { title: true } } },
     });
 
     return NextResponse.json(task);

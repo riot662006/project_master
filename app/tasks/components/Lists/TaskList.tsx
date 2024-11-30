@@ -1,13 +1,17 @@
 "use client";
 
 import ProjectIcon from "@/components/ProjectIcon";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
-import { selectTasks } from "@/store/Selectors";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSortedTasks,
+} from "@/hooks/useStoreHooks";
 import { openEditTaskModal } from "@/store/slices/addTaskModalSlice";
+import { useUpdateTaskMutation } from "@/store/slices/apiSlice";
 import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
-import { updateTask } from "@/store/slices/projectsSlice";
 import { setView, ViewState } from "@/store/slices/tasksPageSlice";
-import { Priority, Status, TaskObj } from "@/utils/types";
+import { validateIcon } from "@/utils/projectIcons";
+import { Priority, SerializableTask, Status } from "@/utils/types";
 import {
   Cached,
   Check,
@@ -38,37 +42,24 @@ const getProrityMsgObj: { [key in Priority]: { name: string; color: string } } =
 const TaskList = () => {
   const dispatch = useAppDispatch();
 
-  const selectedProjectId = useAppSelector(
-    (state) => state.tasksPage.selectedProjectId,
+  const { selectedProjectId, curView, sortState } = useAppSelector(
+    (state) => state.tasksPage,
   );
-  const curView = useAppSelector((state) => state.tasksPage.curView);
-  const taskObjs = useAppSelector(selectTasks(selectedProjectId));
-
-  const completedTasks = taskObjs.filter(
-    (taskObj) => taskObj.task.status === "completed",
-  );
-  const ongoingTasks = taskObjs.filter(
-    (taskObj) => taskObj.task.status !== "completed",
+  const { tasks } = useSortedTasks(
+    selectedProjectId,
+    sortState.mode,
+    sortState.reverse,
   );
 
-  const updateTaskStatus = (taskObj: TaskObj, status: Status) => {
-    const new_task = { ...taskObj.task, status };
-
-    dispatch(
-      updateTask({
-        task: new_task,
-        projectId: taskObj.projectId,
-        successMsg: `Task set to be '${getProgressMsgObj[status].msg}'`,
-      }),
-    );
-  };
+  const completedTasks = tasks.filter((task) => task.status === "completed");
+  const ongoingTasks = tasks.filter((task) => task.status !== "completed");
 
   const options = [
     {
       id: 1,
       name: "All Tasks",
       view: "all" as ViewState,
-      displayedTasks: taskObjs,
+      displayedTasks: tasks,
     },
     {
       id: 2,
@@ -85,8 +76,7 @@ const TaskList = () => {
   ];
 
   const displayedTasks =
-    options.find((option) => option.view == curView)?.displayedTasks ??
-    taskObjs;
+    options.find((option) => option.view == curView)?.displayedTasks ?? tasks;
 
   return (
     <div className="flex max-h-full flex-col overflow-y-auto pl-12 max-sm:pl-0">
@@ -121,19 +111,8 @@ const TaskList = () => {
         </div>
       ) : (
         <ul className="flex w-full flex-col gap-4">
-          {displayedTasks.map((taskObj) => (
-            <TaskItem
-              key={taskObj.task.id}
-              taskObj={taskObj}
-              onPriorityChange={() =>
-                updateTaskStatus(
-                  taskObj,
-                  taskObj.task.status === "completed"
-                    ? "in_progress"
-                    : "completed",
-                )
-              }
-            />
+          {displayedTasks.map((task) => (
+            <TaskItem key={task.id} task={task} />
           ))}
         </ul>
       )}
@@ -141,55 +120,61 @@ const TaskList = () => {
   );
 };
 
-const TaskItem = ({
-  taskObj,
-  onPriorityChange,
-}: {
-  taskObj: TaskObj;
-  onPriorityChange: () => void;
-}) => {
+const TaskItem = ({ task }: { task: SerializableTask }) => {
   const dispatch = useAppDispatch();
+
+  const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
+
+  const toggleTaskStatus = async () => {
+    const newStatus = task.status === "completed" ? "in_progress" : "completed";
+
+    try {
+      await updateTask({
+        taskId: task.id,
+        projectId: task.projectId,
+        updatedFields: { status: newStatus },
+      }).unwrap();
+    } catch (error) {
+      console.error("Failed to update task:", error);
+    }
+  };
 
   return (
     <li className="flex w-full items-center gap-4">
-      <div onClick={onPriorityChange}>
-        {taskObj.task.status === "completed" ? (
-          <CheckBox />
-        ) : (
-          <CheckBoxOutlineBlank />
-        )}
+      <div onClick={toggleTaskStatus} className="cursor-pointer">
+        {task.status === "completed" ? <CheckBox /> : <CheckBoxOutlineBlank />}
       </div>
       <div className="flex w-full items-center gap-2 rounded-r-xl bg-white p-4">
         {/* Icon */}
         <ProjectIcon
-          name={taskObj.task.icon}
+          name={validateIcon(task.icon)}
           outerClassName="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500"
           sx={{ fontSize: "18px" }}
         />
         {/* Task Titles */}
         <div className="flex flex-grow flex-col gap-1">
           <p className="flex max-w-[60%] items-center text-sm font-bold">
-            {taskObj.task.title}
+            {task.title}
           </p>
-          <p className="text-xs text-slate-400">{taskObj.projectName}</p>
+          <p className="text-xs text-slate-400">{task.project.title}</p>
         </div>
         <div className="flex items-center">
           {/* Progress */}
           <div className="flex w-32 items-center justify-center gap-1 text-slate-400 max-sm:hidden">
-            {React.createElement(getProgressMsgObj[taskObj.task.status].Icon, {
+            {React.createElement(getProgressMsgObj[task.status].Icon, {
               fontSize: "small",
             })}
             <span className="text-sm font-medium">
-              {getProgressMsgObj[taskObj.task.status].msg}
+              {getProgressMsgObj[task.status].msg}
             </span>
           </div>
           {/* Priority */}
           <div className="flex w-20 items-center gap-1 text-slate-400 max-sm:hidden">
             <div
-              className={`aspect-square w-2 rounded-full ${getProrityMsgObj[taskObj.task.priority].color}`}
+              className={`aspect-square w-2 rounded-full ${getProrityMsgObj[task.priority].color}`}
             />
             <span className="text-sm font-medium">
-              {getProrityMsgObj[taskObj.task.priority].name}
+              {getProrityMsgObj[task.priority].name}
             </span>
           </div>
         </div>
@@ -197,7 +182,7 @@ const TaskItem = ({
           {/* Edit */}
           <div
             className="flex aspect-square w-8 items-center justify-center rounded-md bg-sky-100 text-sky-500"
-            onClick={() => dispatch(openEditTaskModal(taskObj.task.id))}
+            onClick={() => dispatch(openEditTaskModal(task.id))}
           >
             <EditOutlined sx={{ fontSize: "18px" }} />
           </div>
@@ -209,7 +194,7 @@ const TaskItem = ({
               dispatch(
                 setConfirmDeleteModal({
                   isOpen: true,
-                  projectOrTaskId: taskObj.task.id,
+                  projectOrTaskId: task.id,
                   idType: "task",
                 }),
               )

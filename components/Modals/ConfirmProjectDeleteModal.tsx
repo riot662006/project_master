@@ -4,7 +4,7 @@ import {
   useAppDispatch,
   useAppSelector,
   useProjects,
-} from "@/hooks/storeHooks";
+} from "@/hooks/useStoreHooks";
 import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
 import { useDeleteProjectMutation, useDeleteTaskMutation } from "@/store/slices/apiSlice";
 import toast from "react-hot-toast";

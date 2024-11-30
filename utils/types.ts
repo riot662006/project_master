@@ -3,7 +3,11 @@ import { UseFormReturn } from "react-hook-form";
 import { IconName } from "./projectIcons";
 import { Project, Task } from "@prisma/client";
 
-export type SerializableTask = Task & { createdAt: string; updatedAt: string };
+export type SerializableTask = Task & {
+  createdAt: string;
+  updatedAt: string;
+  project: { title: string };
+};
 
 export type SerializableProject = Project & {
   tasks: SerializableTask[];

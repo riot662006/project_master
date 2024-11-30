@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/hooks/storeHooks";
+import { useAppSelector, useProjects } from "@/hooks/useStoreHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
 import { selectProjects } from "@/store/Selectors";
 import { IAddTaskFormInput } from "@/utils/types";
@@ -10,7 +10,7 @@ const TaskProjectSelector = (
   props: UseControllerProps<IAddTaskFormInput, "projectId">,
 ) => {
   const { field, fieldState } = useController(props);
-  const projects = useAppSelector(selectProjects("name"));
+  const { projects, isFetching } = useProjects();
 
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -82,7 +82,7 @@ const TaskProjectSelector = (
               ))
             ) : (
               <span className="text-center text-xs italic text-slate-300">
-                No projects found
+                {isFetching ? "Loading" : "No projects found"}
               </span>
             )}
           </div>

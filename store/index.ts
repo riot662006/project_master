@@ -6,7 +6,7 @@ import addTaskModalReducer from "./slices/addTaskModalSlice";
 import confirmDeleteModalReducer from "./slices/confirmDeleteModalSlice";
 import projectsReducer from "./slices/projectsSlice";
 import tasksPageReducer from "./slices/tasksPageSlice";
-import apiSliceReducer, { apiSlice } from "./slices/apiSlice";
+import apiReducer, { apiSlice } from "./slices/apiSlice";
 import projectsUIReducer from "./slices/projectsUISlice";
 import userReducer from "./slices/userSlice";
 
@@ -21,7 +21,7 @@ const appReducer = combineReducers({
 
   // experimental
   user: userReducer,
-  api: apiSliceReducer,
+  api: apiReducer,
   projectsUI: projectsUIReducer,
 });
 

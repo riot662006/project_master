@@ -8,7 +8,7 @@ import {
   useAppDispatch,
   useAppSelector,
   useProjects,
-} from "@/hooks/storeHooks";
+} from "@/hooks/useStoreHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
 import { allProjectIcons, IconName, validateIcon } from "@/utils/projectIcons";
 import { useEffect } from "react";

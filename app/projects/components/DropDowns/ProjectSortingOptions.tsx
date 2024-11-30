@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
 import { setSortState } from "@/store/slices/projectsUISlice";
 import { ProjectSortMode } from "@/utils/types";

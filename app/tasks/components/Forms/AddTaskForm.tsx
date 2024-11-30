@@ -1,18 +1,27 @@
+"use client";
+
 import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
-import SelectProjectIconSection from "../../../../components/Sections/SelectProjectIconSection";
+import SelectProjectIconSection from "@/components/Sections/SelectProjectIconSection";
 
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddTaskFormInput } from "@/utils/types";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
-import { closeModal } from "@/store/slices/addProjectModalSlice";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useTasks,
+} from "@/hooks/useStoreHooks";
+import { closeModal } from "@/store/slices/addTaskModalSlice";
+import {
+  useAddTaskMutation,
+  useUpdateTaskMutation,
+} from "@/store/slices/apiSlice";
+import toast from "react-hot-toast";
+
 import { useEffect } from "react";
-import { selectTasks, selectTaskToEdit } from "@/store/Selectors";
 import TaskPrioritySelector from "../Dropdowns/TaskPrioritySelector";
 import TaskProjectSelector from "../Dropdowns/TaskProjectSelector";
-import { allProjectIcons, IconName } from "@/utils/projectIcons";
-import { createTask, updatedTask } from "@/utils/functions";
-import { addTask, updateTask } from "@/store/slices/projectsSlice";
+import { IconName, validateIcon } from "@/utils/projectIcons";
 
 const AddTaskForm = ({
   isSelectingIcon,
@@ -20,51 +29,60 @@ const AddTaskForm = ({
 }: {
   isSelectingIcon: boolean;
   setIsSelectingIcon: React.Dispatch<boolean>;
-  taskId?: string;
 }) => {
   const dispatch = useAppDispatch();
 
-  const allTasks = useAppSelector(selectTasks());
+  const { mode, taskId } = useAppSelector((state) => state.addTaskModal);
 
-  const { mode } = useAppSelector((state) => state.addTaskModal);
-  const taskToEdit = useAppSelector(selectTaskToEdit);
+  const { tasks, isLoading: isFetching } = useTasks();
+  const [addTask, { isLoading: isAdding }] = useAddTaskMutation();
+  const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
 
-  const isDisabled = useAppSelector((state) => state.addTaskModal.isDisabled);
+  const isDisabled = isFetching || isAdding || isUpdating;
+
+  const taskToEdit = tasks.find((task) => task.id === taskId);
 
   const {
     register,
     handleSubmit,
-    setValue,
     setError,
+    setValue,
     reset,
     control,
     formState: { errors },
   } = useForm<IAddTaskFormInput>({
     defaultValues: {
-      icon: taskToEdit.task.icon,
-      name: taskToEdit.task.title,
-      projectId: taskToEdit.projectId,
-      priority: taskToEdit.task.priority,
+      name: "",
+      icon: "default",
+      projectId: "",
+      priority: "medium",
     },
   });
 
   useEffect(() => {
-    reset({
-      icon: taskToEdit?.task.icon ?? "default",
-      name: taskToEdit?.task.title ?? "",
-      projectId: taskToEdit?.projectId ?? "",
-      priority: taskToEdit?.task.priority ?? "medium",
-    });
-  }, [taskToEdit, reset]);
+    if (mode === "edit" && taskToEdit) {
+      reset({
+        name: taskToEdit.title,
+        icon: validateIcon(taskToEdit.icon),
+        projectId: taskToEdit.projectId,
+        priority: taskToEdit.priority,
+      });
+    } else {
+      reset({
+        name: "",
+        icon: "default",
+        projectId: "",
+        priority: "medium",
+      });
+    }
+  }, [taskToEdit, reset, mode]);
 
   const icon = useWatch({ control, name: "icon" });
 
   const closeModalHandler = () => dispatch(closeModal());
 
   const onSubmit: SubmitHandler<IAddTaskFormInput> = async (data) => {
-    const selectedIconName: IconName =
-      allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
-      "default";
+    const selectedIconName: IconName = validateIcon(data.icon) || "default";
 
     const taskInfo = {
       title: data.name.trim(),
@@ -74,23 +92,32 @@ const AddTaskForm = ({
     };
 
     try {
-      if (mode == "add") {
-        await dispatch(addTask(taskInfo)).unwrap();
+      if (mode === "add") {
+        await addTask(taskInfo).unwrap();
+        toast.success("Task added successfully!");
       } else {
-        if (!taskToEdit) throw new Error("Is editing, must have a taskToEdit");
+        if (!taskToEdit) throw new Error("No task to edit.");
 
-        await dispatch(
-          updateTask({ taskId: taskToEdit.task.id, oldProjectId: taskToEdit.projectId,...taskInfo }),
-        ).unwrap();
+        await updateTask({
+          taskId: taskToEdit.id,
+          projectId: taskToEdit.projectId,
+          updatedFields: taskInfo,
+        }).unwrap();
+        toast.success("Task updated successfully!");
       }
 
       reset();
+      closeModalHandler();
     } catch {
+      toast.error(`Failed to ${mode} the task.`);
       setError("root", { type: "manual", message: "Something went wrong" });
     }
-
-    console.log(data);
   };
+
+  const isNameDuplicate = (name: string) =>
+    tasks
+      ?.filter((task) => task.id !== taskToEdit?.id)
+      .some((task) => task.title.toLowerCase() === name.toLowerCase());
 
   return isSelectingIcon ? (
     <SelectProjectIconSection
@@ -105,75 +132,62 @@ const AddTaskForm = ({
       onSubmit={handleSubmit(onSubmit)}
       className="flex w-full flex-col gap-10"
     >
-      <div className="flex w-full flex-col gap-4">
-        <div className="flex w-full flex-col gap-2">
-          <p className="text-sm font-semibold">Task Name</p>
-          <div className="flex flex-col gap-2">
-            <div className="flex w-full items-center gap-4">
-              <div className="flex-grow rounded-md border border-slate-200 p-2">
-                <input
-                  {...register("name", {
-                    required: "Task name is required",
-                    maxLength: {
-                      value: 50,
-                      message: "Task name must be 50 characters or less",
-                    },
-                    validate: {
-                      notOnlySpaces: (value) =>
-                        value.trim() !== "" ||
-                        "Task name cannot be only spaces",
-                      uniqueName: (value) =>
-                        !allTasks
-                          .map((taskObj) => taskObj.task.title)
-                          .filter((name) => name !== taskToEdit?.task.title)
-                          .includes(value.trim()) || "Task name already exists",
-                    },
-                  })}
-                  placeholder="Enter Task Name..."
-                  className="w-full bg-transparent text-sm outline-none"
-                  onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
-                  disabled={isDisabled}
-                />
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsSelectingIcon(true)}
+      <div className="flex w-full flex-col gap-2">
+        <p className="text-sm font-semibold">Task Name</p>
+        <div className="ml-2 flex flex-col gap-2">
+          <div className="flex w-full items-center gap-4">
+            <div className="flex-grow rounded-md border border-slate-200 p-2">
+              <input
+                {...register("name", {
+                  required: "Task name is required",
+                  maxLength: {
+                    value: 50,
+                    message: "Task name must be 50 characters or less",
+                  },
+                  validate: {
+                    notOnlySpaces: (value) =>
+                      value.trim() !== "" || "Task name cannot be only spaces",
+                    uniqueName: (value) =>
+                      !isNameDuplicate(value) || "Task name already exists",
+                  },
+                })}
+                placeholder="Enter Task Name..."
+                className="w-full bg-transparent text-sm outline-none"
+                onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
                 disabled={isDisabled}
-                className="rounded-md bg-sky-500 p-2 transition-colors hover:bg-sky-600 disabled:bg-sky-400"
-              >
-                <ProjectIcon name={icon} innerClassName="text-white" />
-              </button>
+              />
             </div>
-            {errors.name && (
-              <span className="text-sm font-medium text-red-500">
-                {errors.name.message}
-              </span>
-            )}
+            <button
+              type="button"
+              onClick={() => setIsSelectingIcon(true)}
+              disabled={isDisabled}
+              className="rounded-md bg-sky-500 p-2 transition-colors hover:bg-sky-600 disabled:bg-sky-400"
+            >
+              <ProjectIcon name={icon} innerClassName="text-white" />
+            </button>
           </div>
+          <p className="text-sm font-medium text-red-500">
+            {errors.name?.message || errors.root?.message}
+          </p>
         </div>
-        <div className="flex w-full gap-4 max-md:flex-col">
-          <div className="flex w-full flex-col gap-2">
-            <p className="text-sm font-semibold">Task Priority</p>
-            <TaskPrioritySelector
-              control={control}
-              name="priority"
-              rules={{ required: "Priority is required" }}
-            />
-          </div>
-          <div className="flex w-full flex-col gap-2">
-            <p className="text-sm font-semibold">Project</p>
-            <TaskProjectSelector
-              control={control}
-              name="projectId"
-              rules={{ required: "Project is required" }}
-            />
-          </div>
+      </div>
+      <div className="flex w-full gap-4 max-md:flex-col">
+        <div className="flex w-full flex-col gap-2">
+          <p className="text-sm font-semibold">Task Priority</p>
+          <TaskPrioritySelector
+            control={control}
+            name="priority"
+            rules={{ required: "Priority is required" }}
+          />
         </div>
-        {errors.root && (
-          <div className="flex w-full justify-end text-sm font-medium text-red-500">
-            {errors.root.message}
-          </div>
-        )}
+        <div className="flex w-full flex-col gap-2">
+          <p className="text-sm font-semibold">Project</p>
+          <TaskProjectSelector
+            control={control}
+            name="projectId"
+            rules={{ required: "Project is required" }}
+          />
+        </div>
       </div>
       <div className="flex w-full justify-end gap-4 transition-colors">
         <button

@@ -3,12 +3,18 @@
 import ProjectCard from "../Cards/ProjectCard";
 import { ListAlt } from "@mui/icons-material";
 import { CircularProgress } from "@mui/material";
-import { useSortedProjects } from "@/hooks/storeHooks";
+import { useAppSelector, useSortedProjects } from "@/hooks/useStoreHooks";
 
 const ProjectList = () => {
-  const { userId, projects, isLoading, isFetching, error } = useSortedProjects();
+  const { mode, reverse } = useAppSelector(
+    (state) => state.projectsUI.sortState,
+  );
+  const { projects, isLoading, isFetching, error } = useSortedProjects(
+    mode,
+    reverse,
+  );
 
-  if (!userId || isLoading || isFetching) {
+  if (isLoading || isFetching) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <CircularProgress size="5rem" sx={{ color: "skyblue" }} />
