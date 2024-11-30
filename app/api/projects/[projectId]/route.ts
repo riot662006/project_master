@@ -8,11 +8,11 @@ import {
 
 export const PUT = async (
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { projectId: string } },
 ) => {
   try {
     const { userId } = getAuthenticatedUser(req);
-    const projectId = params.id;
+    const projectId = params.projectId;
     await verifyProjectOwnership(projectId, userId);
 
     const data = await req.json();
@@ -33,11 +33,11 @@ export const PUT = async (
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { projectId: string } },
 ) {
   try {
     const { userId } = getAuthenticatedUser(req); // Authenticate the user
-    const projectId = params.id;
+    const projectId = params.projectId;
     await verifyProjectOwnership(projectId, userId);
 
     // Delete the project
