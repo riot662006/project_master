@@ -9,7 +9,7 @@ import {
 import { openEditTaskModal } from "@/store/slices/addTaskModalSlice";
 import { useUpdateTaskMutation } from "@/store/slices/apiSlice";
 import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
-import { setView, ViewState } from "@/store/slices/tasksPageSlice";
+import { setView, ViewState } from "@/store/slices/tasksUISlice";
 import { validateIcon } from "@/utils/projectIcons";
 import { Priority, SerializableTask, Status } from "@/utils/types";
 import {

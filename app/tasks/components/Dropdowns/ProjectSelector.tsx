@@ -5,7 +5,7 @@ import {
   useTasks,
 } from "@/hooks/useStoreHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { setSelectedProject } from "@/store/slices/tasksPageSlice";
+import { setSelectedProject } from "@/store/slices/tasksUISlice";
 import { allProjectIcons } from "@/utils/projectIcons";
 import { DensitySmall, KeyboardArrowDown } from "@mui/icons-material";
 import { useRef } from "react";

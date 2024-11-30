@@ -9,7 +9,7 @@ import {
   timeSinceCreatedDisplay,
 } from "@/utils/functions";
 import { useAppDispatch } from "@/hooks/useStoreHooks";
-import { setSelectedProject } from "@/store/slices/tasksPageSlice";
+import { setSelectedProject } from "@/store/slices/tasksUISlice";
 import { useRouter } from "next/navigation";
 import { openAddTaskModal } from "@/store/slices/addTaskModalSlice";
 import { validateIcon } from "@/utils/projectIcons";

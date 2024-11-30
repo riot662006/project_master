@@ -8,19 +8,19 @@ export interface TaskSortState {
   reverse: boolean;
 }
 
-interface TaskPageState {
+interface TaskUIState {
   selectedProjectId: string;
   curView: ViewState;
   sortState: TaskSortState;
 }
 
-const initialState: TaskPageState = {
+const initialState: TaskUIState = {
   selectedProjectId: "",
   curView: "on-going",
   sortState: { mode: "name", reverse: false },
 };
 
-const taskPageSlice = createSlice({
+const tasksUISlice = createSlice({
   name: "taskPage",
   initialState,
   reducers: {
@@ -38,5 +38,5 @@ const taskPageSlice = createSlice({
 });
 
 export const { setSelectedProject, setView, setSortState } =
-  taskPageSlice.actions;
-export default taskPageSlice.reducer;
+  tasksUISlice.actions;
+export default tasksUISlice.reducer;

@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { setSortState } from "@/store/slices/tasksPageSlice";
+import { setSortState } from "@/store/slices/tasksUISlice";
 import { TaskSortMode } from "@/utils/types";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { useCallback, useRef, useState } from "react";

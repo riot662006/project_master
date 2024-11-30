@@ -5,7 +5,7 @@ import addProjectModalReducer from "./slices/addProjectModalSlice";
 import addTaskModalReducer from "./slices/addTaskModalSlice";
 import confirmDeleteModalReducer from "./slices/confirmDeleteModalSlice";
 import projectsReducer from "./slices/projectsSlice";
-import tasksPageReducer from "./slices/tasksPageSlice";
+import tasksUIReducer from "./slices/tasksUISlice";
 import apiReducer, { apiSlice } from "./slices/apiSlice";
 import projectsUIReducer from "./slices/projectsUISlice";
 import userReducer from "./slices/userSlice";
@@ -17,7 +17,7 @@ const appReducer = combineReducers({
   addTaskModal: addTaskModalReducer,
   confirmDeleteModal: confirmDeleteModalReducer,
   projects: projectsReducer,
-  tasksPage: tasksPageReducer,
+  tasksPage: tasksUIReducer,
 
   // experimental
   user: userReducer,
