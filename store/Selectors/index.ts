@@ -1,7 +1,17 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "..";
-import { ProjectSortMode, TaskObj, TaskSortMode } from "@/utils/types";
-import { getProjectSortFunction, getTaskSortFunction } from "@/utils/functions";
+import {
+  ProjectSortMode,
+  statusOrder,
+  TaskObj,
+  TaskSortMode,
+} from "@/utils/types";
+import {
+  calculateProgressPercentage,
+  getProjectSortFunction,
+  getTaskSortFunction,
+} from "@/utils/functions";
+import { apiSlice } from "../slices/apiSlice";
 
 export const selectAllProjectNames = createSelector(
   (state: RootState) => state.projects.projectsList,
@@ -111,5 +121,48 @@ export const selectProject = (projectId: string) =>
     (state: RootState) => state.projects.projectsList,
     (projectsList) => {
       return projectsList.find((project) => project.id == projectId) ?? null;
+    },
+  );
+
+// experimental
+export const selectFetchProjects = (userId: string) =>
+  apiSlice.endpoints.fetchProjects.select(userId);
+export const selectProjectsV2 = (
+  userId: string,
+  sortBy?: ProjectSortMode,
+  reverse = false,
+) =>
+  createSelector(
+    apiSlice.endpoints.fetchProjects.select(userId), // Pass userId here
+    (state: RootState) => state.projects.sortState,
+    (queryResult, curSortState) => {
+      if (!queryResult.data) return []; // Return empty if no data
+      const sortState = sortBy ? { mode: sortBy, reverse } : curSortState;
+
+      const sortedProjects = [...queryResult.data].sort((a, b) => {
+        switch (sortState.mode) {
+          case "date":
+            return a.createdAt.getTime() - b.createdAt.getTime();
+          case "status":
+            if (a.status !== b.status)
+              return statusOrder[a.status] - statusOrder[b.status];
+
+            const a_percent = calculateProgressPercentage(
+              a.tasks.length,
+              a.tasks.filter((task) => task.status === "completed").length,
+            );
+            const b_percent = calculateProgressPercentage(
+              b.tasks.length,
+              b.tasks.filter((task) => task.status === "completed").length,
+            );
+
+            return a_percent - b_percent;
+          case "name":
+          default:
+            return a.title.localeCompare(b.title);
+        }
+      });
+
+      return reverse ? sortedProjects.reverse() : sortedProjects;
     },
   );

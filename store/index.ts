@@ -7,6 +7,7 @@ import confirmDeleteModalReducer from "./slices/confirmDeleteModalSlice";
 import projectsReducer from "./slices/projectsSlice";
 import tasksPageReducer from "./slices/tasksPageSlice";
 import apiSliceReducer, { apiSlice } from "./slices/apiSlice";
+import projectsUIReducer from "./slices/projectsUISlice";
 
 // Combine all reducers into a single root reducer
 const appReducer = combineReducers({
@@ -16,7 +17,10 @@ const appReducer = combineReducers({
   confirmDeleteModal: confirmDeleteModalReducer,
   projects: projectsReducer,
   tasksPage: tasksPageReducer,
+
+  // experimental
   api: apiSliceReducer,
+  projectsUI: projectsUIReducer,
 });
 
 // Enhanced root reducer to handle RESET_STATE action
