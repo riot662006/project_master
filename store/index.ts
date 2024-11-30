@@ -6,6 +6,7 @@ import addTaskModalReducer from "./slices/addTaskModalSlice";
 import confirmDeleteModalReducer from "./slices/confirmDeleteModalSlice";
 import projectsReducer from "./slices/projectsSlice";
 import tasksPageReducer from "./slices/tasksPageSlice";
+import apiSliceReducer, { apiSlice } from "./slices/apiSlice";
 
 // Combine all reducers into a single root reducer
 const appReducer = combineReducers({
@@ -15,10 +16,14 @@ const appReducer = combineReducers({
   confirmDeleteModal: confirmDeleteModalReducer,
   projects: projectsReducer,
   tasksPage: tasksPageReducer,
+  api: apiSliceReducer,
 });
 
 // Enhanced root reducer to handle RESET_STATE action
-const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: any) => {
+const rootReducer = (
+  state: ReturnType<typeof appReducer> | undefined,
+  action: any,
+) => {
   if (action.type === "RESET_STATE") {
     // Return undefined to reset all slices to their initial state
     return appReducer(undefined, action);
@@ -29,6 +34,8 @@ const rootReducer = (state: ReturnType<typeof appReducer> | undefined, action: a
 // Configure store with the enhanced root reducer
 const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 export default store;
