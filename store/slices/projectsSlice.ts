@@ -142,19 +142,17 @@ export const updateTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
   "projects/deleteTask",
-  async (taskId: string) => {
-    await new Promise<void>((resolve, reject) =>
-      setTimeout(() => {
-        if (coinFlip()) {
-          toast.success("Task deleted successfully");
-          resolve();
-        } else {
-          toast.error("Something went wrong");
-          reject();
-        }
-      }, 1000),
+  async (taskDetails: { taskId: string; projectId: string }) => {
+    const task = await apiRequest<{ taskId: string }>(
+      `/api/projects/${taskDetails.projectId}/tasks/${taskDetails.taskId}`,
+      "DELETE",
+      taskDetails,
+      {
+        success: "Task deleted successfully",
+        error: "Failed to delete task",
+      },
     );
-    return taskId;
+    return task;
   },
 );
 
@@ -216,12 +214,12 @@ const projectsSlice = createSlice({
       .addCase(deleteTask.fulfilled, (state, action) =>
         handleFulfilled(state, action, (state) => {
           const project = state.projectsList.find((project) =>
-            project.tasks.some((task) => task.id == action.payload),
+            project.tasks.some((task) => task.id == action.payload.taskId),
           );
 
           if (project) {
             project.tasks = project.tasks.filter(
-              (task) => task.id !== action.payload,
+              (task) => task.id !== action.payload.taskId,
             );
           }
         }),

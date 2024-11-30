@@ -44,9 +44,15 @@ export const DELETE = async (
 ) => {
   try {
     const { userId } = getAuthenticatedUser(req);
+    const { projectId, taskId } = params;
+    await verifyTaskOwnership(taskId, userId);
 
-    throw new BadRequestError();
+    await prisma.task.delete({
+      where: { id: taskId },
+    });
+
+    return NextResponse.json({ taskId });
   } catch (error) {
-    handleApiError(error);
+    return handleApiError(error);
   }
 };

@@ -42,10 +42,20 @@ export const verifyProjectOwnership = async (
   return project;
 };
 
-export async function verifyTaskOwnership(taskId: string, projectId: string) {
-  const task = await prisma.task.findUnique({ where: { id: taskId } });
+export async function verifyTaskOwnership(
+  taskId: string,
+  projectOrUserId: string,
+) {
+  const task = await prisma.task.findUnique({
+    where: { id: taskId },
+    include: { project: true },
+  });
 
-  if (!task || task.projectId !== projectId) {
+  if (
+    !task ||
+    (task.projectId !== projectOrUserId &&
+      task.project.clerkUserId !== projectOrUserId)
+  ) {
     throw new ForbiddenError();
   }
   return task;

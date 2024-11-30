@@ -49,7 +49,7 @@ const ConfirmDeleteModal = () => {
             onClick={() =>
               objectIdType == "project"
                 ? dispatch(deleteProject(objectId))
-                : dispatch(deleteTask(objectId))
+                : dispatch(deleteTask({ taskId: objectId, projectId: "any" }))
             }
             disabled={isDisabled}
           >
