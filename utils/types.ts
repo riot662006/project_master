@@ -1,6 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { IconName } from "./projectIcons";
+import { Project, Task } from "@prisma/client";
+
+export type SerializableTask = Task & { createdAt: string; updatedAt: string };
+
+export type SerializableProject = Project & {
+  tasks: SerializableTask[];
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type Status = "pending" | "in_progress" | "completed";
 export const statusOrder: { [key in Status]: number } = {
@@ -15,32 +24,6 @@ export const priorityOrder: { [key in Priority]: number } = {
   medium: 2,
   high: 3,
 };
-
-export interface BaseEntity {
-  id: string;
-  title: string;
-  status: Status;
-  createdAt: string;
-  updatedAt: string;
-  icon: IconName;
-}
-
-export interface Task extends BaseEntity {
-  // task object for the app
-  priority: Priority;
-}
-
-export interface Project extends BaseEntity {
-  // project object for the app
-  clerkUserId: string;
-  tasks: Task[];
-}
-
-export interface TaskObj {
-  task: Task;
-  projectName: string;
-  projectId: string;
-}
 
 export type IconData = {
   // icon data used in ./projectIcon.ts file

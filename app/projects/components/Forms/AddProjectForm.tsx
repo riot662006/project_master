@@ -1,16 +1,22 @@
 import ProjectIcon from "@/components/ProjectIcon";
 import { CircularProgress } from "@mui/material";
 import SelectProjectIconSection from "../../../../components/Sections/SelectProjectIconSection";
-import { createProject, updatedProject } from "@/utils/functions";
 
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { IAddProjectFormInput } from "@/utils/types";
-import { useAppDispatch, useAppSelector } from "@/hooks/storeHooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useProjects,
+} from "@/hooks/storeHooks";
 import { closeModal } from "@/store/slices/addProjectModalSlice";
-import { allProjectIcons, IconName } from "@/utils/projectIcons";
+import { allProjectIcons, IconName, validateIcon } from "@/utils/projectIcons";
 import { useEffect } from "react";
-import { selectAllProjectNames, selectProjectToEdit } from "@/store/Selectors";
-import { addProject, updateProject } from "@/store/slices/projectsSlice";
+import {
+  useAddProjectMutation,
+  useUpdateProjectMutation,
+} from "@/store/slices/apiSlice";
+import toast from "react-hot-toast";
 
 const AddProjectForm = ({
   isSelectingIcon,
@@ -22,13 +28,13 @@ const AddProjectForm = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const allProjectNames = useAppSelector(selectAllProjectNames);
-  const projectToEdit = useAppSelector(selectProjectToEdit);
-  const mode = useAppSelector((state) => state.addProjectModal.mode);
+  const { mode, projectId } = useAppSelector((state) => state.addProjectModal);
 
-  const isDisabled = useAppSelector(
-    (state) => state.addProjectModal.isDisabled,
-  );
+  const { projects, isLoading: isFetching } = useProjects();
+  const [addProject, { isLoading: isAdding }] = useAddProjectMutation();
+  const [updateProject, { isLoading: isUpdating }] = useUpdateProjectMutation();
+
+  const isDisabled = isFetching || isAdding || isUpdating;
 
   const {
     register,
@@ -40,17 +46,26 @@ const AddProjectForm = ({
     formState: { errors },
   } = useForm<IAddProjectFormInput>({
     defaultValues: {
-      icon: projectToEdit?.icon || "default",
-      name: projectToEdit?.title || "",
+      name: "",
+      icon: "default",
     },
   });
 
+  const projectToEdit = projects?.find((project) => project.id === projectId);
+
   useEffect(() => {
-    reset({
-      icon: projectToEdit?.icon || "default",
-      name: projectToEdit?.title || "",
-    });
-  }, [projectToEdit, reset]);
+    if (mode === "edit" && projectToEdit) {
+      reset({
+        name: projectToEdit.title,
+        icon: validateIcon(projectToEdit.icon),
+      });
+    } else {
+      reset({
+        icon: "default",
+        name: "",
+      });
+    }
+  }, [projectToEdit, reset, mode]);
 
   const icon = useWatch({ control, name: "icon" });
 
@@ -65,21 +80,31 @@ const AddProjectForm = ({
 
     try {
       if (mode == "add") {
-        await dispatch(addProject(projectInfo)).unwrap();
+        await addProject(projectInfo).unwrap();
+        toast.success("Project added successfully!");
       } else {
         if (!projectToEdit)
           throw new Error("Is editing, must have a projectToEdit");
-        
-        await dispatch(
-          updateProject({ projectId: projectToEdit.id, ...projectInfo }),
-        ).unwrap();
+
+        await updateProject({
+          projectId: projectToEdit.id,
+          ...projectInfo,
+        }).unwrap();
+        toast.success("Project edited successfully!");
       }
 
       reset();
+      closeModalHandler();
     } catch {
+      toast.error(`Failed to ${mode} the project.`);
       setError("root", { type: "manual", message: "Something went wrong" });
     }
   };
+
+  const isNameDuplicate = (name: string) =>
+    projects
+      ?.filter((project) => project.id !== projectToEdit?.id)
+      .some((project) => project.title.toLowerCase() === name.toLowerCase());
 
   return isSelectingIcon ? (
     <SelectProjectIconSection
@@ -111,10 +136,7 @@ const AddProjectForm = ({
                       value.trim() !== "" ||
                       "Project name cannot be only spaces",
                     uniqueName: (value) =>
-                      !allProjectNames
-                        .filter((name) => name !== projectToEdit?.title)
-                        .includes(value.trim()) ||
-                      "Project name already exists",
+                      !isNameDuplicate(value) || "Project name already exists",
                   },
                 })}
                 placeholder="Enter Project Name..."

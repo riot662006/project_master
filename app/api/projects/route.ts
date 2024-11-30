@@ -16,7 +16,10 @@ export const GET = async (req: NextRequest) => {
 
     const projects = await prisma.project.findMany({
       where: { clerkUserId: userId },
-      include: { tasks: true },
+      include: { tasks: { orderBy: { title: "asc" } } },
+      orderBy: {
+        title: "asc",
+      },
     });
 
     return NextResponse.json(projects);

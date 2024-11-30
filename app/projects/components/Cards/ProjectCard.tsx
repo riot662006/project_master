@@ -1,7 +1,7 @@
 import ProjectCardOptions from "@/app/projects/components/DropDowns/ProjectCardOptions";
 import ProgressBar from "@/components/ProgressBar";
 import ProjectIcon from "@/components/ProjectIcon";
-import { Project } from "@/utils/types";
+import { SerializableProject } from "@/utils/types";
 import { LibraryAdd } from "@mui/icons-material";
 import TaskList from "../Lists/TaskList";
 import {
@@ -12,8 +12,9 @@ import { useAppDispatch } from "@/hooks/storeHooks";
 import { setSelectedProject } from "@/store/slices/tasksPageSlice";
 import { useRouter } from "next/navigation";
 import { openAddTaskModal } from "@/store/slices/addTaskModalSlice";
+import { validateIcon } from "@/utils/projectIcons";
 
-const ProjectCard = ({ project }: { project: Project }) => {
+const ProjectCard = ({ project }: { project: SerializableProject }) => {
   const { title, icon, tasks, createdAt } = project;
   const taskProgress = calculateProgressPercentage(
     tasks.length,
@@ -40,7 +41,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
         <div className="flex w-full items-center gap-4">
           {/* Icon */}
           <ProjectIcon
-            name={icon}
+            name={validateIcon(icon)}
             outerClassName="flex flex-none items-center justify-center w-10 aspect-square rounded-md bg-sky-500"
             innerClassName="flex items-center justify-center text-white"
             sx={{ fontSize: "20px" }}

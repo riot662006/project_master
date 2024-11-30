@@ -1,8 +1,6 @@
 // apiSlice.ts
-import { Project, Task } from "@prisma/client";
+import { SerializableProject } from "@/utils/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-type ProjectWithTask = Project & { tasks: Task[] };
 
 export const apiSlice = createApi({
   reducerPath: "api", // A unique name for the slice
@@ -12,7 +10,7 @@ export const apiSlice = createApi({
     // Fetch Projects
     fetchProjects: builder.query({
       query: (userId) => `projects?userId=${userId}`,
-      providesTags: (result: ProjectWithTask[] | null | undefined) =>
+      providesTags: (result: SerializableProject[] | null | undefined) =>
         result
           ? result.map(({ id }) => ({ type: "Project", id }))
           : ["Project"],

@@ -7,35 +7,38 @@ import { fetchProjects } from "@/store/slices/projectsSlice";
 
 import { useAppDispatch } from "@/hooks/storeHooks";
 import { useEffect } from "react";
-import { useFetchProjectsQuery } from "@/store/slices/apiSlice";
+import { clearUserId, setUserId } from "@/store/slices/userSlice";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <Provider store={store}>
-        <ProjectManager>{children}</ProjectManager>
+        <UserProvider>
+          <ProjectManager>{children}</ProjectManager>
+        </UserProvider>
       </Provider>
     </ClerkProvider>
   );
 }
 
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const { isSignedIn, user } = useUser();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (isSignedIn && user?.id) {
+      dispatch(setUserId(user.id));
+    } else {
+      dispatch(clearUserId());
+    }
+  }, [isSignedIn, user, dispatch]);
+
+  return <>{children}</>;
+};
+
 const ProjectManager = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const { isSignedIn, user } = useUser();
-
-  const userId = isSignedIn && user?.id ? user.id : null;
-  const {
-    isLoading,
-    isFetching,
-    error,
-    data: projects,
-  } = useFetchProjectsQuery(userId ?? "", {
-    skip: !userId,
-  });
-
-  useEffect(() => {
-    console.log(projects);
-  }, [projects]);
 
   useEffect(() => {
     // Fetch projects when user is signed in

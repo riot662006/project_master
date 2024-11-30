@@ -13,9 +13,14 @@ import {
 } from "@/utils/functions";
 import { apiSlice } from "../slices/apiSlice";
 
+
 export const selectAllProjectNames = createSelector(
-  (state: RootState) => state.projects.projectsList,
-  (projectsList) => projectsList.map((project) => project.title),
+  (state: RootState) => state.user.userId, // Access userId from Redux
+  (userId) => {
+    const queryResult = apiSlice.endpoints.fetchProjects.select(userId)(state);
+    if (!userId || !queryResult?.data) return []; // Ensure userId and data exist
+    return queryResult.data.map((project) => project.title); // Return project titles
+  }
 );
 
 export const selectProjectToEdit = createSelector(
@@ -125,44 +130,65 @@ export const selectProject = (projectId: string) =>
   );
 
 // experimental
-export const selectFetchProjects = (userId: string) =>
-  apiSlice.endpoints.fetchProjects.select(userId);
-export const selectProjectsV2 = (
-  userId: string,
-  sortBy?: ProjectSortMode,
-  reverse = false,
-) =>
+export const selectFetchProjects = createSelector(
+  (state) => state.user.userId, // Access userId from Redux
+  (userId) =>
+    userId
+      ? apiSlice.endpoints.fetchProjects.select(userId)
+      : () => ({ data: [] }),
+);
+export const selectProjectsV2 = (sortBy?: ProjectSortMode, reverse = false) =>
   createSelector(
-    apiSlice.endpoints.fetchProjects.select(userId), // Pass userId here
-    (state: RootState) => state.projects.sortState,
-    (queryResult, curSortState) => {
-      if (!queryResult.data) return []; // Return empty if no data
-      const sortState = sortBy ? { mode: sortBy, reverse } : curSortState;
+    [
+      (state: RootState) => state.user.userId, // Selector to get userId
+      (state: RootState) => state.projectsUI.sortState, // Selector to get current sort state
+      (state: RootState) => state, // Pass entire state for queryResult selector
+    ],
+    (userId, curSortState, state) => {
+      if (!userId) return []; // If userId is not available, return empty array
 
+      const queryResult =
+        apiSlice.endpoints.fetchProjects.select(userId)(state); // Get query result
+
+      if (!queryResult.data) return []; // If no data, return empty array
+
+      const sortState = sortBy ? { mode: sortBy, reverse } : curSortState;
+      console.log(sortState);
+
+      // Sort projects based on the selected mode
       const sortedProjects = [...queryResult.data].sort((a, b) => {
         switch (sortState.mode) {
           case "date":
-            return a.createdAt.getTime() - b.createdAt.getTime();
-          case "status":
-            if (a.status !== b.status)
-              return statusOrder[a.status] - statusOrder[b.status];
+            return (
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            );
 
-            const a_percent = calculateProgressPercentage(
+          case "status":
+            // Compare by status order first
+            if (a.status !== b.status) {
+              return statusOrder[a.status] - statusOrder[b.status];
+            }
+
+            // Compare by percentage of completed tasks as a secondary criterion
+            const aProgress = calculateProgressPercentage(
               a.tasks.length,
               a.tasks.filter((task) => task.status === "completed").length,
             );
-            const b_percent = calculateProgressPercentage(
+            const bProgress = calculateProgressPercentage(
               b.tasks.length,
               b.tasks.filter((task) => task.status === "completed").length,
             );
 
-            return a_percent - b_percent;
+            return aProgress - bProgress;
+
           case "name":
           default:
+            // Default to sorting alphabetically by title
             return a.title.localeCompare(b.title);
         }
       });
 
-      return reverse ? sortedProjects.reverse() : sortedProjects;
+      // Reverse the sorted projects if `reverse` is true
+      return sortState.reverse ? sortedProjects.reverse() : sortedProjects;
     },
   );

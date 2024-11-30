@@ -8,6 +8,7 @@ import projectsReducer from "./slices/projectsSlice";
 import tasksPageReducer from "./slices/tasksPageSlice";
 import apiSliceReducer, { apiSlice } from "./slices/apiSlice";
 import projectsUIReducer from "./slices/projectsUISlice";
+import userReducer from "./slices/userSlice";
 
 // Combine all reducers into a single root reducer
 const appReducer = combineReducers({
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   tasksPage: tasksPageReducer,
 
   // experimental
+  user: userReducer,
   api: apiSliceReducer,
   projectsUI: projectsUIReducer,
 });
