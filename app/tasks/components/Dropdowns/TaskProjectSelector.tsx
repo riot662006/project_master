@@ -1,6 +1,5 @@
-import { useAppSelector, useProjects } from "@/hooks/useStoreHooks";
+import { useProjects } from "@/hooks/useStoreHooks";
 import { useDetectOutsideClick } from "@/hooks/useDetectOutsideClick";
-import { selectProjects } from "@/store/Selectors";
 import { IAddTaskFormInput } from "@/utils/types";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import React, { useRef, useState } from "react";
@@ -9,6 +8,8 @@ import { useController, UseControllerProps } from "react-hook-form";
 const TaskProjectSelector = (
   props: UseControllerProps<IAddTaskFormInput, "projectId">,
 ) => {
+  const isDisabled = props.disabled;
+
   const { field, fieldState } = useController(props);
   const { projects, isFetching } = useProjects();
 
@@ -47,18 +48,23 @@ const TaskProjectSelector = (
 
   return (
     <div className="relative flex w-full flex-col text-sm">
-      <div className="flex w-full flex-col" ref={menuRef}>
+      <div
+        className={`flex w-full flex-col ${isDisabled && "bg-slate-100"}`}
+        ref={menuRef}
+      >
         <div className="flex w-full rounded-sm border p-2">
           <span
             className={`flex flex-grow items-center gap-2 truncate text-ellipsis whitespace-nowrap ${!curSelectedProject && "text-slate-400"}`}
-            onClick={toggleMenu}
+            onClick={() => {
+              (!isDisabled) ? toggleMenu() : null;
+            }}
           >
             {curSelectedProject?.title ?? "Select Project..."}
           </span>
           <KeyboardArrowDown />
         </div>
         <div
-          className={`absolute top-14 z-30 flex w-full flex-col ${isMenuActive ? "block" : "hidden"} gap-2 rounded-md border-gray-200 bg-white px-2 py-4 shadow-md`}
+          className={`absolute top-14 z-30 flex w-full flex-col ${isMenuActive && !isDisabled ? "block" : "hidden"} gap-2 rounded-md border-gray-200 bg-white px-2 py-4 shadow-md`}
         >
           <div className="flex w-full">
             <input
@@ -67,6 +73,7 @@ const TaskProjectSelector = (
               onChange={onSearchInputChange}
               onKeyDown={onSearchInputKeydown}
               className="w-full rounded-sm p-2 outline outline-2 outline-slate-200 focus:outline-sky-400"
+              disabled={isDisabled}
             />
           </div>
           <div className="flex max-h-36 flex-col overflow-y-auto">

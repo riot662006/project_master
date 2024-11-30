@@ -30,7 +30,7 @@ const AddProjectForm = ({
 
   const { mode, projectId } = useAppSelector((state) => state.addProjectModal);
 
-  const { projects, isLoading: isFetching } = useProjects();
+  const { projects, isFetching } = useProjects();
   const [addProject, { isLoading: isAdding }] = useAddProjectMutation();
   const [updateProject, { isLoading: isUpdating }] = useUpdateProjectMutation();
 

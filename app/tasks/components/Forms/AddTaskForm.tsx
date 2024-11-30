@@ -34,7 +34,7 @@ const AddTaskForm = ({
 
   const { mode, taskId } = useAppSelector((state) => state.addTaskModal);
 
-  const { tasks, isLoading: isFetching } = useTasks();
+  const { tasks, isFetching } = useTasks();
   const [addTask, { isLoading: isAdding }] = useAddTaskMutation();
   const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
 
@@ -178,6 +178,7 @@ const AddTaskForm = ({
             control={control}
             name="priority"
             rules={{ required: "Priority is required" }}
+            disabled={isDisabled}
           />
         </div>
         <div className="flex w-full flex-col gap-2">
@@ -186,6 +187,7 @@ const AddTaskForm = ({
             control={control}
             name="projectId"
             rules={{ required: "Project is required" }}
+            disabled={isDisabled}
           />
         </div>
       </div>
