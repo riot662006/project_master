@@ -66,24 +66,21 @@ const AddTaskForm = ({
       allProjectIcons.find((icon) => icon.name === data.icon)?.name ||
       "default";
 
-    const taskInfo =
-      mode === "edit"
-        ? updatedTask(
-            taskToEdit.task,
-            data.name.trim(),
-            selectedIconName,
-            data.priority,
-          )
-        : createTask(data.name.trim(), selectedIconName, data.priority);
+    const taskInfo = {
+      title: data.name.trim(),
+      icon: selectedIconName,
+      priority: data.priority,
+      projectId: data.projectId,
+    };
 
     try {
       if (mode == "add") {
-        await dispatch(
-          addTask({ task: taskInfo, projectId: data.projectId }),
-        ).unwrap();
+        await dispatch(addTask(taskInfo)).unwrap();
       } else {
+        if (!taskToEdit) throw new Error("Is editing, must have a taskToEdit");
+
         await dispatch(
-          updateTask({ task: taskInfo, projectId: data.projectId }),
+          updateTask({ taskId: taskToEdit.task.id, oldProjectId: taskToEdit.projectId,...taskInfo }),
         ).unwrap();
       }
 

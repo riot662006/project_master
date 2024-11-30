@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuthenticatedUser, handleApiError } from "@/lib/api/helper";
+import {
+  getAuthenticatedUser,
+  handleApiError,
+  verifyProjectOwnership,
+  verifyTaskOwnership,
+} from "@/lib/api/helper";
 import { BadRequestError } from "@/lib/api/errors";
 
 export const PUT = async (
@@ -9,10 +14,27 @@ export const PUT = async (
 ) => {
   try {
     const { userId } = getAuthenticatedUser(req);
+    const { projectId, taskId } = params;
+    await verifyProjectOwnership(projectId, userId);
+    await verifyTaskOwnership(taskId, projectId);
 
-    throw new BadRequestError();
+    const { title, icon, priority, projectId: newProjectId } = await req.json();
+
+    const task = await prisma.task.update({
+      where: {
+        id: taskId,
+      },
+      data: {
+        title,
+        icon,
+        priority,
+        projectId: newProjectId,
+      },
+    });
+
+    return NextResponse.json(task);
   } catch (error) {
-    handleApiError(error);
+    return handleApiError(error);
   }
 };
 

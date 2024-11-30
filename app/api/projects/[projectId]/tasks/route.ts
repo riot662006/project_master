@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getAuthenticatedUser, handleApiError } from "@/lib/api/helper";
+import {
+  getAuthenticatedUser,
+  handleApiError,
+  verifyProjectOwnership,
+} from "@/lib/api/helper";
 import { BadRequestError } from "@/lib/api/errors";
 
 export const GET = async (
@@ -22,8 +26,21 @@ export const POST = async (
 ) => {
   try {
     const { userId } = getAuthenticatedUser(req);
+    const { projectId } = params;
+    await verifyProjectOwnership(projectId, userId);
 
-    throw new BadRequestError();
+    const { title, icon, priority } = await req.json();
+
+    const task = await prisma.task.create({
+      data: {
+        title,
+        icon,
+        priority,
+        projectId,
+      },
+    });
+
+    return NextResponse.json(task);
   } catch (error) {
     handleApiError(error);
   }

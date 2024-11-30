@@ -11,6 +11,7 @@ import {
 } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 import { apiRequest } from "../helper";
+import { Priority } from "@prisma/client";
 
 interface ProjectSortState {
   mode: ProjectSortMode;
@@ -97,45 +98,45 @@ export const deleteProject = createAsyncThunk(
 
 export const addTask = createAsyncThunk(
   "projects/addTask",
-  async ({ task, projectId }: { task: Task; projectId: string }) => {
-    await new Promise<void>((resolve, reject) =>
-      setTimeout(() => {
-        if (coinFlip()) {
-          toast.success("Task added successfully");
-          resolve();
-        } else {
-          toast.error("Something went wrong");
-          reject();
-        }
-      }, 1000),
+  async (taskDetails: {
+    title: string;
+    icon: string;
+    priority: Priority;
+    projectId: string;
+  }) => {
+    const task = await apiRequest<Task & { projectId: string }>(
+      `/api/projects/${taskDetails.projectId}/tasks`,
+      "POST",
+      taskDetails,
+      {
+        success: "Task added successfully",
+        error: "Failed to add task",
+      },
     );
-    return { task, projectId };
+    return task;
   },
 );
 
 export const updateTask = createAsyncThunk(
   "projects/updateTask",
-  async ({
-    task,
-    projectId,
-    successMsg,
-  }: {
-    task: Task;
+  async (taskDetails: {
+    title: string;
+    icon: string;
+    priority: Priority;
+    oldProjectId: string;
     projectId: string;
-    successMsg?: string;
+    taskId: string;
   }) => {
-    await new Promise<void>((resolve, reject) =>
-      setTimeout(() => {
-        if (coinFlip()) {
-          toast.success(successMsg || "Task edited successfully");
-          resolve();
-        } else {
-          toast.error("Something went wrong");
-          reject();
-        }
-      }, 1000),
+    const task = await apiRequest<Task & { projectId: string }>(
+      `/api/projects/${taskDetails.oldProjectId}/tasks/${taskDetails.taskId}`,
+      "PUT",
+      taskDetails,
+      {
+        success: "Task edited successfully",
+        error: "Failed to edit task",
+      },
     );
-    return { task, projectId };
+    return task;
   },
 );
 
@@ -232,8 +233,9 @@ const projectsSlice = createSlice({
           const project = state.projectsList.find(
             (project) => project.id === action.payload.projectId,
           );
+          const { projectId, ...task } = action.payload;
 
-          project?.tasks.push(action.payload.task);
+          project?.tasks.push(task);
         }),
       )
 
@@ -241,12 +243,12 @@ const projectsSlice = createSlice({
       .addCase(updateTask.fulfilled, (state, action) =>
         handleFulfilled(state, action, (state) => {
           const oldProjectLocation = state.projectsList.find((project) =>
-            project.tasks.some((task) => task.id == action.payload.task.id),
+            project.tasks.some((task) => task.id == action.payload.id),
           );
 
           if (oldProjectLocation) {
             oldProjectLocation.tasks = oldProjectLocation.tasks.filter(
-              (task) => task.id !== action.payload.task.id,
+              (task) => task.id !== action.payload.id,
             );
           }
 
@@ -254,7 +256,9 @@ const projectsSlice = createSlice({
             (project) => project.id == action.payload.projectId,
           );
 
-          newProjectLocation?.tasks.push(action.payload.task);
+          const { projectId, ...task } = action.payload;
+
+          newProjectLocation?.tasks.push(task);
         }),
       )
 
