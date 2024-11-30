@@ -123,7 +123,7 @@ const TaskList = () => {
 const TaskItem = ({ task }: { task: SerializableTask }) => {
   const dispatch = useAppDispatch();
 
-  const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
 
   const toggleTaskStatus = async () => {
     const newStatus = task.status === "completed" ? "in_progress" : "completed";

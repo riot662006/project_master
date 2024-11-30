@@ -6,7 +6,6 @@ import {
   verifyProjectOwnership,
   verifyTaskOwnership,
 } from "@/lib/api/helper";
-import { BadRequestError } from "@/lib/api/errors";
 
 export const PUT = async (
   req: NextRequest,
@@ -18,8 +17,14 @@ export const PUT = async (
     await verifyProjectOwnership(projectId, userId);
     await verifyTaskOwnership(taskId, projectId);
 
-    const { title, icon, status, priority, projectId: newProjectId } = await req.json();
-    
+    const {
+      title,
+      icon,
+      status,
+      priority,
+      projectId: newProjectId,
+    } = await req.json();
+
     const task = await prisma.task.update({
       where: {
         id: taskId,
@@ -46,7 +51,7 @@ export const DELETE = async (
 ) => {
   try {
     const { userId } = getAuthenticatedUser(req);
-    const { projectId, taskId } = params;
+    const { taskId } = params;
     await verifyTaskOwnership(taskId, userId);
 
     await prisma.task.delete({

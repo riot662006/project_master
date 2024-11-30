@@ -39,12 +39,13 @@ const TaskPrioritySelector = (
 
   return (
     <div className="relative flex w-full flex-col text-sm">
-      <div className={`flex w-full flex-col ${isDisabled && "bg-slate-100"}`} ref={menuRef}>
+      <div
+        className={`flex w-full flex-col ${isDisabled && "bg-slate-100"}`}
+        ref={menuRef}
+      >
         <div
           className="flex w-full rounded-sm border p-2"
-          onClick={() => {
-            (!isDisabled) ? toggleMenu() : null;
-          }}
+          onClick={() => !isDisabled && toggleMenu()}
         >
           <span
             className={`flex flex-grow items-center gap-2 truncate text-ellipsis whitespace-nowrap ${!curOption && "text-slate-400"}`}

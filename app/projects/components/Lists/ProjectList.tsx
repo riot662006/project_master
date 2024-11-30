@@ -9,10 +9,7 @@ const ProjectList = () => {
   const { mode, reverse } = useAppSelector(
     (state) => state.projectsUI.sortState,
   );
-  const { projects, isLoading, isFetching, error } = useSortedProjects(
-    mode,
-    reverse,
-  );
+  const { projects, isLoading, isFetching } = useSortedProjects(mode, reverse);
 
   if (isLoading || isFetching) {
     return (

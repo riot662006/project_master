@@ -16,7 +16,9 @@ export class UnauthorizedError extends ApiError {
 }
 
 export class ForbiddenError extends ApiError {
-  constructor(message: string = "Forbidden: Access to this resource is denied") {
+  constructor(
+    message: string = "Forbidden: Access to this resource is denied",
+  ) {
     super(message, 403);
     this.name = "ForbiddenError";
   }

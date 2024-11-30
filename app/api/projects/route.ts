@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getAuthenticatedUser, handleApiError } from "@/lib/api/helper";
-import { ForbiddenError } from "@/lib/api/errors";
 
 export const GET = async (req: NextRequest) => {
   try {
     const { userId } = getAuthenticatedUser(req);
-
-    const url = new URL(req.url);
 
     const projects = await prisma.project.findMany({
       where: { clerkUserId: userId },

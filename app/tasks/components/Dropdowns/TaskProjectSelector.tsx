@@ -55,9 +55,7 @@ const TaskProjectSelector = (
         <div className="flex w-full rounded-sm border p-2">
           <span
             className={`flex flex-grow items-center gap-2 truncate text-ellipsis whitespace-nowrap ${!curSelectedProject && "text-slate-400"}`}
-            onClick={() => {
-              (!isDisabled) ? toggleMenu() : null;
-            }}
+            onClick={() => !isDisabled && toggleMenu()}
           >
             {curSelectedProject?.title ?? "Select Project..."}
           </span>

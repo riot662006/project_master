@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  BorderAll,
-  CalendarMonth,
-  Logout,
-  Splitscreen,
-} from "@mui/icons-material";
+import { BorderAll, CalendarMonth, Splitscreen } from "@mui/icons-material";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import Link from "next/link";
@@ -40,7 +35,9 @@ const Sidebar = () => {
         <div
           className={`${isOpen ? "w-80 opacity-100" : "w-0 opacity-0"} fixed z-50 flex h-screen flex-col items-center justify-between border-r bg-white py-8 shadow-xl transition-[width,opacity]`}
         >
-          <div className={`${isOpen ? "flex" : "hidden"} flex-col w-full h-full justify-between items-center`}>
+          <div
+            className={`${isOpen ? "flex" : "hidden"} h-full w-full flex-col items-center justify-between`}
+          >
             <Logo showName />
             <Menu />
             <UserButton showName />

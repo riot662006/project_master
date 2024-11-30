@@ -6,7 +6,10 @@ import {
   useProjects,
 } from "@/hooks/useStoreHooks";
 import { setConfirmDeleteModal } from "@/store/slices/confirmDeleteModalSlice";
-import { useDeleteProjectMutation, useDeleteTaskMutation } from "@/store/slices/apiSlice";
+import {
+  useDeleteProjectMutation,
+  useDeleteTaskMutation,
+} from "@/store/slices/apiSlice";
 import toast from "react-hot-toast";
 import { CircularProgress } from "@mui/material";
 
@@ -45,7 +48,7 @@ const ConfirmDeleteModal = () => {
         toast.success("Task deleted successfully!");
       }
       dispatch(setConfirmDeleteModal({ isOpen: false }));
-    } catch (error) {
+    } catch {
       toast.error(`Failed to delete ${objectIdType}.`);
     }
   };

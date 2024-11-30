@@ -22,7 +22,7 @@ export const useProjects = (): {
   projects: SerializableProject[];
   isLoading: boolean;
   isFetching: boolean;
-  error: any; // Replace `any` with specific error type if known
+  error: unknown; // Replace `any` with specific error type if known
 } => {
   const {
     data: projects = [],
@@ -44,7 +44,7 @@ export const useSortedProjects = (
   projects: SerializableProject[];
   isLoading: boolean;
   isFetching: boolean;
-  error: any;
+  error: unknown;
 } => {
   const { projects, isLoading, isFetching, error } = useProjects();
 
@@ -93,7 +93,7 @@ export const useTasks = (
   tasks: SerializableTask[];
   isLoading: boolean;
   isFetching: boolean;
-  error: any;
+  error: unknown;
 } => {
   const {
     data: projects = [],
@@ -127,7 +127,7 @@ export const useSortedTasks = (
   tasks: SerializableTask[];
   isLoading: boolean;
   isFetching: boolean;
-  error: any;
+  error: unknown;
 } => {
   const { tasks, isLoading, isFetching, error } = useTasks(projectId);
 

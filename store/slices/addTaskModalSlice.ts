@@ -1,10 +1,4 @@
-import {
-  createSlice,
-  isFulfilled,
-  isPending,
-  isRejected,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AddTaskModalState {
   isOpen: boolean;

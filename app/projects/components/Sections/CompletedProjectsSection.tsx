@@ -13,10 +13,7 @@ const CompletedProjectsSection = () => {
   const { mode, reverse } = useAppSelector(
     (state) => state.projectsUI.sortState,
   );
-  const { projects, isLoading } = useSortedProjects(
-    mode,
-    reverse,
-  );
+  const { projects, isLoading } = useSortedProjects(mode, reverse);
 
   if (isLoading) {
     return (
