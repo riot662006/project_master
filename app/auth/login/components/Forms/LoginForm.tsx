@@ -12,8 +12,14 @@ import * as z from "zod";
 import { LoginSchema } from "@/schemas";
 import { FormError } from "./FormError";
 import { FormSuccess } from "./FormSuccess";
+import { login } from "@/actions/login";
+import { useTransition, useState } from "react";
 
 export const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+
   const {
     handleSubmit,
     register,
@@ -27,7 +33,12 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    console.log(data);
+    startTransition(async () => {
+      login(data).then((data) => {
+        setSuccess(data.success);
+        setError(data.error);
+      });
+    });
   };
 
   return (
@@ -72,7 +83,8 @@ export const LoginForm = () => {
                 Email address
                 <input
                   {...register("email")}
-                  className="w-full rounded-md border border-slate-200 bg-transparent p-2 text-sm font-normal outline-none"
+                  className="w-full rounded-md border border-slate-200 bg-transparent p-2 text-sm font-normal outline-none disabled:bg-slate-100"
+                  disabled={isPending}
                 />
                 {errors.email && (
                   <span className="font-semibold text-red-500">
@@ -85,7 +97,8 @@ export const LoginForm = () => {
                 <input
                   type="password"
                   {...register("password")}
-                  className="w-full rounded-md border border-slate-200 bg-transparent p-2 text-sm font-normal outline-none"
+                  className="w-full rounded-md border border-slate-200 bg-transparent p-2 text-sm font-normal outline-none disabled:bg-slate-100"
+                  disabled={isPending}
                 />
                 {errors.password && (
                   <span className="font-semibold text-red-500">
@@ -93,11 +106,12 @@ export const LoginForm = () => {
                   </span>
                 )}
               </label>
-              <FormError message="" />
-              <FormSuccess message="" />
+              <FormError message={error} />
+              <FormSuccess message={success} />
               <button
                 type="submit"
-                className="flex w-full items-center justify-center rounded-md bg-sky-500 p-2 px-4 font-semibold text-white hover:bg-sky-600"
+                className="flex w-full items-center justify-center rounded-md bg-sky-500 p-2 px-4 font-semibold text-white enabled:hover:bg-sky-600 disabled:bg-sky-600/45"
+                disabled={isPending}
               >
                 <span>Continue</span>
               </button>
