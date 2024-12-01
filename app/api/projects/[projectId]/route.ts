@@ -11,38 +11,48 @@ export const PUT = async (
   { params }: { params: { projectId: string } },
 ) => {
   try {
-    const { userId } = getAuthenticatedUser(req);
-    const projectId = params.projectId;
+    const { userId } = getAuthenticatedUser(req); // Authenticate the user
+    const { projectId } = params;
+
+    // Verify ownership of the project
     await verifyProjectOwnership(projectId, userId);
 
+    // Parse request body
     const data = await req.json();
+    const { title, icon } = data;
+
+    // Update the project
     const updatedProject = await prisma.project.update({
       where: { id: projectId },
       data: {
-        title: data.title,
-        icon: data.icon,
+        title,
+        icon,
       },
       include: {
         tasks: {
-          orderBy: { title: "asc" },
-          include: { project: { select: { title: true } } },
+          orderBy: { title: "asc" }, // Ensure tasks are sorted by title
+          include: {
+            project: { select: { title: true } }, // Include project title in tasks
+          },
         },
       },
     });
 
     return NextResponse.json(updatedProject);
   } catch (error) {
-    handleApiError(error, "Failed to update project");
+    return handleApiError(error, "Failed to update project");
   }
 };
 
-export async function DELETE(
+export const DELETE = async (
   req: NextRequest,
   { params }: { params: { projectId: string } },
-) {
+) => {
   try {
     const { userId } = getAuthenticatedUser(req); // Authenticate the user
-    const projectId = params.projectId;
+    const { projectId } = params;
+
+    // Verify ownership of the project
     await verifyProjectOwnership(projectId, userId);
 
     // Delete the project
@@ -52,6 +62,6 @@ export async function DELETE(
 
     return NextResponse.json({ projectId });
   } catch (error) {
-    handleApiError(error, "Failed to delete project");
+    return handleApiError(error, "Failed to delete project");
   }
-}
+};
