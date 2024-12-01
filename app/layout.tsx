@@ -6,6 +6,10 @@ import Providers from "@/components/Providers";
 export const metadata: Metadata = {
   title: "Project Master",
   description: "Project Manangement Software",
+  icons: {
+    icon: "/favicon.ico", // Path to your favicon
+    apple: "/apple-touch-icon.png", // Path to Apple touch icon
+  },
 };
 
 const poppins = Poppins({
