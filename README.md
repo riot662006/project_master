@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ProjectMaster - Project Management App Built with Next.js
 
-## Getting Started
+This project is an **intuitive project management application** designed for individuals to manage their projects and tasks efficiently. Built with **Next.js**, **Clerk for Authentication**, **TypeScript**, and **Tailwind CSS**, the app provides an easy way to track progress and stay organized.
 
-First, run the development server:
+The application allows users to create projects, manage tasks within those projects, and visualize task completion with a progress summary. Its user-friendly interface and responsive design make it a perfect tool for personal productivity.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Table of Contents
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [About the Project](#about-the-project)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Future Enhancements](#future-enhancements)
+- [Acknowledgments](#acknowledgments)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## About the Project
 
-To learn more about Next.js, take a look at the following resources:
+The app focuses on providing a straightforward workflow for project and task management:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Projects**: Users can create, update, and delete projects.
+2. **Tasks**: Each project can contain multiple tasks, which can be added, updated, and removed.
+3. **Progress Tracking**:
+   - Overview of completed and total tasks.
+   - A visual percentage tracker for completed tasks.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This tool is ideal for users seeking a simple, no-frills way to manage their workload without complex collaboration or team-based features.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **User Authentication**:
+
+   - Multiple sign-in options powered by Clerk:
+     - Email and password.
+     - Email magic link.
+     - Google and GitHub authentication.
+
+2. **Project and Task Management**:
+
+   - Create, edit, delete, and update projects.
+   - Add, edit, delete, and manage tasks within projects.
+
+3. **Task Progress Summary**:
+
+   - Percentage progress tracker for completed tasks.
+   - Quick overview of completed vs. total tasks.
+
+4. **Responsive UI**:
+
+   - Designed with Tailwind CSS for seamless responsiveness on all devices.
+
+5. **Secure and Scalable**:
+   - Authentication via Clerk for security.
+   - Backend integration with Prisma and Supabase for database management.
+
+---
+
+## Tech Stack
+
+- **Frontend**: Next.js, TypeScript, Tailwind CSS
+- **Authentication**: Clerk
+- **Database**: Prisma ORM with Supabase
+- **Styling**: Tailwind CSS
+- **Hosting**: (e.g., Vercel)
+
+## Planned Changes
+
+- **Authentication Update**: We're migrating to **NextAuth** to enhance user flexibility and customization, and to avoid the limitations of Clerk's [domain ownership requirements](https://clerk.com/docs/deployments/overview).
+
+---
+
+## Future Enhancements
+
+### Authentication Update
+
+- Transitioning from Clerk to **NextAuth** for enhanced flexibility, customization, and to bypass Clerk's [domain ownership requirements](https://clerk.com/docs/deployments/overview).
+
+### Deadlines and Timelines
+
+- **Deadlines**: Introduce due dates for tasks and projects to enhance time management.
+- **Timeline Visualization Page**:
+  - A separate page to display tasks and projects visually over time.
+  - Interactive controls to zoom, sort, and filter tasks by progress or priority.
+
+### Additional Features
+
+- Integration with third-party tools like Google Calendar for better scheduling.
+- Dark mode for improved user experience.
+- Exportable timelines and reports for documentation and sharing.
+
+---
+
+## Acknowledgments
+
+This project was initially inspired by the concepts presented in [this YouTube video](https://www.youtube.com/watch?v=8uAkZHnnt5k). However, the scope and features have significantly evolved to address the unique requirements of an individual project management tool. Special thanks to the Clerk, Next.js, Prisma, and Supabase communities for their excellent documentation and support.
+
+---
