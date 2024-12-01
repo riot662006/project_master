@@ -1,34 +1,35 @@
 "use client";
 
 import { Provider as StorageProvider } from "react-redux";
-import { ClerkProvider, useUser } from "@clerk/nextjs";
 import store from "@/store";
 
 import { useAppDispatch } from "@/hooks/useStoreHooks";
 import { useEffect } from "react";
 import { clearUserId, setUserId } from "@/store/slices/userSlice";
+import { SessionProvider, useSession } from "next-auth/react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <ClerkProvider>
+    <SessionProvider>
       <StorageProvider store={store}>
         <UserProvider>{children}</UserProvider>
       </StorageProvider>
-    </ClerkProvider>
+    </SessionProvider>
   );
 }
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const { isSignedIn, user } = useUser();
+  const { data: session } = useSession();
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isSignedIn && user?.id) {
-      dispatch(setUserId(user.id));
+    if (session?.user?.id) {
+      dispatch(setUserId(session?.user.id));
     } else {
       dispatch(clearUserId());
     }
-  }, [isSignedIn, user, dispatch]);
+  }, [dispatch, session]);
 
   return <>{children}</>;
 };

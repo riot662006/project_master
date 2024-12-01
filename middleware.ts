@@ -1,11 +1,31 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
 
-const isProtectedRoute = createRouteMatcher(["/projects(.*)", "/tasks(.*)"]);
+import * as routes from "@/routes";
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
+const { auth } = NextAuth(authConfig);
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+
+  const isApiAuthRoute = nextUrl.pathname.startsWith(routes.apiAuthPrefix);
+  const isPublicRoute = routes.publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = routes.authRoutes.includes(nextUrl.pathname);
+
+  if (isApiAuthRoute) return;
+
+  if (isAuthRoute) {
+    if (isLoggedIn)
+      return Response.redirect(new URL(routes.DEFAULT_LOGIN_REDIRECT, req.url));
+    return;
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    return Response.redirect(new URL("/sign-in", req.url));
+  }
 });
 
+// Optionally, don't invoke Middleware on some paths
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
