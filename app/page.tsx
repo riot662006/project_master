@@ -33,7 +33,9 @@ export default function Home() {
             Lets get started!
           </button>
         </SignInButton>
-        <Image src="" alt="Project management dashboard" />
+        <div className="flex gap-2 items-center justify-center">
+          <Image src="/screenshots/project-2.png" alt="Project management dashboard" width={708} height={528}/>
+        </div>
       </section>
       <section className="flex flex-col items-center gap-8 bg-slate-100 p-8">
         <h2 className="text-lg font-bold">Key Features</h2>
