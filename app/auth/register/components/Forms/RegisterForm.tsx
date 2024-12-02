@@ -9,13 +9,13 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { LoginSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 import { FormError } from "../../../components/Forms/FormError";
 import { FormSuccess } from "../../../components/Forms/FormSuccess";
-import { login } from "@/actions/login";
+import { register as registerAction } from "@/actions/register";
 import { useTransition, useState } from "react";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -24,17 +24,17 @@ export const LoginForm = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  } = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (data: z.infer<typeof RegisterSchema>) => {
     startTransition(async () => {
-      login(data).then((data) => {
+      registerAction(data).then((data) => {
         setSuccess(data.success);
         setError(data.error);
       });
@@ -42,7 +42,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="rounded-md bg-white p-12 shadow-md">
+    <div className="rounded-md bg-white p-8 px-12 shadow-md">
       <div className="flex w-[400px] flex-col items-center justify-center gap-y-12">
         <div className="flex w-full flex-col items-center gap-8">
           {/* Header */}
@@ -54,9 +54,9 @@ export const LoginForm = () => {
               height={32}
             />
             <div className="flex flex-col items-center gap-1 text-center">
-              <h1 className="font-semibold">Sign In to Project Master</h1>
+              <h1 className="font-semibold">Create an Account</h1>
               <p className="text-sm font-light text-slate-500">
-                Welcome back! Please sign in to continue
+                Welcome! Please fill in the details to get started
               </p>
             </div>
           </div>
@@ -79,6 +79,19 @@ export const LoginForm = () => {
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-6 text-sm"
             >
+              <label className="flex flex-col gap-2 font-semibold">
+                Name
+                <input
+                  {...register("name")}
+                  className="w-full rounded-md border border-slate-200 bg-transparent p-2 text-sm font-normal outline-none disabled:bg-slate-100"
+                  disabled={isPending}
+                />
+                {errors.name && (
+                  <span className="font-semibold text-red-500">
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
               <label className="flex flex-col gap-2 font-semibold">
                 Email address
                 <input
@@ -121,10 +134,10 @@ export const LoginForm = () => {
         {/* Sign up page redirect */}
         <div>
           <Link
-            href={"/auth/register"}
+            href={"/auth/login"}
             className="w-full text-sm underline-offset-4 hover:underline"
           >
-            <p>Don&apos;t have an account?</p>
+            <p>Already have an account?</p>
           </Link>
         </div>
       </div>
