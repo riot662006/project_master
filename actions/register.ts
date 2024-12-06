@@ -7,7 +7,10 @@ import { RegisterSchema } from "@/schemas";
 
 import prisma from "@/lib/prisma";
 import { getUserByEmail } from "@/lib/db/helper";
-import { generateVerificationToken } from "@/lib/token/helper";
+import {
+  generateVerificationToken,
+  sendVerificationEmail,
+} from "@/lib/token/helper";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
@@ -32,6 +35,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return { success: "Confirmation email sent!" };
 };
