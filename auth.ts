@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 
 import prisma from "./lib/prisma";
+import { getUserById } from "./lib/db/helper";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
@@ -20,18 +21,21 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
   callbacks: {
-    // TODO: Add when made email verification
-    // async signIn({ user }) {
-    //   if (!user.id) return false;
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") return true;
+      if (!user.id) return false;
 
-    //   const existingUser = await getUserById(user.id);
+      const existingUser = await getUserById(user.id);
 
-    //   if (!existingUser || !existingUser.emailVerified) {
-    //     return false;
-    //   }
+      // Prevent sign in without email verification
+      if (!existingUser || !existingUser.emailVerified) {
+        return false;
+      }
 
-    //   return true;
-    // },
+      // TODO: Add 2FA check
+
+      return true;
+    },
     async session({ token, session }) {
       if (token.sub && session.user) {
         session.user.id = token.sub;
