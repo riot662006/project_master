@@ -14,6 +14,7 @@ import { FormError } from "../../../components/Forms/FormError";
 import { FormSuccess } from "../../../components/Forms/FormSuccess";
 import { login } from "@/actions/login";
 import { useTransition, useState } from "react";
+import { signIn } from "next-auth/react";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -35,8 +36,8 @@ export const LoginForm = () => {
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
     startTransition(async () => {
       login(data).then((data) => {
-        setSuccess(data.success);
-        setError(data.error);
+        setSuccess(data?.success);
+        setError(data?.error);
       });
     });
   };
@@ -65,11 +66,17 @@ export const LoginForm = () => {
           <div className="flex w-full flex-col gap-8">
             {/* Social sign-in buttons */}
             <div className="flex w-full items-center gap-x-2 text-sm">
-              <button className="flex w-full cursor-pointer items-center justify-center gap-4 border border-slate-200 p-2 transition-colors duration-300 ease-in-out hover:bg-slate-100">
+              <button
+                className="flex w-full cursor-pointer items-center justify-center gap-4 border border-slate-200 p-2 transition-colors duration-300 ease-in-out hover:bg-slate-100"
+                onClick={() => signIn("google", { redirectTo: "/projects" })}
+              >
                 <FcGoogle className="h-4 w-4" />
                 <span>Google</span>
               </button>
-              <button className="flex w-full cursor-pointer items-center justify-center gap-4 border border-slate-200 p-2 transition-colors duration-300 ease-in-out hover:bg-slate-100">
+              <button
+                className="flex w-full cursor-pointer items-center justify-center gap-4 border border-slate-200 p-2 transition-colors duration-300 ease-in-out hover:bg-slate-100"
+                onClick={() => signIn("github", { redirectTo: "/projects" })}
+              >
                 <FaGithub className="h-4 w-4" />
                 <span>GitHub</span>
               </button>

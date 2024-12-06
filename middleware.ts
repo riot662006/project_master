@@ -16,12 +16,14 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn)
-      return Response.redirect(new URL(routes.DEFAULT_LOGIN_REDIRECT, req.url));
+      return Response.redirect(
+        new URL(routes.DEFAULT_LOGIN_REDIRECT, nextUrl.origin),
+      );
     return;
   }
 
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", req.url));
+    return Response.redirect(new URL("/auth/login", nextUrl.origin));
   }
 });
 

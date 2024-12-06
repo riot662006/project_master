@@ -12,7 +12,7 @@ export default function Home() {
       <nav className="flex w-full items-center justify-between p-8">
         <Logo showName={!isMaxSm} />
         <a
-          href="/auth/signin"
+          href="/auth/login"
           className="flex items-center rounded-md bg-sky-500 p-2 px-4 text-sm text-white"
         >
           Get started
@@ -29,7 +29,7 @@ export default function Home() {
           achieve more, faster!
         </p>
         <a
-          href="/auth/signin"
+          href="/auth/login"
           className="flex items-center rounded-md bg-sky-500 p-2 px-4 text-sm text-white"
         >
           Lets get started!
