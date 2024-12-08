@@ -1,9 +1,7 @@
 import { AuthErrorCard } from "./components/Cards/AuthErrorCard";
 
 const AuthErrorPage = () => {
-    return (
-        <AuthErrorCard />
-    );
-}
+  return <AuthErrorCard />;
+};
 
 export default AuthErrorPage;

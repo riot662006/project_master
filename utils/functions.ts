@@ -1,11 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-import {
-  priorityOrder,
-  ProjectSortMode,
-  statusOrder,
-  TaskSortMode,
-} from "./types";
-
 export const timeSinceCreatedDisplay = (createdAt: string): string => {
   const creation = new Date(createdAt);
   const now = new Date();

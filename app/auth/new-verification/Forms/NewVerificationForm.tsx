@@ -26,7 +26,6 @@ export const NewVerificationForm = () => {
       .then((data) => {
         setSuccess(data.success);
         setError(data.error);
-        console.log("HELLo")
       })
       .catch(() => {
         setError("Something went wrong. Please try again later.");
