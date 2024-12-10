@@ -2,18 +2,9 @@
 
 import { Avatar } from "@mui/material";
 import { signOut, useSession } from "next-auth/react";
-import { useEffect } from "react";
 
 const UserButton = () => {
-  const { data: session, status, update } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      update()
-        .then(() => {})
-        .catch(console.error);
-    }
-  }, [status, update]);
+  const { data: session } = useSession();
 
   if (session?.user) {
     return (

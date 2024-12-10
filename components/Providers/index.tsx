@@ -24,6 +24,8 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    console.log("Session: ", session?.user.id);
+    
     if (session?.user?.id) {
       dispatch(setUserId(session?.user.id));
     } else {

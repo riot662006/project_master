@@ -11,13 +11,17 @@ import { FormError } from "../../../components/Forms/FormError";
 import { FormSuccess } from "../../../components/Forms/FormSuccess";
 import { login } from "@/actions/login";
 import { useTransition, useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { AuthCardWrapper } from "@/app/auth/error/components/Cards/AuthCardWrapper";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+
+  const router = useRouter();
+  const { update } = useSession();
 
   const {
     handleSubmit,
@@ -37,6 +41,15 @@ export const LoginForm = () => {
         .then((data) => {
           setSuccess(data?.success);
           setError(data?.error);
+
+          update()
+            .then(() => {
+              router.push("/projects");
+            })
+            .catch(() => {
+              setSuccess(undefined);
+              setError("Something went wrong");
+            });
         })
         .catch(() => {
           setSuccess(undefined);
