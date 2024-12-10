@@ -12,7 +12,7 @@ export const PUT = async (
   { params }: { params: { projectId: string; taskId: string } },
 ) => {
   try {
-    const { userId } = getAuthenticatedUser(req);
+    const { userId } = await getAuthenticatedUser();
     const { projectId, taskId } = params;
     await verifyProjectOwnership(projectId, userId);
     await verifyTaskOwnership(taskId, projectId);
@@ -50,7 +50,7 @@ export const DELETE = async (
   { params }: { params: { projectId: string; taskId: string } },
 ) => {
   try {
-    const { userId } = getAuthenticatedUser(req);
+    const { userId } = await getAuthenticatedUser();
     const { taskId } = params;
     await verifyTaskOwnership(taskId, userId);
 
