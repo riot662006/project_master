@@ -16,7 +16,6 @@ export const ChangePasswordForm = () => {
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const [tokenVerified, setTokenVerified] = useState(false);
 
   const [success, setSuccess] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
@@ -29,9 +28,7 @@ export const ChangePasswordForm = () => {
 
     startTransition(() => {
       verifyToken(token).then((data) => {
-        if (data.verified) {
-          setTokenVerified(true);
-        } else {
+        if (data.error) {
           setError(data.error);
         }
       });

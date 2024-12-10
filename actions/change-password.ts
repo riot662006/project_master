@@ -53,15 +53,15 @@ export const changePassword = async (
 };
 
 export const verifyToken = async (token: string) => {
-  if (!token) return { verified: false, error: "Missing token!" };
+  if (!token) return { error: "Missing token!" };
   const verifiedToken = await getVerificationTokenByToken(token);
 
   if (!verifiedToken || verifiedToken.type === "verify_email") {
-    return { verified: false, error: "Invalid token!" };
+    return { error: "Invalid token!" };
   }
 
   const hasExpired = new Date(verifiedToken.expires) < new Date();
-  if (hasExpired) return { verified: false, error: "Token has expired!" };
+  if (hasExpired) return { error: "Token has expired!" };
 
-  return { verified: true };
+  return {};
 };

@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getUserByEmail } from "@/lib/db/helper";
 import {
