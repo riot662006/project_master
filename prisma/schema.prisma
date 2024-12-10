@@ -68,12 +68,18 @@ model Account {
 }
 
 model VerificationToken {
-  id      String   @id @default(cuid())
+  id      String    @id @default(cuid())
   email   String
-  token   String   @unique
+  token   String    @unique
   expires DateTime
+  type    TokenType
 
   @@unique([email, token])
+}
+
+enum TokenType {
+  verify_email
+  change_password
 }
 
 enum Status {

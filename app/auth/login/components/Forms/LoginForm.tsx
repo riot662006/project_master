@@ -32,11 +32,16 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    startTransition(async () => {
-      login(data).then((data) => {
-        setSuccess(data?.success);
-        setError(data?.error);
-      });
+    startTransition(() => {
+      login(data)
+        .then((data) => {
+          setSuccess(data?.success);
+          setError(data?.error);
+        })
+        .catch(() => {
+          setSuccess(undefined);
+          setError("Something went wrong");
+        });
     });
   };
 
@@ -96,6 +101,15 @@ export const LoginForm = () => {
                 {errors.password.message}
               </span>
             )}
+            <div className="flex">
+              <button
+                type="button"
+                onClick={() => {}}
+                className="text-sm underline-offset-4 hover:underline"
+              >
+                Forgot password?
+              </button>
+            </div>
           </label>
           <FormError message={error} />
           <FormSuccess message={success} />

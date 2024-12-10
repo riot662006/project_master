@@ -3,6 +3,7 @@ import { getVerificationTokenByEmail } from "../db/helper";
 import nodemailer from "nodemailer";
 
 import prisma from "../prisma";
+import { TokenType, VerificationToken } from "@prisma/client";
 
 const transporter = nodemailer.createTransport({
   service: process.env.EMAIL_SERVICE,
@@ -14,7 +15,10 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const generateVerificationToken = async (email: string) => {
+export const generateVerificationToken = async (
+  email: string,
+  type: TokenType,
+) => {
   const token = uuidv4();
   const expires = new Date(new Date().getTime() + 3600 * 1000); // Expires in an hour
 
@@ -31,20 +35,26 @@ export const generateVerificationToken = async (email: string) => {
       email,
       token,
       expires,
+      type,
     },
   });
 
   return verificationToken;
 };
 
-export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
+export const sendVerificationEmail = async (
+  verificationToken: VerificationToken,
+) => {
+  const confirmLink = `http://localhost:3000/auth/${verificationToken.type === "verify_email" ? "new-verification" : "change-password"}?token=${verificationToken.token}`;
 
   const mail = await transporter.sendMail({
     from: "Project Master <noreply@pjmaster.com>",
-    to: email,
-    subject: "Confirm your email",
-    html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+    to: verificationToken.email,
+    subject:
+      verificationToken.type === "verify_email"
+        ? "Confirm your email"
+        : "Change your password",
+    html: `<p>Click <a href="${confirmLink}">here</a> to ${verificationToken.type === "verify_email" ? "confirm email" : "change password"}.</p>`,
   });
 
   console.log("Message sent: %s", mail.messageId);
