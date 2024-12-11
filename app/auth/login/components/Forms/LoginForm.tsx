@@ -14,6 +14,7 @@ import { useTransition, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { AuthCardWrapper } from "@/app/auth/error/components/Cards/AuthCardWrapper";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -115,13 +116,13 @@ export const LoginForm = () => {
               </span>
             )}
             <div className="flex">
-              <button
-                type="button"
+              <Link
+                href={"/auth/forgot"}
                 onClick={() => {}}
-                className="text-sm underline-offset-4 hover:underline"
+                className="text-sm font-normal underline-offset-4 hover:underline"
               >
                 Forgot password?
-              </button>
+              </Link>
             </div>
           </label>
           <FormError message={error} />
