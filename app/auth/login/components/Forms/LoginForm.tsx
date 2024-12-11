@@ -10,10 +10,10 @@ import { LoginSchema } from "@/schemas";
 import { FormError } from "../../../components/Forms/FormError";
 import { FormSuccess } from "../../../components/Forms/FormSuccess";
 import { login } from "@/actions/login";
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { AuthCardWrapper } from "@/app/auth/error/components/Cards/AuthCardWrapper";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export const LoginForm = () => {
@@ -23,6 +23,15 @@ export const LoginForm = () => {
 
   const router = useRouter();
   const { update } = useSession();
+
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    const err_msg = searchParams.get("error");
+
+    if (err_msg === "OAuthAccountNotLinked") {
+      setError("Account not linked. Use the original login method.");
+    }
+  }, [searchParams]);
 
   const {
     handleSubmit,
