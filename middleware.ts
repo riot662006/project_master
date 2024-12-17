@@ -31,8 +31,6 @@ export default auth((req) => {
     return;
   }
 
-  console.log(req.auth, " ", isLoggedIn, " ", isPublicRoute);
-
   if (!isLoggedIn && !isPublicRoute) {
     console.warn("Missing or invalid authentication. Redirecting to login...");
     return Response.redirect(new URL("/auth/login", nextUrl.origin));
