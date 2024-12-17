@@ -45,8 +45,22 @@ export const generateVerificationToken = async (
 export const sendVerificationEmail = async (
   verificationToken: VerificationToken,
 ) => {
-  const confirmLink = `http://localhost:3000/auth/${verificationToken.type === "verify_email" ? "new-verification" : "change-password"}?token=${verificationToken.token}`;
+  // Dynamically determine the app URL with fallback
+  const appUrl =
+    process.env.NEXT_PUBLIC_APP_URL || (typeof window !== "undefined" ? window.location.origin : "");
 
+  if (!appUrl) {
+    throw new Error(
+      "Need to set NEXT_PUBLIC_APP_URL or ensure window.location.origin is available to create magic links (app root URL without ending slashes)"
+    );
+  }
+
+  // Construct the confirmation link
+  const confirmLink = `${appUrl}/auth/${
+    verificationToken.type === "verify_email" ? "new-verification" : "change-password"
+  }?token=${verificationToken.token}`;
+
+  // Send the email using the transporter
   const mail = await transporter.sendMail({
     from: "Project Master <noreply@pjmaster.com>",
     to: verificationToken.email,
@@ -54,7 +68,9 @@ export const sendVerificationEmail = async (
       verificationToken.type === "verify_email"
         ? "Confirm your email"
         : "Change your password",
-    html: `<p>Click <a href="${confirmLink}">here</a> to ${verificationToken.type === "verify_email" ? "confirm email" : "change password"}.</p>`,
+    html: `<p>Click <a href="${confirmLink}">here</a> to ${
+      verificationToken.type === "verify_email" ? "confirm email" : "change password"
+    }.</p>`,
   });
 
   console.log("Message sent: %s", mail.messageId);
