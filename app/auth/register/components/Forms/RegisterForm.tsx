@@ -12,6 +12,7 @@ import { FormSuccess } from "../../../components/Forms/FormSuccess";
 import { register as registerAction } from "@/actions/register";
 import { useTransition, useState } from "react";
 import { AuthCardWrapper } from "@/app/auth/error/components/Cards/AuthCardWrapper";
+import OrSeperatorDiv from "@/app/auth/components/Sections/OrSeperatorDiv";
 
 export const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -46,7 +47,7 @@ export const RegisterForm = () => {
       redirectLink="/auth/login"
       redirectTitle="Already have an account?"
     >
-      <div className="flex w-full flex-col gap-8">
+      <div className="flex w-full flex-col gap-4">
         {/* Social sign-in buttons */}
         <div className="flex w-full items-center gap-x-2 text-sm">
           <button className="flex w-full cursor-pointer items-center justify-center gap-4 border border-slate-200 p-2 transition-colors duration-300 ease-in-out hover:bg-slate-100">
@@ -58,6 +59,7 @@ export const RegisterForm = () => {
             <span>GitHub</span>
           </button>
         </div>
+        <OrSeperatorDiv />
         {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}

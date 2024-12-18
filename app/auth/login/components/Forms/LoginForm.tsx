@@ -15,6 +15,7 @@ import { signIn, useSession } from "next-auth/react";
 import { AuthCardWrapper } from "@/app/auth/error/components/Cards/AuthCardWrapper";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import OrSeperatorDiv from "@/app/auth/components/Sections/OrSeperatorDiv";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -75,7 +76,7 @@ export const LoginForm = () => {
       redirectLink="/auth/register"
       redirectTitle="Don't have an account?"
     >
-      <div className="flex w-full flex-col gap-8">
+      <div className="flex w-full flex-col gap-4">
         {/* Social sign-in buttons */}
         <div className="flex w-full items-center gap-x-2 text-sm">
           <button
@@ -93,6 +94,7 @@ export const LoginForm = () => {
             <span>GitHub</span>
           </button>
         </div>
+        <OrSeperatorDiv />
         {/* Form */}
         <form
           onSubmit={handleSubmit(onSubmit)}
