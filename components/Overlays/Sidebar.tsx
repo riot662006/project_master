@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStoreHooks";
 import { toggleSidebar } from "@/store/slices/sidebarSlice";
 import Logo from "../Icons/Logo";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { UserButton } from "@clerk/nextjs";
+import UserButton from "../Buttons/UserButton";
 
 const Sidebar = () => {
   // store variable for the state of the sidebar ( when the screen is too small)
@@ -40,7 +40,7 @@ const Sidebar = () => {
           >
             <Logo showName />
             <Menu />
-            <UserButton showName />
+            <UserButton />
           </div>
         </div>
       </>

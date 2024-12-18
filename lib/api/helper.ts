@@ -1,17 +1,13 @@
-import { getAuth } from "@clerk/nextjs/server";
-import { ApiError, ForbiddenError, UnauthorizedError } from "./errors";
-import { NextRequest, NextResponse } from "next/server";
-
+import { auth } from "@/auth";
 import prisma from "../prisma";
+import { ApiError, ForbiddenError, UnauthorizedError } from "./errors";
+import { NextResponse } from "next/server";
 
-export const getAuthenticatedUser = (req: NextRequest): { userId: string } => {
-  const { userId } = getAuth(req);
+export const getAuthenticatedUser = async (): Promise<{ userId: string }> => {
+  const session = await auth();
+  if (!session?.user.id) throw new UnauthorizedError();
 
-  if (!userId) {
-    throw new UnauthorizedError();
-  }
-
-  return { userId };
+  return { userId: session.user.id };
 };
 
 export const handleApiError = (
@@ -36,7 +32,7 @@ export const verifyProjectOwnership = async (
 ) => {
   const project = await prisma.project.findUnique({ where: { id: projectId } });
 
-  if (!project || project.clerkUserId !== userId) {
+  if (!project || project.ownerId !== userId) {
     throw new ForbiddenError();
   }
   return project;
@@ -54,7 +50,7 @@ export async function verifyTaskOwnership(
   if (
     !task ||
     (task.projectId !== projectOrUserId &&
-      task.project.clerkUserId !== projectOrUserId)
+      task.project.ownerId !== projectOrUserId)
   ) {
     throw new ForbiddenError();
   }

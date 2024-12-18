@@ -24,7 +24,7 @@ export const POST = async (
   { params }: { params: { projectId: string } },
 ) => {
   try {
-    const { userId } = getAuthenticatedUser(req);
+    const { userId } = await getAuthenticatedUser();
     const { projectId } = params;
     await verifyProjectOwnership(projectId, userId);
 

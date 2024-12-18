@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getAuthenticatedUser, handleApiError } from "@/lib/api/helper";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   try {
-    const { userId } = getAuthenticatedUser(req);
+    const { userId } = await getAuthenticatedUser();
 
     const projects = await prisma.project.findMany({
-      where: { clerkUserId: userId },
+      where: { ownerId: userId },
       include: {
         tasks: {
           orderBy: { title: "asc" },
@@ -27,7 +27,7 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   try {
-    const { userId } = getAuthenticatedUser(req);
+    const { userId } = await getAuthenticatedUser();
 
     const { title, icon } = await req.json();
 
@@ -35,7 +35,7 @@ export const POST = async (req: NextRequest) => {
       data: {
         title,
         icon,
-        clerkUserId: userId,
+        ownerId: userId,
       },
       include: {
         tasks: {

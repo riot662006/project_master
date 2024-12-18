@@ -11,7 +11,7 @@ export const PUT = async (
   { params }: { params: { projectId: string } },
 ) => {
   try {
-    const { userId } = getAuthenticatedUser(req); // Authenticate the user
+    const { userId } = await getAuthenticatedUser(); // Authenticate the user
     const { projectId } = params;
 
     // Verify ownership of the project
@@ -49,7 +49,7 @@ export const DELETE = async (
   { params }: { params: { projectId: string } },
 ) => {
   try {
-    const { userId } = getAuthenticatedUser(req); // Authenticate the user
+    const { userId } = await getAuthenticatedUser(); // Authenticate the user
     const { projectId } = params;
 
     // Verify ownership of the project
