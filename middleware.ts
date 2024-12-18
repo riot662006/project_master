@@ -14,8 +14,8 @@ export default auth((req) => {
     !nextUrl.pathname.startsWith("/auth/error")
   )
     // if any server problems
-    return Response.redirect(new URL("/auth/error", nextUrl.origin)); 
-    // TODO: Make dedicated server error page
+    return Response.redirect(new URL("/auth/error", nextUrl.origin));
+  // TODO: Make dedicated server error page
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(routes.apiAuthPrefix);
   const isPublicRoute = routes.publicRoutes.includes(nextUrl.pathname);

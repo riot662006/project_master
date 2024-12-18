@@ -28,12 +28,12 @@ const UserButton = () => {
         <UserAvatar name={session.user.name} imageUrl={session.user.image} />
       </button>
       <nav
-        className={`absolute bottom-12 left-0 z-30 flex items-center justify-center max-md:fixed max-md:bottom-20 max-md:right-0 `}
+        className={`absolute bottom-12 left-0 z-30 flex items-center justify-center max-md:fixed max-md:bottom-20 max-md:right-0`}
       >
         <div
-          className={`flex h-32 gap-4 rounded-xl bg-white bg-opacity-90 p-4 shadow-md max-md:bg-opacity-100 border border-slate-200 ${
+          className={`flex h-32 gap-4 rounded-xl border border-slate-200 bg-white bg-opacity-90 p-4 shadow-md max-md:bg-opacity-100 ${
             isMenuActive ? "opacity-100" : "h-0 opacity-0"
-          } transition-[height,opacity] overflow-hidden`}
+          } overflow-hidden transition-[height,opacity]`}
         >
           <div
             className={`flex flex-col gap-4 ${isMenuActive ? "block" : "hidden"}`}
