@@ -33,6 +33,7 @@ const AddTaskForm = ({
   const dispatch = useAppDispatch();
 
   const { mode, taskId } = useAppSelector((state) => state.addTaskModal);
+  const taskUiSelectedProjectId = useAppSelector((state) => state.tasksPage.selectedProjectId);
 
   const { tasks, isFetching } = useTasks();
   const [addTask, { isLoading: isAdding }] = useAddTaskMutation();
@@ -71,11 +72,11 @@ const AddTaskForm = ({
       reset({
         name: "",
         icon: "default",
-        projectId: "",
+        projectId: taskUiSelectedProjectId || "",
         priority: "medium",
       });
     }
-  }, [taskToEdit, reset, mode]);
+  }, [taskToEdit, reset, mode, taskUiSelectedProjectId]);
 
   const icon = useWatch({ control, name: "icon" });
 
