@@ -34,7 +34,12 @@ export default function Home() {
         >
           Lets get started!
         </a>
-        <Image src="" alt="Project management dashboard" />
+        <Image
+          src="/screenshots/project-2.png"
+          width={500}
+          height={250}
+          alt="Project management dashboard"
+        />
       </section>
       <section className="flex flex-col items-center gap-8 bg-slate-100 p-8">
         <h2 className="text-lg font-bold">Key Features</h2>
